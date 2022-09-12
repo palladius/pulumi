@@ -35,8 +35,14 @@ pulumi config set cloudbuild-repository-name "palladius/pulumi" # or whatever is
 * **How to get repository_id**. Go to Cloud Build -> Connect Repository > Github or whatever you chose > Create Sample Trigger called 'sample-trigger-1'.
   * Now find the name with `gcloud beta builds triggers list  --project XXX | grep repoName` (I know I jknow...) or simply
   * `gcloud beta builds triggers describe sample-trigger-1`
+
 ## Results
 
 When it works, you should see this:
 
 ![Cloud Build works](images/cloudbuild-works.png "Cloud Build works")
+
+Plus the README is a real candy. I like to add all kind of treats, Cloud Developer Console (UI) links for my lazy hand
+to just click upon :)
+
+![Pulumi-generated README.md works!](images/pulumi-generated-README-screenshot.png "Pulumi-generated README.md works!")
