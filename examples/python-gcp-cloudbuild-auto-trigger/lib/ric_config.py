@@ -7,6 +7,7 @@ MyProject = pulumi.Config('gcp').require('project')
 BitBucketRepoName = 'bitbucket_palladius_gprojects' # TODO(ricc): move to parameter
 PulumiProject =  pulumi.get_project() # https://www.pulumi.com/docs/intro/concepts/project/#stack-settings-file
 PulumiStack =  pulumi.get_stack() # https://www.pulumi.com/docs/intro/concepts/project/#stack-settings-file
+PulumiUser = 'palladius' # TODO fix this and get it programmatically pulumi.get_user() #doesnt rxist
 ShortPulumiProject = PulumiProject[0:20] # I chose a very verbose name - better to shorten it :)
 
 InterestingConfigs = [

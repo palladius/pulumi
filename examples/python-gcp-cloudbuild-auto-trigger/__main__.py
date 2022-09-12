@@ -9,7 +9,7 @@ import os
 # TODO Refactor in CArlessian Pulumi file :)
 import lib.ric_config
 
-from lib.ric_config import MyProject, MyRegion, AppName, AppNameLower, BitBucketRepoName,                        PulumiStack, PulumiProject, ShortPulumiProject, print_red
+from lib.ric_config import MyProject, MyRegion, AppName, AppNameLower, BitBucketRepoName,                        PulumiStack, PulumiProject, PulumiUser, ShortPulumiProject, print_red
 
 RepoConfig = {}
 
@@ -65,9 +65,11 @@ def action05_create_cloud_build_trigger():
     trigger_name = f"pu-{ShortPulumiProject}-meta-trigger-{trigger_type}"
     common_substitutions = {
                 "_PULUMI_PROJECT": PulumiProject,
+                "_PULUMI_USER": PulumiUser,
                 "_PULUMI_STACK": PulumiStack,
-                "_NOTULE_SOLLAZZI": "devo prima fare OUTING di rmp-code-folder",
+                #"_NOTULE_DE_LI_SOLLAZZI": "Carlessian notes to self in - ENVironmental friendly", # put stuff here if you need to talk to yourself in the UI
                 "_INSECURE_SUBSTITUTION_PULUMI_ACCESS_TOKEN": pulumi.Config().require('cloud-build-access-token'),
+                "_CODE_SUBFOLDER":  pulumi.Config().require('rmp-code-folder'),
             }
 
     # Case 1. GITHUB

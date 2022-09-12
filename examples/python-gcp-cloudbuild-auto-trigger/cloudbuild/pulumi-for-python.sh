@@ -29,7 +29,9 @@ pulumi login
 
 # Select the appropriate stack.
 # TODO(ricc): use ENV VARS to fix this.
-pulumi stack select $PULUMI_USER/python-gcp-cloudbuild-auto-trigger/dev
+#pulumi stack select $PULUMI_USER/python-gcp-cloudbuild-auto-trigger/dev
+pulumi stack select $PULUMI_USER/$PULUMI_PROJECT/$PULUMI_STACK
+
 
 pulumi config set cloud-build-executing-script-at "$(date)"
 pulumi config set cloud-build-executing-script-on "$(hostname)"
