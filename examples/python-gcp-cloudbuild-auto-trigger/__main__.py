@@ -55,19 +55,19 @@ def setup_palladius_apps():
 
 def action05_create_cloud_build_trigger():
 
-    # pulumi.export('cloudbuild_trigger_long_id',filename_trigger.id)
-    # pulumi.export('cloudbuild_trigger_short_id',filename_trigger.trigger_id) # short
     code_local_path = pulumi.Config().require('rmp-code-folder').strip("/")
+    filename_local_path = f'{code_local_path}/cloudbuild/cloudbuild.yaml'
 
     pulumi_autobuild_trigger = gcp.cloudbuild.Trigger(
-        "kuberic-pulumi-meta-trigger",
-        #filename=f"{code_local_path}/cloudbuild/cloudbuild.yaml",
-        filename='pulumi/2022-09-10-kuberic/cloudbuild/cloudbuild.yaml',
+        f"pu-{PulumiProject}-meta-trigger",
+        filename=filename_local_path,
         substitutions={
           #  "_ARTIFACT_REPONAME": "golden-node-pulumi", # TODO pulumi.export('artifact_repo_name', my_repo.name)
           #  "_DEPLOY_REGION": MyRegion,
           #  "_REGION": MyRegion,
           #  "_DEPLOY_UNIT": "pulumi-self", # :a posso chiamare GoldeNNode ma per capirci rtispetto all'altro, poi quando funge la cambio
+            "_PULUMI_PROJECT": PulumiProject,
+            "_PULUMI_STACK": PulumiStack,
             "_NOTULE_SOLLAZZI": "devo prima fare OUTING di rmp-code-folder",
             "_INSECURE_SUBSTITUTION_PULUMI_ACCESS_TOKEN": pulumi.Config().require('cloud-build-access-token'),
         },
