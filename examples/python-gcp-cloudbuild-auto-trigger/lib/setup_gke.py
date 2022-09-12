@@ -27,9 +27,11 @@ MASTER_VERSION = config.get('master_version')
 
 # Now, actually create the GKE cluster.
 
+cluster_name = f'pu-{PulumiProject[0:15]}-{PulumiStack}' # max 40 chars!
+
 k8s_cluster = Cluster(
     #'gke-cluster',
-    f'pulumi-{PulumiProject}-{PulumiStack}',
+    cluster_name,
     initial_node_count=NODE_COUNT,
     node_version=MASTER_VERSION,
     min_master_version=MASTER_VERSION,

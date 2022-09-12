@@ -11,6 +11,7 @@ import lib.ric_config
 
 from lib.ric_config import MyProject, MyRegion, AppName, AppNameLower, BitBucketRepoName, PulumiStack, PulumiProject
 
+RepoConfig = {}
 
 # exporting lots of stuff for my awesome README :)
 def init():
@@ -31,6 +32,11 @@ def init():
     pulumi.export('pulumi_stack', PulumiStack) # https://stackoverflow.com/questions/69078303/abstracting-configuration-in-pulumi
     pulumi.export('pulumi_project', PulumiProject) # https://stackoverflow.com/questions/69078303/abstracting-configuration-in-pulumi
     pulumi.export('riccardo_notes', "init done.")
+
+    # Setting up repo..
+    RepoConfig["branch_name"] = pulumi.Config().get('gcb_branch_name') or 'master'
+    RepoConfig["repo_name"] = pulumi.Config().get('gcb_repo_name') or 'pulumi'
+
 
 def setup_gcs():
     bucket = storage.Bucket(AppNameLower, location="EU")
@@ -73,15 +79,25 @@ def action05_create_cloud_build_trigger():
         ],
         tags=["pulumi","meta", "wip", "fine-grained"],
         trigger_template=gcp.cloudbuild.TriggerTriggerTemplateArgs(
-            branch_name="master", # not MAIN :/
-            repo_name="bitbucket_palladius_gprojects", # scoperto con $ gcloud beta builds triggers describe 9667bf06-41a8-4a04-b9cf-d908ba868c4a
+            branch_name=RepoConfig["branch_name"] , # "master", # not MAIN :/
+            repo_name=RepoConfig["repo_name"], # "bitbucket_palladius_gprojects", # scoperto con $ gcloud beta builds triggers describe 9667bf06-41a8-4a04-b9cf-d908ba868c4a
         ))
     pulumi.export('cloudbuild_trigger_long_id',pulumi_autobuild_trigger.id)
     pulumi.export('cloudbuild_trigger_short_id',pulumi_autobuild_trigger.trigger_id) # short
 
+def setup_apis():
+    """Apparently Cloud Build API is not set up automatically. Damn. """
+    for service in ['container', "cloudbuild", "iam"]:
+        project = gcp.projects.Service(
+            f"enable-srv-{service}",
+            disable_dependent_services=True,
+            project=MyProject,
+            service=f"{service}.googleapis.com")
+
 
 def main():
     init()
+    setup_apis()
     setup_gcs()
     setup_gke()
     setup_palladius_apps()
