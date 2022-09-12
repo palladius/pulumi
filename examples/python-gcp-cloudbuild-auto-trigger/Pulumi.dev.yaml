@@ -5,3 +5,6 @@ config:
   python-gcp-cloudbuild-auto-trigger:app_name: My app - you can change me
   python-gcp-cloudbuild-auto-trigger:app_name_lower: mycloudbuilddemo
   python-gcp-cloudbuild-auto-trigger:favourite_color: fuxia
+  python-gcp-cloudbuild-auto-trigger:rmp-code-folder: examples/python-gcp-cloudbuild-auto-trigger/
+  python-gcp-cloudbuild-auto-trigger:cloud-build-access-token: CHANGEME_SEE_INSTRUCTIONS
+  python-gcp-cloudbuild-auto-trigger:password: GENERATE_RANDOM_ONE # doesnt really matter

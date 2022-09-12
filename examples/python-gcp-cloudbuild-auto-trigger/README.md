@@ -23,8 +23,12 @@ pulumi config set gcp:zone   <your-zone> # e.g us-west1-b
 # Module-related stuff
 pulumi config set app_name 'My app - you can change me' # beware to weird chars, this goes into GCP descriptions
 pulumi config set app_name_lower 'mycloudbuilddemo'
-pulumi config set favourite_color 'fuxia'
+pulumi config set favourite_color 'fuxia' # this is 100% pointless.
+pulumi config set cloud-build-access-token YOUR_TOKEN_SEE_BELOW
+pulumi config set password PICK_STH_RANDOM # this doesnt really matter and pulumi encrypts it for you. Its for the GKE cluster, not majorluy useful to us.
 ```
+
+* **How to get the token**. Create it [here](https://app.pulumi.com/account/tokens) and save the value in your config/repo.
 
 ## Results
 
