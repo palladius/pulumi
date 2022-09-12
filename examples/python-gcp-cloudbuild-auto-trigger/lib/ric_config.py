@@ -15,8 +15,8 @@ InterestingConfigs = [
     'favourite_color']
 #pulumi.export(, pulumi.Config().require('favourite_color'))
 # only once do..
-for config_name in :
-    pulumi.export(config_name, pulumi.Config().require(config_name))
+for config_name in InterestingConfigs:
+    pulumi.export(config_name, pulumi.Config().get(config_name))
 
 
 def pyellow(str):

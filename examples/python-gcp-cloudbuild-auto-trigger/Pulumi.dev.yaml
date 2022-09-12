@@ -1,6 +1,6 @@
 config:
   # Your GCP config
-  gcp:project: your-gcp-project-id
+  gcp:project: my-project-id
   # Your Module config
   python-gcp-cloudbuild-auto-trigger:app_name: My app - you can change me
   python-gcp-cloudbuild-auto-trigger:app_name_lower: mycloudbuilddemo
