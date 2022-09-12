@@ -1,7 +1,7 @@
 import pulumi
 
-AppName = "Pulumi🥑Ricc🧊Kube"
-AppNameLower = "kuberic"
+AppName = "⬣ Cloud Build trigger with 🧹Pulumi in 🐍 Python"
+AppNameLower = "gcb-py-gh-trigger"
 MyRegion = pulumi.Config('gcp').require('region')
 MyProject = pulumi.Config('gcp').require('project')
 BitBucketRepoName = 'bitbucket_palladius_gprojects' # TODO(ricc): move to parameter
