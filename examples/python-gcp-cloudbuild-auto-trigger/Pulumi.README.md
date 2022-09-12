@@ -54,11 +54,10 @@ pulumi config set cloud-build-executing-script-version "$SCRIPT_VER"
 
 # TODOs
 
-* mi piacerebbe astrarre il Cloud Build in un modulo riutilizzabile
-* mi piacerebbe creare la mia GCP_LIB come libreria pythonesca. O magari Java cosi' un domani con JRUby e' un attimo
+* make this a reusable module.
 
 # More pointers
 
-See http://go/ricc-pulumi
+Googlers, see go/ricc-pulumi
 
 *RiccardoNotes*: **${outputs.riccardo_notes}**

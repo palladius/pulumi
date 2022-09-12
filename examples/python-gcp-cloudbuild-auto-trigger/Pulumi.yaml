@@ -1,6 +1,9 @@
-name: palladius-github-python-gcp-cloudbuild-auto-trigger
+name: python-gcp-cloudbuild-auto-trigger
 description: My first public pulumi 🧹 module in Python 🐍
-runtime:
-    name: python
-    options:
-        virtualenv: venv
+#description: "My first public pulumi \U0001F9F9 module in Python \U0001F40D"
+runtime: python
+# Used to be:
+# -runtime:
+# -    name: python
+# -    options:
+# -        virtualenv: venv
