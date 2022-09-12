@@ -8,26 +8,21 @@ from pulumi_kubernetes.meta.v1 import LabelSelectorArgs, ObjectMetaArgs
 from pulumi_random import RandomPassword
 
 #import lib.ric_config
-from lib.ric_config import PulumiProject, PulumiStack, pyellow, puts
+from lib.ric_config import PulumiProject, ShortPulumiProject, PulumiStack, pyellow, puts
 
 # Read in some configurable settings for our cluster:
 config = Config(None)
 
-# nodeCount is the number of cluster nodes to provision. Defaults to 3 if unspecified.
+# Config of GKE cluster.
 NODE_COUNT = config.get_int('node_count') or 3
-# nodeMachineType is the machine type to use for cluster nodes. Defaults to n1-standard-1 if unspecified.
-# See https://cloud.google.com/compute/docs/machine-types for more details on available machine types.
 NODE_MACHINE_TYPE = config.get('node_machine_type') or 'n1-standard-1'
-# username is the admin username for the cluster.
 USERNAME = config.get('username') or 'admin'
-# password is the password for the admin user in the cluster.
 PASSWORD = config.get_secret('password') or RandomPassword("password", length=20, special=True).result
-# master version of GKE engine
 MASTER_VERSION = config.get('master_version')
 
 # Now, actually create the GKE cluster.
 
-cluster_name = f'pu-{PulumiProject[0:15]}-{PulumiStack}' # max 40 chars!
+cluster_name = f'pu-{ShortPulumiProject}-{PulumiStack}' # max 40 chars!
 
 k8s_cluster = Cluster(
     #'gke-cluster',

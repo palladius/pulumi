@@ -7,6 +7,7 @@ MyProject = pulumi.Config('gcp').require('project')
 BitBucketRepoName = 'bitbucket_palladius_gprojects' # TODO(ricc): move to parameter
 PulumiProject =  pulumi.get_project() # https://www.pulumi.com/docs/intro/concepts/project/#stack-settings-file
 PulumiStack =  pulumi.get_stack() # https://www.pulumi.com/docs/intro/concepts/project/#stack-settings-file
+ShortPulumiProject = PulumiProject[0:20] # I chose a very verbose name - better to shorten it :)
 
 InterestingConfigs = [
     'cloud-build-executing-script-at',
@@ -21,5 +22,7 @@ for config_name in InterestingConfigs:
 
 def pyellow(str):
     print( f"\033[1;33m{str}\033[0m\n")
+def print_red(str):
+    print( f"\033[1;31m{str}\033[0m\n")
 def puts(str):
     print( f"{str}\n")
