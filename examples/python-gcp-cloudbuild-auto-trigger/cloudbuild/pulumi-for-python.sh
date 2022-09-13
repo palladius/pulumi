@@ -19,7 +19,7 @@
 export PULUMI_USER="${1:-palladius}"
 #export PULUMI_USER=`pulumi whoami`
 
-SCRIPT_VER="1.1a_20220910"
+SCRIPT_VER="1.2_20220913"
 # exit if a command returns a non-zero exit code and also print the commands and their args as they are executed.
 set -e -x
 
@@ -66,7 +66,7 @@ pulumi config
 pulumi config set cloud-build-executing-script-at "$(date)"
 pulumi config set cloud-build-executing-script-on "$(hostname)"
 pulumi config set cloud-build-executing-script-version "$SCRIPT_VER"
-#pulumi config set cloud-build-executing-script-gitlast "$(git show --summary | xargs)" # on single line
+pulumi config set cloud-build-executing-script-gitlast "$(git show --summary | xargs)" # on single line
 
 case $BUILD_TYPE in
   PullRequest)

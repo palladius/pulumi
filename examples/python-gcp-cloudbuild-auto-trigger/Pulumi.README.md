@@ -41,9 +41,10 @@ Pulumi config:
 Riccardo, getting more&more sophisticated here. Cloud Build shell script `pulumi.sh` is now tracing a few thingies you might wanna check:
 
 ```
-pulumi config set cloud-build-executing-script-at "$(date)"
-pulumi config set cloud-build-executing-script-on "$(hostname)"
+pulumi config set cloud-build-executing-script-at      "$(date)"
+pulumi config set cloud-build-executing-script-on      "$(hostname)"
 pulumi config set cloud-build-executing-script-version "$SCRIPT_VER"
+pulumi config set cloud-build-executing-script-gitlast "$(git show --summary | xargs)"
 ```
 .. which brings us to these outputs being created by every successful invokation of Cloud Build:
 
