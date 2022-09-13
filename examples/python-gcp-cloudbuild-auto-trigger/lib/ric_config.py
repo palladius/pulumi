@@ -1,4 +1,22 @@
+import os
 import pulumi
+
+######################
+# Functions
+######################
+def pyellow(str):
+    print( f"\033[1;33m{str}\033[0m\n")
+def print_red(str):
+    print( f"\033[1;31m{str}\033[0m\n")
+def puts(str):
+    print( f"{str}\n")
+def pulumi_whoami():
+    stream = os.popen('pulumi whoami')
+    output = stream.read()
+    return output.rstrip()
+def pulumi_com_readme_url():
+    return r"https://app.pulumi.com/{ pulumi_whoami() }/{ PulumiProject }/{ PulumiStack }"
+
 
 AppName = "⬣ Cloud Build trigger with 🧹Pulumi in 🐍 Python"
 AppNameLower = "gcb-py-gh-trigger"
@@ -8,25 +26,20 @@ MyProject = pulumi.Config('gcp').require('project')
 PulumiProject =  pulumi.get_project() # https://www.pulumi.com/docs/intro/concepts/project/#stack-settings-file
 PulumiStack =  pulumi.get_stack() # https://www.pulumi.com/docs/intro/concepts/project/#stack-settings-file
 PulumiUser =  pulumi.Config().require('pulumi-user') # `pulumi whoami`.rstrip() # 'palladius'
-# TODO fix this and get it programmatically pulumi.get_user() #doesnt rxist
+PulumiUserAlternative = pulumi_whoami()
 ShortPulumiProject = PulumiProject[0:20] # I chose a very verbose name - better to shorten it :)
-
 InterestingConfigs = [
     'cloud-build-executing-script-at',
     'cloud-build-executing-script-on',
     'cloud-build-executing-script-gitlast',
     'favourite_color',
-    'pulumi-user'
+    'pulumi-user',
 ]
-#pulumi.export(, pulumi.Config().require('favourite_color'))
 # only once do..
 for config_name in InterestingConfigs:
     pulumi.export(config_name, pulumi.Config().get(config_name))
 
+pulumi.export('PulumiUser', PulumiUser)
+pulumi.export('PulumiUserAlternative', PulumiUserAlternative)
 
-def pyellow(str):
-    print( f"\033[1;33m{str}\033[0m\n")
-def print_red(str):
-    print( f"\033[1;31m{str}\033[0m\n")
-def puts(str):
-    print( f"{str}\n")
+
