@@ -46,6 +46,7 @@ pulumi config
 # For some reason I do not understand, I need to tell the remote system all vars that I have available HERE.
 # Oh myabe because i havent checked in the code on git :) even better then :)
 # Note that 'this_is_useless_if_you_checkin_the_pulumi_dev_yaml':
+  echo 'IMPORTANT. These indented commands are useless if you are committing the Pulumi.STACK.yaml which in my case is .gitignored...'
   pulumi config set gcp:region  "$GCP_REGION"
   pulumi config set gcp:project "$GCP_PROJECT"
   pulumi config set rmp-code-folder "$CODE_SUBFOLDER"
@@ -57,6 +58,7 @@ pulumi config
 pulumi config set cloud-build-executing-script-at "$(date)"
 pulumi config set cloud-build-executing-script-on "$(hostname)"
 pulumi config set cloud-build-executing-script-version "$SCRIPT_VER"
+# https://stackoverflow.com/questions/3357280/print-commit-message-of-a-given-commit-in-git
 pulumi config set cloud-build-executing-script-gitlast "$(git log --format=%B -n 1)" # just message of last commit
 
 case $BUILD_TYPE in
