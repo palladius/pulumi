@@ -11,3 +11,7 @@ see-on-web:
 
 curl-nginx:
 	open http://`pulumi stack output ingress_ip`/
+
+
+render-readme-for-that-snob-of-cstanger:
+	pulumi stack output readme > README-rendered-cstanger.md

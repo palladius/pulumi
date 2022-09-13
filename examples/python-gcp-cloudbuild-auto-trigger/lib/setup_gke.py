@@ -104,4 +104,5 @@ ingress = Service('ingress',
 export('kubeconfig', k8s_config)
 # Export the k8s ingress IP to access the canary deployment
 export('ingress_ip', ingress.status.apply(lambda status: status.load_balancer.ingress[0].ip))
+# would be `ingress.status.load_balancer.ingress[0].ip`
 export('k8s_cluster_name', k8s_cluster.name)

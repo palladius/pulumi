@@ -64,3 +64,5 @@ pulumi config set cloud-build-executing-script-gitlast "$(git show --summary | x
 Googlers, see go/ricc-pulumi
 
 *RiccardoNotes*: **${outputs.riccardo_notes}**
+
+This is VERY meta: ${outputs.pulumi-readme-url}
