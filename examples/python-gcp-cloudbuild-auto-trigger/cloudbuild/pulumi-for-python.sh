@@ -42,12 +42,14 @@ pulumi stack select $PULUMI_USER/$PULUMI_PROJECT/$PULUMI_STACK
 # TROUBLESHOOT
 pulumi config
 
-
+# For some reason I do not understand, I need to tell the remote system all vars that I have available HERE.
+# Oh myabe because i havent checked in the code on git :) even better then :)
 pulumi config set gcp:region  "$GCP_REGION"
 pulumi config set gcp:project "$GCP_PROJECT"
 pulumi config set rmp-code-folder "$CODE_SUBFOLDER"
 pulumi config set gcb_repo_type 'github'
 pulumi config set cloud-build-access-token "$_INSECURE_SUBSTITUTION_PULUMI_ACCESS_TOKEN"
+pulumi config set pulumi-user `pulumi whoami`
 
 pulumi config set cloud-build-executing-script-at "$(date)"
 pulumi config set cloud-build-executing-script-on "$(hostname)"
