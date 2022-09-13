@@ -6,9 +6,7 @@ import pulumi_gcp as gcp
 from lib.ric_config import MyProject, MyRegion, AppName, AppNameLower, PulumiStack, PulumiProject, PulumiUser, ShortPulumiProject, print_red
 
 RepoConfig = {}
-
-
-
+DefaultGithubOwner = 'palladius'
 
 
 def create_cloud_build_trigger():
@@ -40,7 +38,7 @@ def create_cloud_build_trigger():
     if trigger_type == 'github':
         # GH documented here: https://www.pulumi.com/registry/packages/gcp/api-docs/cloudbuild/trigger/#triggergithub
         RepoConfig["gcb_gh_name"] = pulumi.Config().get('gcb_gh_name') or 'pulumi'
-        RepoConfig["gcb_gh_owner"] = pulumi.Config().get('gcb_gh_owner') or 'palladius'
+        RepoConfig["gcb_gh_owner"] = pulumi.Config().get('gcb_gh_owner') or DefaultGithubOwner
         RepoConfig["gcb_gh_branch"] = pulumi.Config().get('gcb_gh_branch') or "^main$"
         # trigger_template_github = gcp.cloudbuild.TriggerTriggerTemplateArgs(
         #     #branch_name=RepoConfig["branch_name"] , # "master", # not MAIN :/
@@ -90,7 +88,7 @@ def create_cloud_build_trigger():
 
         trigger_template_bitbucket = gcp.cloudbuild.TriggerTriggerTemplateArgs(
                 branch_name=RepoConfig["gcb_branch_name"] , # "master", # not MAIN :/
-                repo_name=RepoConfig["gcb_repo_name"], # "bitbucket_palladius_gprojects", # scoperto con $ gcloud beta builds triggers describe 9667bf06-41a8-4a04-b9cf-d908ba868c4a
+                repo_name=RepoConfig["gcb_repo_name"], # eg, "bitbucket_palladius_gprojects", # scoperto con $ gcloud beta builds triggers describe 9667bf06-41a8-4a04-b9cf-d908ba868c4a
         )
         pulumi_autobuild_trigger = gcp.cloudbuild.Trigger(
             trigger_name,
