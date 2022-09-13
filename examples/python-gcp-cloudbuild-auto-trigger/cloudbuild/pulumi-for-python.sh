@@ -59,7 +59,7 @@ pulumi config
   pulumi config set gcp:project "$GCP_PROJECT"
   pulumi config set rmp-code-folder "$CODE_SUBFOLDER"
   pulumi config set gcb_repo_type 'github'
-  pulumi config set cloud-build-access-token "$PULUMI_ACCESS_TOKEN"
+  pulumi config set cloud-build-access-token "$PULUMI_ACCESS_TOKEN" --secret
   pulumi config set pulumi-user `pulumi whoami`
 
 # NERD part - this is my
