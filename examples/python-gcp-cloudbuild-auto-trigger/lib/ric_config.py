@@ -15,7 +15,7 @@ def pulumi_whoami():
     output = stream.read()
     return output.rstrip()
 def pulumi_com_readme_url():
-    return r"https://app.pulumi.com/{ pulumi_whoami() }/{ PulumiProject }/{ PulumiStack }"
+    return f"https://app.pulumi.com/{ pulumi_whoami() }/{ PulumiProject }/{ PulumiStack }/readme"
 
 
 AppName = "⬣ Cloud Build trigger with 🧹Pulumi in 🐍Python"
@@ -41,5 +41,6 @@ for config_name in InterestingConfigs:
 
 pulumi.export('PulumiUser', PulumiUser)
 pulumi.export('PulumiUserAlternative', PulumiUserAlternative)
+pulumi.export('pulumi-readme-url', pulumi_com_readme_url() )
 
-
+#https://app.pulumi.com/palladius/python-gcp-cloudbuild-auto-trigger/staging/readme
