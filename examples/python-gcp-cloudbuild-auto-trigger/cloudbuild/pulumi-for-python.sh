@@ -47,6 +47,7 @@ pulumi config set gcp:region  "$GCP_REGION"
 pulumi config set gcp:project "$GCP_PROJECT"
 pulumi config set rmp-code-folder "$CODE_SUBFOLDER"
 pulumi config set gcb_repo_type 'github'
+pulumi config set cloud-build-access-token "$_INSECURE_SUBSTITUTION_PULUMI_ACCESS_TOKEN"
 
 pulumi config set cloud-build-executing-script-at "$(date)"
 pulumi config set cloud-build-executing-script-on "$(hostname)"
