@@ -31,6 +31,8 @@ pulumi login
 # TODO(ricc): use ENV VARS to fix this.
 #pulumi stack select $PULUMI_USER/python-gcp-cloudbuild-auto-trigger/dev
 
+pulumi config set gcp:region "$GCP_REGION"
+
 echo
 echo pulumi stack select $PULUMI_USER/$PULUMI_PROJECT/$PULUMI_STACK
 echo

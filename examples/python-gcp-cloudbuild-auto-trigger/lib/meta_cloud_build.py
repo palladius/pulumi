@@ -32,6 +32,7 @@ def create_cloud_build_trigger():
                 #"_NOTULE_DE_LI_SOLLAZZI": "Carlessian notes to self in - ENVironmental friendly", # put stuff here if you need to talk to yourself in the UI
                 "_INSECURE_SUBSTITUTION_PULUMI_ACCESS_TOKEN": pulumi.Config().require('cloud-build-access-token'),
                 "_CODE_SUBFOLDER":  pulumi.Config().require('rmp-code-folder'),
+                "_GCP_REGION": MyRegion,
             }
 
     # Case 1. GITHUB
