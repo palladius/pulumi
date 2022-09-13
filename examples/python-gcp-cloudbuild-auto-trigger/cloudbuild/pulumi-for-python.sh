@@ -31,14 +31,18 @@ pulumi login
 # TODO(ricc): use ENV VARS to fix this.
 #pulumi stack select $PULUMI_USER/python-gcp-cloudbuild-auto-trigger/dev
 
-pulumi config set gcp:region "$GCP_REGION"
 
-echo
-echo pulumi stack select $PULUMI_USER/$PULUMI_PROJECT/$PULUMI_STACK
-echo
+# TROUBLESHOOT
+#echo
+#echo pulumi stack select $PULUMI_USER/$PULUMI_PROJECT/$PULUMI_STACK
+#echo
 
 pulumi stack select $PULUMI_USER/$PULUMI_PROJECT/$PULUMI_STACK
 
+# TROUBLESHOOT
+pulumi config
+
+pulumi config set gcp:region "$GCP_REGION"
 
 pulumi config set cloud-build-executing-script-at "$(date)"
 pulumi config set cloud-build-executing-script-on "$(hostname)"
