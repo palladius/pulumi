@@ -57,6 +57,7 @@ pulumi config set cloud-build-executing-script-gitlast "$(git show --summary | x
 
 * make this a reusable module.
 * Use GCP for secrets management (`KMS` or `GCS`) as promised to cstanger@
+* Looks like Chris is impressed by this REAMDE.
 
 # More pointers
 
