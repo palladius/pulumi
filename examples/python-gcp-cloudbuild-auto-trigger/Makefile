@@ -6,5 +6,8 @@ install-deps:
 # broken, its an OUTPUT not a config. Silly me
 see-on-web:
 	echo Open this with browser:
-	pulumi config get pulumi-readme-url
-	#open `pulumi config get pulumi-readme-url`
+	pulumi stack output pulumi-readme-url
+	open `pulumi stack output pulumi-readme-url`
+
+curl-nginx:
+	open http://`pulumi stack output ingress_ip`/
