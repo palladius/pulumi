@@ -18,7 +18,7 @@ def pulumi_com_readme_url():
     return r"https://app.pulumi.com/{ pulumi_whoami() }/{ PulumiProject }/{ PulumiStack }"
 
 
-AppName = "⬣ Cloud Build trigger with 🧹Pulumi in 🐍 Python"
+AppName = "⬣ Cloud Build trigger with 🧹Pulumi in 🐍Python"
 AppNameLower = "gcb-py-gh-trigger"
 MyRegion = pulumi.Config('gcp').require('region')
 MyProject = pulumi.Config('gcp').require('project')
