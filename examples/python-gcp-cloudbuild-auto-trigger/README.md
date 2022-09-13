@@ -15,19 +15,22 @@ Currently 🧹 Work in progress
 
 Set up your env vars:
 
-```
+```bash
 # GCP stuff
-pulumi config set gcp:project your-gcp-project-id # Your project id. I cant do it for you :)
-pulumi config set gcp:region <your-region> # e.g us-west1
-pulumi config set gcp:zone   <your-zone> # e.g us-west1-b
+pulumi config set gcp:project your-project-id # Your project id. I cant do it for you :)
+pulumi config set gcp:region <your-region>    # e.g us-west1
+pulumi config set gcp:zone   <your-zone>      # e.g us-west1-b
 # Module-related stuff
-pulumi config set app_name 'My app - you can change me' # beware to weird chars, this goes into GCP descriptions
-pulumi config set app_name_lower 'mycloudbuilddemo'
+pulumi config set app_name 'My app - you can change me' # to be fair, this is useless. So leave as is
+pulumi config set app_name_lower 'mycloudbuilddemo' # this *IS* used as base for GCP names.
 pulumi config set favourite_color 'fuxia' # this is 100% pointless.
-pulumi config set cloud-build-access-token YOUR_TOKEN_SEE_BELOW --secret # get it from https://app.pulumi.com/YOUR_ACCOUNT/settings/tokens
-pulumi config set password PICK_STH_RANDOM # this doesnt really matter and pulumi encrypts it for you. Its for the GKE cluster, not majorluy useful to us.
+pulumi config set cloud-build-access-token 'YOUR_TOKEN_SEE_BELOW' --secret # get it from https://app.pulumi.com/YOUR_ACCOUNT/settings/tokens
+pulumi config set password 'PICK_STH_RANDOM123' --secret # this doesnt really matter and pulumi encrypts it for you. Its for the GKE cluster, not majorluy useful to us.
 # This will be set later but the scripts wants you to set ip up anyhow. Sorry about my poor programming skills
-pulumi config set cloudbuild-repository-name "palladius/pulumi" # or whatever is your repo.
+#pulumi config set cloudbuild-repository-name "palladius/pulumi" # USELESS, I refactored it into the following 2:
+pulumi config set gcb_gh_name  'pulumi'
+pulumi config set gcb_gh_owner 'palladius'
+
 pulumi config set pulumi-user $(pulumi whoami) # damn I cant find the code to do this programmatically
 ```
 
