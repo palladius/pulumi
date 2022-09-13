@@ -16,7 +16,7 @@ function this_is_useless_if_you_checkin_the_pulumi_dev_yaml() {
 }
 
 # give it to me in arg if you wish :)
-export PULUMI_USER="${1:-palladius}"
+#export PULUMI_USER="${1:-palladius}"
 
 SCRIPT_VER="1.1a_20220910"
 # exit if a command returns a non-zero exit code and also print the commands and their args as they are executed.
@@ -40,6 +40,7 @@ pulumi login
 # TODO(ricc): use ENV VARS to fix this.
 #pulumi stack select $PULUMI_USER/python-gcp-cloudbuild-auto-trigger/dev
 
+export PULUMI_USER=`pulumi whoami`
 
 # TROUBLESHOOT
 #echo
@@ -54,7 +55,7 @@ pulumi config
 # For some reason I do not understand, I need to tell the remote system all vars that I have available HERE.
 # Oh myabe because i havent checked in the code on git :) even better then :)
 # Note this
-this_is_useless_if_you_checkin_the_pulumi_dev_yaml()
+this_is_useless_if_you_checkin_the_pulumi_dev_yaml
 
 
 # NERD part - this is my
