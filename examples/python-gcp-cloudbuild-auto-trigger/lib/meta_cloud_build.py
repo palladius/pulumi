@@ -3,7 +3,7 @@
 import pulumi
 import pulumi_gcp as gcp
 
-from lib.ric_config import MyProject, MyRegion, AppName, AppNameLower, BitBucketRepoName, PulumiStack, PulumiProject, PulumiUser, ShortPulumiProject, print_red
+from lib.ric_config import MyProject, MyRegion, AppName, AppNameLower, PulumiStack, PulumiProject, PulumiUser, ShortPulumiProject, print_red
 
 RepoConfig = {}
 
@@ -33,6 +33,7 @@ def create_cloud_build_trigger():
                 "_INSECURE_SUBSTITUTION_PULUMI_ACCESS_TOKEN": pulumi.Config().require('cloud-build-access-token'),
                 "_CODE_SUBFOLDER":  pulumi.Config().require('rmp-code-folder'),
                 "_GCP_REGION": MyRegion,
+                "_GCP_PROJECT": MyProject,
             }
 
     # Case 1. GITHUB

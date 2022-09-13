@@ -42,7 +42,8 @@ pulumi stack select $PULUMI_USER/$PULUMI_PROJECT/$PULUMI_STACK
 # TROUBLESHOOT
 pulumi config
 
-pulumi config set gcp:region "$GCP_REGION"
+pulumi config set gcp:region  "$GCP_REGION"
+pulumi config set gcp:project "$GCP_PROJECT"
 
 pulumi config set cloud-build-executing-script-at "$(date)"
 pulumi config set cloud-build-executing-script-on "$(hostname)"
