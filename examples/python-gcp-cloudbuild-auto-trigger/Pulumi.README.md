@@ -50,7 +50,7 @@ pulumi config set cloud-build-executing-script-gitlast "$(git show --summary | x
 
 * ⬡ Date =>  **${outputs.cloud-build-executing-script-at}**
 * ⬡ Hostname (not so meaningful) =>  **${outputs.cloud-build-executing-script-on}**
-* ⬡ Script version =>  **${outputs.cloud-build-executing-script-version}**
+* ⬡ Script version =>  <tt>${outputs.cloud-build-executing-script-version}</tt>
 * ⬡ Git Lats comment =>  **${outputs.cloud-build-executing-script-gitlast}**
 
 # TODOs
