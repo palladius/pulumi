@@ -16,10 +16,10 @@ What I've created here:
 * 🧹AppName: **${outputs.appNameLower}** (Native)
 * ⬢ GCS Bucket: **`${outputs.bucket_name}`** (useless but why not)
 * ⬢ GKE Cluster  **`${outputs.k8s_cluster_name}`** (all clusters: https://console.cloud.google.com/kubernetes/list/overview?project=${outputs.myProject})
+  * ⬢ Nginx service with public Ip: http://${outputs.ingress_ip}/
 
 Pulumi config:
 
-* ⬢ Nginx service with public Ip: http://${outputs.ingress_ip}/
 * 🧹 pulumi_stack:  **`${outputs.pulumi_stack}`**
 * 🧹 pulumi_project:  **`${outputs.pulumi_project}`**
 * 🥑 My fav color is **${outputs.favourite_color}**, because color is important.
