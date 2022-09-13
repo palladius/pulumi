@@ -9,7 +9,7 @@ import os
 # TODO Refactor in Carlessian Pulumi file :)
 import lib # .ric_config
 
-from lib.ric_config import MyProject, MyRegion, AppName, AppNameLower, BitBucketRepoName, PulumiStack, PulumiProject, PulumiUser, ShortPulumiProject, print_red
+from lib.ric_config import MyProject, MyRegion, AppName, AppNameLower, PulumiStack, PulumiProject, PulumiUser, ShortPulumiProject, print_red
 
 from lib.meta_cloud_build import create_cloud_build_trigger
 
@@ -24,7 +24,7 @@ def init():
     pulumi.export('app_name', AppName)
     pulumi.export('appNameLower', AppNameLower)
     #pulumi.export('AppName', os.environ['APPNAME'])
-    pulumi.export('BitBucketRepoName', BitBucketRepoName)
+    #pulumi.export('BitBucketRepoName', BitBucketRepoName)
     with open('./Pulumi.README.md') as f:
         pulumi.export('readme', f.read())
     with open('./VERSION') as f:

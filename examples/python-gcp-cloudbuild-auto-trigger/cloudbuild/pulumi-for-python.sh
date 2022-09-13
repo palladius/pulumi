@@ -47,7 +47,7 @@ pulumi config set gcp:region "$GCP_REGION"
 pulumi config set cloud-build-executing-script-at "$(date)"
 pulumi config set cloud-build-executing-script-on "$(hostname)"
 pulumi config set cloud-build-executing-script-version "$SCRIPT_VER"
-#pulumi config set cloud-build-executing-script-gitlast "$(git show --summary)"
+#pulumi config set cloud-build-executing-script-gitlast "$(git show --summary | xargs)" # on single line
 
 case $BUILD_TYPE in
   PullRequest)
