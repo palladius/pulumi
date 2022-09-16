@@ -32,6 +32,7 @@ InterestingConfigs = [
     'cloud-build-executing-script-at',
     'cloud-build-executing-script-on',
     'cloud-build-executing-script-gitlast',
+    'cloud-build-executing-script-version',
     'favourite_color',
     'pulumi-user',
 ]
