@@ -10,7 +10,7 @@
 export PULUMI_USER="${1:-palladius}"
 #export PULUMI_USER=`pulumi whoami`
 
-export SCRIPT_VER="1.2_20220913"
+export SCRIPT_VER="1.3_20220916"
 # exit if a command returns a non-zero exit code and also print the commands and their args as they are executed.
 set -e -x
 
@@ -62,7 +62,9 @@ pulumi config set cloud-build-executing-script-version "$SCRIPT_VER"
 pulumi config set cloud-build-executing-script-gitlast "$(git log --format=%B -n 1)" # just message of last commit
 
 # prefixing automated part on Cloud Build with the proper git log :)
-export AUGMENTED_MESSAGE="[Triggered by GCP Cloud Build in the ☁️ Cloud]\n\n$(git log --format=%B -n 1)"
+export AUGMENTED_MESSAGE="[Triggered by GCP Cloud Build in the ☁️ Cloud]
+
+$(git log --format=%B -n 1)"
 
 case $BUILD_TYPE in
   PullRequest)
