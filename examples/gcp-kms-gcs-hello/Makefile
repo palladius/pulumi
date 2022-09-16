@@ -6,6 +6,7 @@ info:
 	pulumi stack ls
 	echo And now from Riccardo:
 	echo "PROJECT_NAME: $(PROJECT_NAME)"
+	pulumi config
 
 whoami:
 	pulumi whoami -v
