@@ -66,3 +66,5 @@ Googlers, see go/ricc-pulumi
 *RiccardoNotes*: **${outputs.riccardo_notes}**
 
 This is VERY meta: ${outputs.pulumi-readme-url}
+
+[My Medium Article is **HERE**](https://medium.com/google-cloud/setting-cloudbuild-with-pulumi-in-python-330e8b54b2cf)

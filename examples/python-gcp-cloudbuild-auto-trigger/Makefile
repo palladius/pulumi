@@ -15,3 +15,11 @@ curl-nginx:
 
 render-readme-for-that-snob-of-cstanger:
 	pulumi stack output readme > README-rendered-cstanger.md
+
+# In case you have different backends.. I'm now moving between GCS and Official Pulumi
+login-with-default-backend:
+	pulumi login https://api.pulumi.com/
+
+# In case you have different backends.. Good to show current state :)
+whoami:
+	 pulumi whoami -v 2>/dev/null
