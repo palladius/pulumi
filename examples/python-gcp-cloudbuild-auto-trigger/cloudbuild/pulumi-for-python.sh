@@ -61,12 +61,15 @@ pulumi config set cloud-build-executing-script-version "$SCRIPT_VER"
 # https://stackoverflow.com/questions/3357280/print-commit-message-of-a-given-commit-in-git
 pulumi config set cloud-build-executing-script-gitlast "$(git log --format=%B -n 1)" # just message of last commit
 
+# prefixing automated part on Cloud Build with the proper git log :)
+export AUGMENTED_MESSAGE="[Triggered by GCP Cloud Build in the ☁️ Cloud]\n\n$(git log --format=%B -n 1)"
+
 case $BUILD_TYPE in
   PullRequest)
       pulumi preview
     ;;
   *)
-      pulumi up --yes --message 'Triggered by Cloud Build in the ☁️ Cloud\!'
+      pulumi up --yes --message "$AUGMENTED_MESSAGE"
     ;;
 esac
 
