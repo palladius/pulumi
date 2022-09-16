@@ -22,3 +22,7 @@ add-secret:
 login-default:
 	echo reverting back to Pulumi default place.
 	pulumi login https://app.pulumi.com/
+
+up:
+	direnv allow .
+	pulumi up --yes

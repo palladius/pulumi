@@ -9,4 +9,6 @@ gcp_kms_minimal_bucket = storage.Bucket('my-bucket', location="US")
 pulumi.export('bucket_name', gcp_kms_minimal_bucket.url)
 
 print("TODO(ricc): also print/output a password")
-pulumi.export('password_todo', 'TODO show value of KMS')
+
+# pulumi.export('clear-password',  pulumi.Config().require_secret('clear-password'))
+# pulumi.export('secret-password', pulumi.Config().require_secret('secret-password'))
