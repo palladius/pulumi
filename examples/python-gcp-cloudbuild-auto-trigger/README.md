@@ -1,12 +1,10 @@
 # Setting a ⬣ Cloud Build trigger with 🧹Pulumi in 🐍 Python
 
-Currently 🧹 Work in progress
-
 * [Article on 🖕](https://medium.com/@palladiusbonton/setting-cloudbuild-with-pulumi-in-python-330e8b54b2cf)
 
 ## INSTALL
 
-* Install Pulumi
+* Install 🧹 Pulumi
 * branch this code in a repo you own (you need to be able to commit to that repo).
 * [Connect with Cloud Build](https://cloud.google.com/build/docs/automating-builds/github/build-repos-from-github) - unfortunately we can't automate it just yet.
 * Finally configure and run this code.

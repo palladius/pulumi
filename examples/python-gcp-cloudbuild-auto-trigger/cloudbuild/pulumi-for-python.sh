@@ -66,7 +66,7 @@ case $BUILD_TYPE in
       pulumi preview
     ;;
   *)
-      pulumi up --yes
+      pulumi up --yes --message 'Triggered by Cloud Build in the ☁️ Cloud\!'
     ;;
 esac
 
