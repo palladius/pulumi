@@ -1,4 +1,4 @@
-2022-09-13 v1.2  ?? Fixing 'cloud-build-executing-script-gitlast' in code
+2022-09-13 v1.2  🟢 Fixing 'cloud-build-executing-script-gitlast' in code
 2022-09-13 v1.1  🟠 Making PULUMI_USER generic (was stuck with my personal username)
 2022-09-13 v1.0  🟢 Code is now finally working! :)
 2022-09-13 v0.6  🟠 Added GCP_REGION since CB fails for this.
