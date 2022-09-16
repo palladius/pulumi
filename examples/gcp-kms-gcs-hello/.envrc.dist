@@ -1,0 +1,9 @@
+
+# copy into .envrc, install `direnv` and enjoy :)
+# Note these are MAGICAL ENV vars as described here: https://www.pulumi.com/registry/packages/gcp/service-account/
+export GOOGLE_PROJECT="YOUR PROJECT ID"
+export GOOGLE_REGION="europe-west1"
+export GOOGLE_REGION="europe-west1-b"
+#export GOOGLE_CREDENTIALS=$(cat credentials.json)
+
+export GOOGLE_BUCKET="gs://your-pulumi-state-bucket"
