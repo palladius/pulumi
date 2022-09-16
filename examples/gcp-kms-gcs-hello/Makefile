@@ -15,6 +15,9 @@ login-gcs:
 	direnv allow .
 	pulumi login "$(GOOGLE_BUCKET)"/state/$(PROJECT_NAME)/
 
+add-secret:
+	pulumi config set secret-password    --secret 'Ungueass4ble'
+	pulumi config set clear-password --plaintext 'MoreGueass4ble'
 
 login-default:
 	echo reverting back to Pulumi default place.

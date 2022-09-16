@@ -1,0 +1,5 @@
+encryptionsalt: v1:SzaVTkfYiP0=:v1:xCFuZFFUGgRYdRfF:bcEJ+TNWJk+ja8SyOLPi/gnSNH9PSw==
+config:
+  gcp-kms-gcs-hello:clear-password: MoreGueass4ble
+  gcp-kms-gcs-hello:secret-password:
+    secure: v1:KB8WjnEMvqSmZj4m:Ke6yuXeRTU1CaJ9S0ocyz7jKV1MPnoxTQNmu2Q==
