@@ -1,2 +1,3 @@
 config:
-  gcp:project: change-me
+  gcp-kms-gcs-hello:fav-color: yellow
+  gcp:project: <change-me>

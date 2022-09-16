@@ -1,9 +1,19 @@
+SHELL := /bin/bash
+PROJECT_NAME = $(shell cat Pulumi.yaml  | egrep '^name:' | cut -f 2 -d' ' )
 
+info:
+	pulumi whoami -v
+	pulumi stack ls
+	echo And now from Riccardo:
+	echo "PROJECT_NAME: $(PROJECT_NAME)"
 
+whoami:
+	pulumi whoami -v
 
-
-login-to-gcs:
-	echo pulumi login "$(GOOGLE_BUCKET)"
+login-gcs:
+	echo 'Logging in to Google Cloud Storage'
+	direnv allow .
+	pulumi login "$(GOOGLE_BUCKET)"/state/$(PROJECT_NAME)/
 
 
 login-default:
