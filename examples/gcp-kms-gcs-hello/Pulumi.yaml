@@ -1,0 +1,6 @@
+name: gcp-kms-gcs-hello
+description: A minimal setup for Pulumi+python which leverages GCS and KMS.
+runtime:
+    name: python
+    options:
+        virtualenv: venv
