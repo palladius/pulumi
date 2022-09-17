@@ -16,4 +16,4 @@ config = pulumi.Config()
 # pulumi.export('secret-password', pulumi.Config().require_secret('secret-password'))
 print("Lets observe the output behaviour of pulumi:")
 for pwd_key in ["'clear-password', 'secret-password']:
-    print('Password ({}): {}'.format(pwd_key, config.require(pwd_key)))
+    print('Password ({}): {}'.format(pwd_key, config.require_secret(pwd_key)))
