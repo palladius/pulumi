@@ -3,7 +3,7 @@ I dont like Java but this seems the only way to Ruby via JRuby so I'll suck it u
 
 Test:
 
-* Bucket: ${output.my-bucket}
+* Bucket: **${output.bucketName}**
 
 also
 
