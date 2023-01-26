@@ -26,12 +26,11 @@ Pulumi config:
 * 🥑 My fav color is **${outputs.favourite_color}**, because color is important.
 
 * CloudBuild 🏗️ trigger 🔫: ${outputs.cloudbuild_trigger_long_id}
-  * ALL Triggers: https://console.cloud.google.com/cloud-build/triggers?project=${outputs.project}
+  * ALL Cloud Build Triggers: https://console.cloud.google.com/cloud-build/triggers?project=${outputs.project}
 
 # What's amazing
 
 * **Cloud Build 🏗️ Automation WORKS**!!!
-* TODO image when it works from README :)
 
 # What's still missing 😞😰🙄
 
@@ -58,7 +57,7 @@ pulumi config set cloud-build-executing-script-gitlast "$(git show --summary | x
 
 * make this a reusable module.
 * Use GCP for secrets management (`KMS` or `GCS`) as promised to cstanger@
-* Looks like Chris is impressed by this REAMDE.
+* Looks like Chris is impressed by this REAMDE. Ringo  says: look at https://www.pulumi.com/docs/intro/concepts/resources/components/ and sample [here](https://github.com/pulumi/examples/tree/master/classic-azure-py-webserver-component).
 
 # More pointers
 
