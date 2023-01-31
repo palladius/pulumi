@@ -54,7 +54,7 @@ pulumi config
   pulumi config set cloud-build-access-token "$PULUMI_ACCESS_TOKEN" --secret
   pulumi config set pulumi-user `pulumi whoami`
 
-# NERD part - this is my
+# NERD part - this is my verbose will to see debug info in the target system. Could probably get them from verbose logs but - hey! I'm enjoying this, ok? :)
 pulumi config set cloud-build-executing-script-at "$(date)"
 pulumi config set cloud-build-executing-script-on "$(hostname)"
 pulumi config set cloud-build-executing-script-version "$SCRIPT_VER"
@@ -62,7 +62,7 @@ pulumi config set cloud-build-executing-script-version "$SCRIPT_VER"
 pulumi config set cloud-build-executing-script-gitlast "$(git log --format=%B -n 1)" # just message of last commit
 
 # prefixing automated part on Cloud Build with the proper git log :)
-export AUGMENTED_MESSAGE="[Triggered by GCP Cloud Build in the ☁️ Cloud]
+export AUGMENTED_MESSAGE="[💬 Triggered by GCP 🏗️ Cloud Build in the 🌎‍🌫️☁️🌍☀️ 😶‍🌫️ ⛅ Cloud]
 
 $(git log --format=%B -n 1)"
 
