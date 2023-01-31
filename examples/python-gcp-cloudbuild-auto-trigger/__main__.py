@@ -75,7 +75,8 @@ def main():
     # Component stuff
     
     CloudBuildRiccComponent("public-examples",CloudBuildRiccComponentArgs(
-        'https://github.com/pulumi/examples/',
+        #'https://github.com/pulumi/examples/',
+        'https://github.com/palladius/examples', # Fork of the above... cant connect to repo i dont own :/
         'gcp-py-cloudrun-cloudsql/', # https://github.com/pulumi/examples/tree/master/gcp-py-cloudrun-cloudsql
         None,
     ))
