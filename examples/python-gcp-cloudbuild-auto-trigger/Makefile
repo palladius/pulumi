@@ -32,6 +32,10 @@ tag-example:
 
 # MAazing great idea :)
 #	gcp-annotate palladius-devrel-tests 'Used by Pulumi on '
-install-python:
+install-python-and-virtualenv:
 	sudo apt-get install python-is-python3
-	sudo apt-get install python3-pip
+	sudo apt-get install -y python3-pip
+	sudo apt-get install -y python3-venv
+	python3 -m venv venv
+	# run this every time you add a new dependency..
+	venv/bin/pip install -r requirements.txt
