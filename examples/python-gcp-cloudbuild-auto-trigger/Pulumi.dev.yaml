@@ -1,10 +1,14 @@
+################################################################################################
+################################################################################################
+# Please change the data in this file!
+################################################################################################
 config:
   # Your GCP config
   gcp:project: my-project-id
   gcp:region: us-central1
   # Your Module config
-  python-gcp-cloudbuild-auto-trigger:app_name: My app - you can change me
-  python-gcp-cloudbuild-auto-trigger:app_name_lower: mycloudbuilddemo
+  python-gcp-cloudbuild-auto-trigger:app_name: My app - you can change me. This will likely WONT WORK
+  python-gcp-cloudbuild-auto-trigger:app_name_lower: my-cloud-build-demo
   python-gcp-cloudbuild-auto-trigger:favourite_color: fuxia
   python-gcp-cloudbuild-auto-trigger:rmp-code-folder: examples/python-gcp-cloudbuild-auto-trigger/
   python-gcp-cloudbuild-auto-trigger:cloud-build-access-token: CHANGEME_SEE_INSTRUCTIONS

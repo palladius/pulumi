@@ -23,3 +23,15 @@ login-with-default-backend:
 # In case you have different backends.. Good to show current state :)
 whoami:
 	 pulumi whoami -v 2>/dev/null
+
+
+# thanks SO :)
+tag-example:
+	git tag 1.0 -a
+	git push origin --tag
+
+# MAazing great idea :)
+#	gcp-annotate palladius-devrel-tests 'Used by Pulumi on '
+install-python:
+	sudo apt-get install python-is-python3
+	sudo apt-get install python3-pip
