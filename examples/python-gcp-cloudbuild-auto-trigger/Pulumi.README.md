@@ -1,6 +1,6 @@
-# ${outputs.app_name} v${outputs.version} (AutoKube and AutoBuild)
+# ${outputs.app_name} v${outputs.version} (AutoBuild)
 
-This part 1 is a super cool project from **Riccardo**. This is a pulumization of my very first sample app.
+This part 1 is a super cool project from **Riccardo**. This is a pulumization of my very first sample app. Stack READMEs are documented [here](https://www.pulumi.com/docs/intro/pulumi-service/projects-and-stacks/#stack-readme).
 
 Self: Code is contained in [GH palladius/pulumi](https://github.com/palladius/pulumi/), under `python-gcp-cloudbuild-auto-trigger` (TODO make this an `outputs.code_path`) and an article is featured on [Medium](https://medium.com/google-cloud/setting-cloudbuild-with-pulumi-in-python-330e8b54b2cf).
 
