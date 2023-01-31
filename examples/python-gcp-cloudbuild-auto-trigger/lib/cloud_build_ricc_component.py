@@ -42,8 +42,8 @@ def infer_repo_owner_from_url(magic_repo_url):
     '''
     # Should be the FOURTH part:
     # ['https:', '', 'bitbucket.org', 'palladius', 'foo', 'src', 'master', '']
-    #print(f"DEBUG: infer_repo_owner_from_url({magic_repo_url}) => ")
-    magic_repo_url.split('/')[3]
+    print(f"DEBUG: infer_repo_owner_from_url({magic_repo_url}) => { magic_repo_url.split('/')[3]}")
+    return magic_repo_url.split('/')[3]
 
 def infer_repo_name_from_url(magic_repo_url):
     '''
@@ -52,7 +52,8 @@ def infer_repo_name_from_url(magic_repo_url):
     '''
     # Should be the FIRTH OF FIFTH part:
     # ['https:', '', 'bitbucket.org', 'palladius', 'foo', 'src', 'master', '']
-    magic_repo_url.split('/')[4]
+    print(f"DEBUG: infer_repo_name_from_url({magic_repo_url}) => { magic_repo_url.split('/')[4]}")
+    return magic_repo_url.split('/')[4]
 
 
 #        self.repo_owner = infer_repo_owner_from_url(magic_repo_url)
@@ -134,9 +135,8 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         # bucket = s3.Bucket(f"{name}-component-bucket",
         #     opts=pulumi.ResourceOptions(parent=self))
         self.register_outputs({
-            "cbrc_bucket_url": bucket.url,                  # also id, selfLink
-            "cbrc_gcb_repo_type": args.gcb_repo_type,
-            #infer_repo_owner_from_url(magic_repo_url),
+            f"cbrc_{name}_bucket_url": bucket.url,                  # also id, selfLink
+            #"cbrc_gcb_repo_type": args.gcb_repo_type,
         })
         # https://github.com/pulumi/pulumi/issues/2394 
         # Calling 'registerOutputs' twice leads to a crash. #2394
@@ -164,12 +164,20 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         code_local_path = args.code_folder.strip("/") # pulumi.Config().require('rmp-code-folder').strip("/")
         filename_local_path = f'{code_local_path}/cloudbuild/cloudbuild.yaml' # This is an assumptiojn I gotta change
         trigger_type = args.gcb_repo_type # pulumi.Config().require('gcb_repo_type') # must be 'github' or 'bitbucket'
+        RepoConfig["crbc_magic_repo_url"] = args.magic_repo_url
         RepoConfig["gcb_repo_type"] = trigger_type
         RepoConfig["cbrc_name"] = self.name
         RepoConfig["gcb_repo_type_short"] = args.gcb_repo_type_short # infer_shortened_repo_service_from_url(args.code_url)
         
         
         # raise exception unless ...
+        repo_owner = infer_repo_owner_from_url(args.magic_repo_url)
+        repo_name  = infer_repo_name_from_url(args.magic_repo_url)
+
+        if repo_owner.__str__ == '': 
+            raise Exception(f"[{name}] Empty repo_owner - failing: {repo_owner}")
+        if repo_name.__str__ == '': 
+            raise Exception(f"[{name}] Empty repo_name - failing: {repo_name}")
 
         # Common Config
         #trigger_name = f"cbrc-{ShortPulumiProject}-tr-{trigger_type}"
@@ -188,9 +196,8 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         # Case 1. GITHUB
         if trigger_type == 'github':
             # GH documented here: https://www.pulumi.com/registry/packages/gcp/api-docs/cloudbuild/trigger/#triggergithub
-            github_username = infer_repo_name_from_url(args.magic_repo_url)
-            RepoConfig["gcb_gh_name"] = github_username  # pulumi.Config().get('gcb_gh_name') or 'pulumi'
-            RepoConfig["gcb_gh_owner"] = infer_repo_owner_from_url(args.magic_repo_url)  # pulumi.Config().get('gcb_gh_owner') or DefaultGithubOwner
+            RepoConfig["gcb_gh_name"] = repo_name  # pulumi.Config().get('gcb_gh_name') or 'pulumi'
+            RepoConfig["gcb_gh_owner"] = repo_owner  # pulumi.Config().get('gcb_gh_owner') or DefaultGithubOwner
             RepoConfig["gcb_gh_branch"] = "^main$" # TODO(add to parameters) # pulumi.Config().get('gcb_gh_branch') or "^main$"
             # trigger_template_github = gcp.cloudbuild.TriggerTriggerTemplateArgs(
             #     #branch_name=RepoConfig["branch_name"] , # "master", # not MAIN :/
@@ -236,8 +243,8 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         elif trigger_type == 'bitbucket':
             # todo when GH works, create a config which gicves everything.
             # This code is for BitBucket mirror:
-            RepoConfig["gcb_branch_name"] = pulumi.Config().get('gcb_branch_name') or 'master'
-            RepoConfig["gcb_repo_name"] = pulumi.Config().get('gcb_repo_name') or 'pulumi'
+            RepoConfig["gcb_branch_name"] = gcb_branch_name # pulumi.Config().get('gcb_branch_name') or 'master'
+            RepoConfig["gcb_repo_name"] = repo_name # pulumi.Config().get('gcb_repo_name') or 'pulumi'
 
 
             trigger_template_bitbucket = gcp.cloudbuild.TriggerTriggerTemplateArgs(
@@ -254,7 +261,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                 included_files=[
                     f"{code_local_path}/**", # should be JUST the app part...
                 ],
-                tags=["pulumi","meta"],
+                tags=["pulumi","meta", "module"],
                 trigger_template=trigger_template_bitbucket,
                 opts=child_opts, 
             )

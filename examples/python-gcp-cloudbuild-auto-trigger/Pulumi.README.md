@@ -63,10 +63,9 @@ pulumi config set cloud-build-executing-script-gitlast "$(git show --summary | x
 * ⬡ Git Last **comment** =>  **<tt>${outputs.cloud-build-executing-script-gitlast}'</tt>**
 
 
-
 # More pointers
 
-Googlers, see go/ricc-pulumi
+Googlers, see [go/ricc-pulumi](https://go/ricc-pulumi) 
 
 *RiccardoNotes*: **${outputs.riccardo_notes}**
 

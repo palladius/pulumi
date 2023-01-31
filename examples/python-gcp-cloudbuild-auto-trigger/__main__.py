@@ -82,11 +82,11 @@ def main():
             'gcp-py-cloudrun-cloudsql/', # https://github.com/pulumi/examples/tree/master/gcp-py-cloudrun-cloudsql
             None,
         )),
-        CloudBuildRiccComponent("ricc-bitbucky-fails",CloudBuildRiccComponentArgs(
-            'https://bitbucket.org/palladius/gic/',
-            '',
-            None,
-        )),
+        # CloudBuildRiccComponent("ricc-bitbucky-fails",CloudBuildRiccComponentArgs(
+        #     'https://bitbucket.org/palladius/gic/',
+        #     '',
+        #     None,
+        # )),
         CloudBuildRiccComponent("ricc-bitbucky-should-work",CloudBuildRiccComponentArgs(
             'https://bitbucket.org/palladius/gprojects/',
             'pulumi/20220910-kuberic/',
