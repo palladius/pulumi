@@ -74,19 +74,20 @@ def main():
     create_cloud_build_trigger()
     # Component stuff
     
-    CloudBuildRiccComponent("gh-public-pulumi-csql-sample",CloudBuildRiccComponentArgs(
+    CloudBuildRiccComponent("public-examples",CloudBuildRiccComponentArgs(
         'https://github.com/pulumi/examples/',
         'gcp-py-cloudrun-cloudsql/', # https://github.com/pulumi/examples/tree/master/gcp-py-cloudrun-cloudsql
         None,
     ))
-    # CloudBuildRiccComponent("bitbucky-fails",CloudBuildRiccComponentArgs(
-    #     'https://bitbucket.org/palladius/gic/',
-    #     '',
-    # ))
-    CloudBuildRiccComponent("this-one-exactly",CloudBuildRiccComponentArgs(
+    CloudBuildRiccComponent("ricc-bitbucky-fails",CloudBuildRiccComponentArgs(
+        'https://bitbucket.org/palladius/gic/',
+        '',
+        None,
+    ))
+    CloudBuildRiccComponent("riccardo-pulumi",CloudBuildRiccComponentArgs(
         'https://github.com/palladius/pulumi/',
         'examples/python-gcp-cloudbuild-auto-trigger/',
-        None
+        None,
     ))
     
 
