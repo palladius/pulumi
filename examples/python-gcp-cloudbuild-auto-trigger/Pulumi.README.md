@@ -23,7 +23,7 @@ Pulumi config:
 
 * 🧹 pulumi_stack:  **`${outputs.pulumi_stack}`**
 * 🧹 pulumi_project:  **`${outputs.pulumi_project}`**
-* 🥑 My fav color is **${outputs.favourite_color}**, because color is important.
+* 🥑 My fav color is **'${outputs.favourite_color}'**, because color is important. If you see asterisks instead of the color, it means Pulumi thinks this is a secret 😃
 
 * CloudBuild 🏗️ trigger 🔫: ${outputs.cloudbuild_trigger_long_id}
   * ALL Cloud Build Triggers: https://console.cloud.google.com/cloud-build/triggers?project=${outputs.project}
@@ -32,9 +32,12 @@ Pulumi config:
 
 * **Cloud Build 🏗️ Automation WORKS**!!!
 
-# What's still missing 😞😰🙄
+# What's still missing (TODO) 😞😰🙄
 
 * sample Carlessian manifests (code in)
+* make this a reusable module.
+* Use GCP for secrets management (`KMS` or `GCS`) as promised to cstanger@
+* Looks like Chris is impressed by this REAMDE. Ringo  says: look at https://www.pulumi.com/docs/intro/concepts/resources/components/ and sample [here](https://github.com/pulumi/examples/tree/master/classic-azure-py-webserver-component).
 
 # Cloud Build Latest stats
 
@@ -53,11 +56,7 @@ pulumi config set cloud-build-executing-script-gitlast "$(git show --summary | x
 * ⬡ Script version =>  <tt>${outputs.cloud-build-executing-script-version}</tt>
 * ⬡ Git Last **comment** =>  **<tt>${outputs.cloud-build-executing-script-gitlast}'</tt>**
 
-# TODOs
 
-* make this a reusable module.
-* Use GCP for secrets management (`KMS` or `GCS`) as promised to cstanger@
-* Looks like Chris is impressed by this REAMDE. Ringo  says: look at https://www.pulumi.com/docs/intro/concepts/resources/components/ and sample [here](https://github.com/pulumi/examples/tree/master/classic-azure-py-webserver-component).
 
 # More pointers
 
