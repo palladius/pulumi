@@ -10,7 +10,7 @@
 export PULUMI_USER="${1:-palladius}"
 #export PULUMI_USER=`pulumi whoami`
 
-export SCRIPT_VER="1.3_20220916"
+export SCRIPT_VER="1.4_20230131ghent"
 # exit if a command returns a non-zero exit code and also print the commands and their args as they are executed.
 set -e -x
 

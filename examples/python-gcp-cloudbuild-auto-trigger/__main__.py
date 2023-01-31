@@ -12,6 +12,7 @@ import lib # .ric_config
 from lib.ric_config import MyProject, MyRegion, AppName, AppNameLower, PulumiStack, PulumiProject, PulumiUser, ShortPulumiProject, print_red
 
 from lib.meta_cloud_build import create_cloud_build_trigger
+from lib.cloud_build_ricc_component import *
 
 
 #RepoConfig = {}
@@ -70,9 +71,22 @@ def main():
     setup_gcs()
     setup_gke()
     setup_palladius_apps()
-    #action05_create_cloud_build_trigger()
     create_cloud_build_trigger()
-
+    # Component stuff
+    
+    CloudBuildRiccComponent("gh-public-pulumi-csql-sample",CloudBuildRiccComponentArgs(
+        'https://github.com/pulumi/examples/',
+        'gcp-py-cloudrun-cloudsql/', # https://github.com/pulumi/examples/tree/master/gcp-py-cloudrun-cloudsql
+    ))
+    # CloudBuildRiccComponent("bitbucky-fails",CloudBuildRiccComponentArgs(
+    #     'https://bitbucket.org/palladius/gic/',
+    #     '',
+    # ))
+    # CloudBuildRiccComponent("this-one-exactly",CloudBuildRiccComponentArgs(
+    #     'https://github.com/palladius/pulumi/',
+    #     'examples/python-gcp-cloudbuild-auto-trigger/'
+    # ))
+    
 
 if __name__ == "__main__":
     main()
