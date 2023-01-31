@@ -53,6 +53,8 @@ pulumi config
   pulumi config set gcb_repo_type 'github'
   pulumi config set cloud-build-access-token "$PULUMI_ACCESS_TOKEN" --secret
   pulumi config set pulumi-user `pulumi whoami`
+  # Volcano is the Greek God of building -> and I see Volcano lava as orange.
+  pulumi config set favourite_color 'its all Orange here in the Cloud'
 
 # NERD part - this is my verbose will to see debug info in the target system. Could probably get them from verbose logs but - hey! I'm enjoying this, ok? :)
 pulumi config set cloud-build-executing-script-at "$(date)"

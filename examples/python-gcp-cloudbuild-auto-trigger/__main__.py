@@ -55,7 +55,8 @@ def setup_palladius_apps():
 
 def setup_apis():
     """Apparently Cloud Build API is not set up automatically. Damn. """
-    for service in ['container', "cloudbuild", "iam"]:
+    GCPServicesToBeEnabled = ['container', "cloudbuild", "iam"]
+    for service in GCPServicesToBeEnabled:
         project = gcp.projects.Service(
             f"enable-srv-{service}",
             disable_dependent_services=True,
