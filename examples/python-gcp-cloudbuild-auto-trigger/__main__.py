@@ -104,6 +104,13 @@ def main():
             None,
             #'main',
         )),
+        CloudBuildRiccComponent("challenge-in-a-box",CloudBuildRiccComponentArgs(
+            'https://github.com/palladius/gcp-pulumi-challenge-in-a-box/',
+            'gcp-pulumi-challenge/', # still doesnt exist... for tomorrow
+            None,
+            #'main',
+        )),
+        
     ]
     for cbrc_repo in myCloudBuildRepos:
         UberReposConfig.append(cbrc_repo.repo_config)

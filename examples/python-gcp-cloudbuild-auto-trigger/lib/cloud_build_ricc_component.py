@@ -182,6 +182,8 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         repo_name  = infer_repo_name_from_url(args.magic_repo_url)
         gcb_branch_name =  infer_branch_from_args(args)
 
+        RepoConfig["miniUrl"] = f"{args.gcb_repo_type_short}://{repo_owner}:{repo_name}/^{gcb_branch_name}"
+
         if repo_owner.__str__ == '': 
             raise Exception(f"[{name}] Empty repo_owner - failing: {repo_owner}")
         if repo_name.__str__ == '': 
