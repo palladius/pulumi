@@ -10,7 +10,7 @@ Testing how to get the ⬢GCP⬡ config:
 
 * ⬢ ProjectId (as output): **${outputs.myProject}**
 * ⬢ Region (as output): **${outputs.myRegion}**
-* Cloud build: https://pantheon.corp.google.com/cloud-build/builds?project=${outputs.myProject}
+* 🏗️ Cloud build: https://console.cloud.google.com/cloud-build/builds?project=${outputs.myProject}
 
 What I've created here:
 
