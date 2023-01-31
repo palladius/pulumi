@@ -1,0 +1,109 @@
+name: yaml-gcp-kubernetes
+runtime: yaml
+description: Riccardo first YAML GCP GKE project
+config:
+  nodesPerZone:
+    type: integer
+    default: 1
+outputs:
+  clusterId: ${gke-cluster.id}
+  clusterName: ${gke-cluster.name}
+  kubeconfig: ${clusterKubeconfig}
+  networkId: ${gke-network.id}
+  # Export some values to be used elsewhere
+  networkName: ${gke-network.name}
+resources:
+  # Create a new GKE cluster
+  gke-cluster:
+    properties:
+      addonsConfig:
+        dnsCacheConfig:
+          enabled: true
+      binaryAuthorization:
+        evaluationMode: PROJECT_SINGLETON_POLICY_ENFORCE
+      datapathProvider: ADVANCED_DATAPATH
+      description: A GKE cluster
+      # Enabling Autopilot will invalidate many of the other settings included here
+      # enableAutopilot: false
+      initialNodeCount: 1
+      ipAllocationPolicy:
+        clusterIpv4CidrBlock: /14
+        servicesIpv4CidrBlock: /20
+      location: ${gcp:region}
+      masterAuthorizedNetworksConfig:
+        cidrBlocks:
+          # Change this CIDR block to something more restrictive for enhanced security
+          - cidrBlock: 0.0.0.0/0
+            displayName: All networks
+      network: ${gke-network.name}
+      networkingMode: VPC_NATIVE
+      privateClusterConfig:
+        # Changing this to true requires some form of connectivity to GCP (VPN or equivalent)
+        enablePrivateEndpoint: false
+        enablePrivateNodes: true
+        masterIpv4CidrBlock: 10.100.0.0/28
+      releaseChannel:
+        channel: STABLE
+      removeDefaultNodePool: true
+      subnetwork: ${gke-subnet.name}
+      workloadIdentityConfig:
+        workloadPool: ${gcp:project}.svc.id.goog
+    type: gcp:container:Cluster
+  # Create a GCP network (global VPC)
+  gke-network:
+    properties:
+      # Disable autoCreateSubnetworks because Private Google Access is needed
+      autoCreateSubnetworks: false
+      description: A virtual network for your GKE cluster(s)
+    type: gcp:compute:Network
+  # Create a new nodepool for the cluster
+  gke-nodepool:
+    properties:
+      cluster: ${gke-cluster.id}
+      nodeConfig:
+        # These scopes should be tightened down to only the required services/access
+        oauthScopes:
+          - https://www.googleapis.com/auth/cloud-platform
+        serviceAccount: ${gke-nodepool-sa.email}
+      # Specify the number of nodes PER ZONE
+      nodeCount: ${nodesPerZone}
+    type: gcp:container:NodePool
+  # Create a new service account for the nodepool
+  gke-nodepool-sa:
+    properties:
+      accountId: ${gke-cluster.name}-np-1-sa
+      displayName: Nodepool 1 Service Account
+    type: gcp:serviceAccount:Account
+  # Create a subnet in the new GCP network
+  gke-subnet:
+    properties:
+      ipCidrRange: 10.128.0.0/12
+      network: ${gke-network.id}
+      privateIpGoogleAccess: true
+    type: gcp:compute:Subnetwork
+variables:
+  clusterKubeconfig:
+    fn::secret: |
+      apiVersion: v1
+      clusters:
+      - cluster:
+          certificate-authority-data: ${gke-cluster.masterAuth["clusterCaCertificate"]}
+          server: https://${gke-cluster.endpoint}
+        name: ${gke-cluster.name}
+      contexts:
+      - context:
+          cluster: ${gke-cluster.name}
+          user: ${gke-cluster.name}
+        name: ${gke-cluster.name}
+      current-context: ${gke-cluster.name}
+      kind: Config
+      preferences: {}
+      users:
+      - name: ${gke-cluster.name}
+        user:
+          exec:
+            apiVersion: client.authentication.k8s.io/v1beta1
+            command: gke-gcloud-auth-plugin
+            installHint: Install gke-gcloud-auth-plugin for use with kubectl by following
+              https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+            provideClusterInfo: true
