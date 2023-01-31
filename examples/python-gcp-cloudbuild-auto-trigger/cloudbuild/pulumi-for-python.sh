@@ -63,15 +63,21 @@ pulumi config set cloud-build-executing-script-gitlast "$(git log --format=%B -n
 
 # prefixing automated part on Cloud Build with the proper git log :)
 export AUGMENTED_MESSAGE="[Triggered by GCP 🏗️ Cloud Build in the 🌎‍🌫️☁️🌍☀️ 😶‍🌫️ ⛅ Cloud]
-💬💬💬<br/>
+💬💬💬
+
+
 $(git log --format=%B -n 1)
 💬💬💬"
 
 case $BUILD_TYPE in
+  # If it's a Pull request, it will output a preview. Notice that this needs to then be piggybacked into GitHub for this msg to be visible there, which will come another day.
+  # But at least the CB will PRINT and result into GOOD or BAD.
   PullRequest)
       pulumi preview
+      # TODO do sth with a correct or incorrect output (see above)
     ;;
   *)
+      # Trigger the pulumi up => change the world.
       pulumi up --yes --message "$AUGMENTED_MESSAGE"
     ;;
 esac
