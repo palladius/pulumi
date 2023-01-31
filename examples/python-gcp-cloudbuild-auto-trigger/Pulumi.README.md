@@ -43,7 +43,7 @@ Pulumi config:
 
 cbrc_uber_config:
 
-**`${cbrc_uber_config}`**
+**`${outputs.cbrc_uber_config}`**
 
 # Cloud Build Latest stats
 

@@ -24,6 +24,8 @@ login-with-default-backend:
 whoami:
 	 pulumi whoami -v 2>/dev/null
 
+up:
+	pulumi up --yes --message 'Issued from Makefile (💄 make up)'
 
 # thanks SO :)
 tag-example:
