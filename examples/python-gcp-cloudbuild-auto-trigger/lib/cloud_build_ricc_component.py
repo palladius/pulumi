@@ -20,6 +20,11 @@ class CloudBuildRiccComponentArgs:
         Cuold accept a smart MagicRepoUrl like 
         * https://bitbucket.org/palladius/gic/
         * https://github.com/pulumi/examples/
+        * [FUTURE] also sth magic like:
+        * https://github.com/pulumi/examples/tree/master/gcp-py-cloudrun-cloudsql
+        * future for BB:
+        # ~/git/gprojects/pulumi/20220910-kuberic
+        * https://bitbucket.org/palladius/gprojects/src/master/pulumi/20220910-kuberic/
 
         cloud-build-access-token: <TOKEN>
 
@@ -40,10 +45,12 @@ class CloudBuildRiccComponentArgs:
         #useless_bucket: Input[str],
         magic_repo_url: Input[str],
         code_folder: Input[str],
+        cdb_access_token: Input[str],
     ):
         #self.useless_bucket = useless_bucket
         self.magic_repo_url = magic_repo_url
         self.code_folder = code_folder
+        self.cdb_access_token = cdb_access_token or pulumi.Config().require('cloud-build-access-token')
 
 
 class CloudBuildRiccComponent(pulumi.ComponentResource):
@@ -62,8 +69,9 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
 
         child_opts = ResourceOptions(parent=self)
 
-        # Creating a sueless bucket..
-        bucket = gcp.storage.Bucket(f"cbrc-{name}-useless", 
+        # Creating a USELESS bucket.. remove when all works
+        bucket = gcp.storage.Bucket(
+            "cbrc-{}".format(name), 
             location="EU",
             opts=child_opts, # pulumi.ResourceOptions(parent=self)
         )
@@ -73,7 +81,10 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         self.register_outputs({
             "bucketUrl": bucket.url # also id, selfLink
         })
-        self.register_outputs({})
+        # https://github.com/pulumi/pulumi/issues/2394 
+        # Calling 'registerOutputs' twice leads to a crash. #2394
+
+        #self.register_outputs({})
 
 
         # the caller can pass an explicit GCP provider:
@@ -82,3 +93,10 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
 #            'gcp': myproject,
 #            'kubernetes': myk8s,
 #           }))
+
+    def register_github_endpoint(self):
+        '''TODO github'''
+        pass 
+    def register_bitbucket_endpoint(self):
+        '''TODO github'''
+        pass

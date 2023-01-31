@@ -77,15 +77,17 @@ def main():
     CloudBuildRiccComponent("gh-public-pulumi-csql-sample",CloudBuildRiccComponentArgs(
         'https://github.com/pulumi/examples/',
         'gcp-py-cloudrun-cloudsql/', # https://github.com/pulumi/examples/tree/master/gcp-py-cloudrun-cloudsql
+        None,
     ))
     # CloudBuildRiccComponent("bitbucky-fails",CloudBuildRiccComponentArgs(
     #     'https://bitbucket.org/palladius/gic/',
     #     '',
     # ))
-    # CloudBuildRiccComponent("this-one-exactly",CloudBuildRiccComponentArgs(
-    #     'https://github.com/palladius/pulumi/',
-    #     'examples/python-gcp-cloudbuild-auto-trigger/'
-    # ))
+    CloudBuildRiccComponent("this-one-exactly",CloudBuildRiccComponentArgs(
+        'https://github.com/palladius/pulumi/',
+        'examples/python-gcp-cloudbuild-auto-trigger/',
+        None
+    ))
     
 
 if __name__ == "__main__":
