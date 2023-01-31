@@ -15,16 +15,48 @@ import re
 
 
 ## Utilities
-def infer_repo_service_from_name(url):
-        if re.match("^https://github.com/", url):
-            return 'github'
-        if re.match("^https://bitbucket.org", url):
-            return 'bitbucket'
-        raise Exception(
-            f"Exception: unknown GIT provider (I only know GH and BB): {url}"
-        )
+def infer_repo_service_from_url(url):
+    if re.match("^https://github.com/", url):
+        return 'github'
+    if re.match("^https://bitbucket.org", url):
+        return 'bitbucket'
+    raise Exception(
+        f"Exception: unknown GIT provider (I only know GH and BB): {url}"
+    )
+
+def infer_shortened_repo_service_from_url(url):
+    '''Sorry for the repetition :)'''
+    if re.match("^https://github.com/", url):
+        return 'gh'
+    if re.match("^https://bitbucket.org", url):
+        return 'bb'
+    raise Exception(
+        f"Exception: unknown GIT provider (I only know GH and BB): {url}"
+    )
+
+def infer_repo_owner_from_url(magic_repo_url):
+    '''
+
+    https://github.com/palladius/clouddeploy-platinum-path => "palladius"
+    https://bitbucket.org/palladius/foo/src/master/        => "palladius"
+    '''
+    # Should be the FOURTH part:
+    # ['https:', '', 'bitbucket.org', 'palladius', 'foo', 'src', 'master', '']
+    #print(f"DEBUG: infer_repo_owner_from_url({magic_repo_url}) => ")
+    magic_repo_url.split('/')[3]
+
+def infer_repo_name_from_url(magic_repo_url):
+    '''
+    https://github.com/palladius/clouddeploy-platinum-path => "clouddeploy-platinum-path"
+    https://bitbucket.org/palladius/foo/src/master/        => "foo"
+    '''
+    # Should be the FIRTH OF FIFTH part:
+    # ['https:', '', 'bitbucket.org', 'palladius', 'foo', 'src', 'master', '']
+    magic_repo_url.split('/')[4]
 
 
+#        self.repo_owner = infer_repo_owner_from_url(magic_repo_url)
+#        self.repo_name = infer_repo_name_from_url(magic_repo_url)
 class CloudBuildRiccComponentArgs:
     '''Arguments for tyhis component. Som3ething like:
 
@@ -65,7 +97,10 @@ class CloudBuildRiccComponentArgs:
         self.magic_repo_url = magic_repo_url
         self.code_folder = code_folder
         self.cdb_access_token = cdb_access_token or pulumi.Config().require('cloud-build-access-token')
-        self.gcb_repo_type = infer_repo_service_from_name(magic_repo_url)
+        self.gcb_repo_type = infer_repo_service_from_url(magic_repo_url)
+        self.gcb_repo_type_short = infer_shortened_repo_service_from_url(magic_repo_url)
+        self.repo_owner = infer_repo_owner_from_url(magic_repo_url)
+        self.repo_name = infer_repo_name_from_url(magic_repo_url)
 
 
 class CloudBuildRiccComponent(pulumi.ComponentResource):
@@ -84,6 +119,9 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
 
         child_opts = ResourceOptions(parent=self)
 
+        #self.args = args
+        self.name = name
+
         # Creating a USELESS bucket.. remove when all works
         bucket = gcp.storage.Bucket(
             "cbrc-{}".format(name), 
@@ -91,16 +129,17 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
             opts=child_opts, # pulumi.ResourceOptions(parent=self)
         )
 
+        self.create_cloud_build_trigger(args, child_opts)
+
         # bucket = s3.Bucket(f"{name}-component-bucket",
         #     opts=pulumi.ResourceOptions(parent=self))
         self.register_outputs({
             "cbrc_bucket_url": bucket.url,                  # also id, selfLink
             "cbrc_gcb_repo_type": args.gcb_repo_type,
+            #infer_repo_owner_from_url(magic_repo_url),
         })
         # https://github.com/pulumi/pulumi/issues/2394 
         # Calling 'registerOutputs' twice leads to a crash. #2394
-
-        #self.register_outputs({})
 
 
         # the caller can pass an explicit GCP provider:
@@ -110,36 +149,38 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
 #            'kubernetes': myk8s,
 #           }))
 
-    def register_github_endpoint(self):
-        '''TODO github'''
-        pass 
-    def register_bitbucket_endpoint(self):
-        '''TODO github'''
-        pass
-
-
         
-    def create_cloud_build_trigger(self):
+    def create_cloud_build_trigger(self, args, child_opts):
         """This was SO EASY to do with BitBucket but hard on GH. Damn.
 
         Code: https://github.com/pulumi/pulumi-gcp/blob/master/sdk/python/pulumi_gcp/cloudbuild/trigger.py
+
+        TODO(ricc): dont assume CB yaml is in /cloudbuild/cloudbuild.yaml but make it parametric :)
         """
 
-        code_local_path = code_folder.strip("/") # pulumi.Config().require('rmp-code-folder').strip("/")
-        filename_local_path = f'{code_local_path}/cloudbuild/cloudbuild.yaml'
-        trigger_type = gcb_repo_type # pulumi.Config().require('gcb_repo_type') # must be 'github' or 'bitbucket'
+        #child_opts = ResourceOptions(parent=self)
+        RepoConfig = {}
+
+        code_local_path = args.code_folder.strip("/") # pulumi.Config().require('rmp-code-folder').strip("/")
+        filename_local_path = f'{code_local_path}/cloudbuild/cloudbuild.yaml' # This is an assumptiojn I gotta change
+        trigger_type = args.gcb_repo_type # pulumi.Config().require('gcb_repo_type') # must be 'github' or 'bitbucket'
         RepoConfig["gcb_repo_type"] = trigger_type
+        RepoConfig["cbrc_name"] = self.name
+        RepoConfig["gcb_repo_type_short"] = args.gcb_repo_type_short # infer_shortened_repo_service_from_url(args.code_url)
+        
+        
         # raise exception unless ...
 
         # Common Config
-        trigger_name = f"pu-{ShortPulumiProject}-meta-trigger-{trigger_type}"
+        #trigger_name = f"cbrc-{ShortPulumiProject}-tr-{trigger_type}"
+        trigger_name = f"cbrc-{self.name}-{args.gcb_repo_type_short}" # -trigger
         common_substitutions = {
                     "_PULUMI_PROJECT": PulumiProject,
                     "_PULUMI_USER": PulumiUser,
                     "_PULUMI_STACK": PulumiStack,
                     #"_NOTULE_DE_LI_SOLLAZZI": "Carlessian notes to self in - ENVironmental friendly", # put stuff here if you need to talk to yourself in the UI
-                    "_INSECURE_SUBSTITUTION_PULUMI_ACCESS_TOKEN": pulumi.Config().require('cloud-build-access-token'),
-                    "_CODE_SUBFOLDER":  pulumi.Config().require('rmp-code-folder'),
+                    "_INSECURE_SUBSTITUTION_PULUMI_ACCESS_TOKEN": args.cdb_access_token, # pulumi.Config().require('cloud-build-access-token'),
+                    "_CODE_SUBFOLDER": args.code_folder, #  pulumi.Config().require('rmp-code-folder'),
                     "_GCP_REGION": MyRegion,
                     "_GCP_PROJECT": MyProject,
                 }
@@ -147,9 +188,10 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         # Case 1. GITHUB
         if trigger_type == 'github':
             # GH documented here: https://www.pulumi.com/registry/packages/gcp/api-docs/cloudbuild/trigger/#triggergithub
-            RepoConfig["gcb_gh_name"] = pulumi.Config().get('gcb_gh_name') or 'pulumi'
-            RepoConfig["gcb_gh_owner"] = pulumi.Config().get('gcb_gh_owner') or DefaultGithubOwner
-            RepoConfig["gcb_gh_branch"] = pulumi.Config().get('gcb_gh_branch') or "^main$"
+            github_username = infer_repo_name_from_url(args.magic_repo_url)
+            RepoConfig["gcb_gh_name"] = github_username  # pulumi.Config().get('gcb_gh_name') or 'pulumi'
+            RepoConfig["gcb_gh_owner"] = infer_repo_owner_from_url(args.magic_repo_url)  # pulumi.Config().get('gcb_gh_owner') or DefaultGithubOwner
+            RepoConfig["gcb_gh_branch"] = "^main$" # TODO(add to parameters) # pulumi.Config().get('gcb_gh_branch') or "^main$"
             # trigger_template_github = gcp.cloudbuild.TriggerTriggerTemplateArgs(
             #     #branch_name=RepoConfig["branch_name"] , # "master", # not MAIN :/
             #     github=gcp.cloudbuild.TriggerGithubArgs(
@@ -158,7 +200,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
             #     )
             # )
             trigger_github_args = gcp.cloudbuild.TriggerGithubArgs(
-                    name=RepoConfig["gcb_gh_name"],
+                    name= f"{ self.name }-{ github_username }",
                     owner=RepoConfig["gcb_gh_owner"],
                     # documented here: https://www.pulumi.com/registry/packages/gcp/api-docs/cloudbuild/trigger/#triggergithubpullrequest
                     #pull_request=
@@ -186,6 +228,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                 tags=["pulumi","meta"],
                 #trigger_template=trigger_template_bitbucket
                 github=trigger_github_args,
+                opts=child_opts, 
                 )
 
         # Case 2. BitBucket
@@ -199,6 +242,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
             trigger_template_bitbucket = gcp.cloudbuild.TriggerTriggerTemplateArgs(
                     branch_name=RepoConfig["gcb_branch_name"] , # "master", # not MAIN :/
                     repo_name=RepoConfig["gcb_repo_name"], # eg, "bitbucket_palladius_gprojects", # scoperto con $ gcloud beta builds triggers describe 9667bf06-41a8-4a04-b9cf-d908ba868c4a
+                    #opts=child_opts, 
             )
             pulumi_autobuild_trigger = gcp.cloudbuild.Trigger(
                 trigger_name,
@@ -210,11 +254,16 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                     f"{code_local_path}/**", # should be JUST the app part...
                 ],
                 tags=["pulumi","meta"],
-                trigger_template=trigger_template_bitbucket)
+                trigger_template=trigger_template_bitbucket,
+                opts=child_opts, 
+            )
         else:
-            print_red(f"[FATAL] Hey! Unknown trigger_type: '{trigger_type}'. Exiting! Get your config together my friend!")
-            exit(42)
-        pulumi.export('cloudbuild_trigger_long_id',pulumi_autobuild_trigger.id)
-        pulumi.export('cloudbuild_trigger_short_id',pulumi_autobuild_trigger.trigger_id) # short
-        pulumi.export('RepoConfig',RepoConfig) # todo export array
+            #print_red(f"[FATAL] Hey! Unknown trigger_type: '{trigger_type}'. Exiting! Get your config together my friend!")
+            raise Exception(
+                f"[FATAL] Hey! Unknown trigger_type: '{trigger_type}'. Exiting! Get your config together my friend!"
+            )
+            #exit(42)
+        pulumi.export('cbrc_cbt_long_id', pulumi_autobuild_trigger.id)
+        pulumi.export('cbrc_cbt_short_id', pulumi_autobuild_trigger.trigger_id) # short
+        pulumi.export('cbrc_repo_config', RepoConfig) # todo export array
 

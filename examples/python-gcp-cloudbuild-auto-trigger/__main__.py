@@ -84,6 +84,11 @@ def main():
         '',
         None,
     ))
+    CloudBuildRiccComponent("ricc-bitbucky-should-work",CloudBuildRiccComponentArgs(
+        'https://bitbucket.org/palladius/gprojects/',
+        'pulumi/20220910-kuberic/',
+        None,
+    ))
     CloudBuildRiccComponent("riccardo-pulumi",CloudBuildRiccComponentArgs(
         'https://github.com/palladius/pulumi/',
         'examples/python-gcp-cloudbuild-auto-trigger/',
