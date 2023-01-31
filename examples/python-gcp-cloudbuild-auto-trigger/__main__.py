@@ -96,6 +96,13 @@ def main():
             'https://github.com/palladius/pulumi/',
             'examples/python-gcp-cloudbuild-auto-trigger/',
             None,
+            #'main',
+        )),
+        CloudBuildRiccComponent("folder-validator-todo",CloudBuildRiccComponentArgs(
+            'https://github.com/palladius/pulumi-folders-validator/',
+            'examples1/', # still doesnt exist... for tomorrow
+            None,
+            #'main',
         )),
     ]
     for cbrc_repo in myCloudBuildRepos:

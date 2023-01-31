@@ -56,6 +56,13 @@ def infer_repo_name_from_url(magic_repo_url):
     return magic_repo_url.split('/')[4]
 
 
+def infer_branch_from_args(args):
+    '''TODO(ricc): enrich the CloudBuildRiccComponentArgs allowing also this to be specified as optional..
+    
+    investigate optional prams in python, in ruby it would be SO wasy!!!
+    '''
+    return 'master'
+
 #        self.repo_owner = infer_repo_owner_from_url(magic_repo_url)
 #        self.repo_name = infer_repo_name_from_url(magic_repo_url)
 class CloudBuildRiccComponentArgs:
@@ -173,6 +180,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         # raise exception unless ...
         repo_owner = infer_repo_owner_from_url(args.magic_repo_url)
         repo_name  = infer_repo_name_from_url(args.magic_repo_url)
+        gcb_branch_name =  infer_branch_from_args(args)
 
         if repo_owner.__str__ == '': 
             raise Exception(f"[{name}] Empty repo_owner - failing: {repo_owner}")
