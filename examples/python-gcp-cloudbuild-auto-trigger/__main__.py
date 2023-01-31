@@ -74,27 +74,36 @@ def main():
     create_cloud_build_trigger()
     # Component stuff
     
-    CloudBuildRiccComponent("public-examples",CloudBuildRiccComponentArgs(
-        #'https://github.com/pulumi/examples/',
-        'https://github.com/palladius/examples', # Fork of the above... cant connect to repo i dont own :/
-        'gcp-py-cloudrun-cloudsql/', # https://github.com/pulumi/examples/tree/master/gcp-py-cloudrun-cloudsql
-        None,
-    ))
-    CloudBuildRiccComponent("ricc-bitbucky-fails",CloudBuildRiccComponentArgs(
-        'https://bitbucket.org/palladius/gic/',
-        '',
-        None,
-    ))
-    CloudBuildRiccComponent("ricc-bitbucky-should-work",CloudBuildRiccComponentArgs(
-        'https://bitbucket.org/palladius/gprojects/',
-        'pulumi/20220910-kuberic/',
-        None,
-    ))
-    CloudBuildRiccComponent("riccardo-pulumi",CloudBuildRiccComponentArgs(
-        'https://github.com/palladius/pulumi/',
-        'examples/python-gcp-cloudbuild-auto-trigger/',
-        None,
-    ))
+    UberReposConfig = []
+    myCloudBuildRepos = [
+        CloudBuildRiccComponent("public-examples",CloudBuildRiccComponentArgs(
+            #'https://github.com/pulumi/examples/',
+            'https://github.com/palladius/examples', # Fork of the above... cant connect to repo i dont own :/
+            'gcp-py-cloudrun-cloudsql/', # https://github.com/pulumi/examples/tree/master/gcp-py-cloudrun-cloudsql
+            None,
+        )),
+        CloudBuildRiccComponent("ricc-bitbucky-fails",CloudBuildRiccComponentArgs(
+            'https://bitbucket.org/palladius/gic/',
+            '',
+            None,
+        )),
+        CloudBuildRiccComponent("ricc-bitbucky-should-work",CloudBuildRiccComponentArgs(
+            'https://bitbucket.org/palladius/gprojects/',
+            'pulumi/20220910-kuberic/',
+            None,
+        )),
+        CloudBuildRiccComponent("riccardo-pulumi",CloudBuildRiccComponentArgs(
+            'https://github.com/palladius/pulumi/',
+            'examples/python-gcp-cloudbuild-auto-trigger/',
+            None,
+        )),
+    ]
+    for cbrc_repo in myCloudBuildRepos:
+        UberReposConfig.append(cbrc_repo.repo_config)
+    #TODO output
+    pulumi.export("cbrc_uber_config", UberReposConfig)
+
+
     
 
 if __name__ == "__main__":

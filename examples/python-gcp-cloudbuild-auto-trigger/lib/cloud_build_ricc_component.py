@@ -266,5 +266,8 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
             #exit(42)
         pulumi.export('cbrc_cbt_long_id', pulumi_autobuild_trigger.id)
         pulumi.export('cbrc_cbt_short_id', pulumi_autobuild_trigger.trigger_id) # short
-        pulumi.export('cbrc_repo_config', RepoConfig) # todo export array
+        pulumi.export(f"cbrc_config_{self.name}", RepoConfig) # todo export array
+        self.repo_config = RepoConfig
+        return True
+        
 

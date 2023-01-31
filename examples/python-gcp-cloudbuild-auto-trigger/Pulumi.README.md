@@ -39,6 +39,12 @@ Pulumi config:
 * Use GCP for secrets management (`KMS` or `GCS`) as promised to cstanger@
 * Looks like Chris is impressed by this REAMDE. Ringo  says: look at https://www.pulumi.com/docs/intro/concepts/resources/components/ and sample [here](https://github.com/pulumi/examples/tree/master/classic-azure-py-webserver-component).
 
+# UberConfig (CB module) NEW 2023!
+
+cbrc_uber_config:
+
+**`${cbrc_uber_config}`**
+
 # Cloud Build Latest stats
 
 Riccardo, getting more&more sophisticated here. Cloud Build shell script `pulumi.sh` is now tracing a few thingies you might wanna check:
