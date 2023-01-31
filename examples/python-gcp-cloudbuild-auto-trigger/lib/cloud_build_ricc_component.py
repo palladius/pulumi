@@ -200,7 +200,8 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
             #     )
             # )
             trigger_github_args = gcp.cloudbuild.TriggerGithubArgs(
-                    name= f"{ self.name }-{ github_username }",
+                    # This doesnt exist on GitHub -> MaYBE i CAN REMOVE?!?
+                    #name= f"{ self.name }-gh-{ github_username }",
                     owner=RepoConfig["gcb_gh_owner"],
                     # documented here: https://www.pulumi.com/registry/packages/gcp/api-docs/cloudbuild/trigger/#triggergithubpullrequest
                     #pull_request=
