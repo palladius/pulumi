@@ -77,12 +77,18 @@ def infer_repo_name_from_url(magic_repo_url):
     return magic_repo_url.split('/')[4]
 
 
-def infer_branch_from_args(args):
-    '''TODO(ricc): enrich the CloudBuildRiccComponentArgs allowing also this to be specified as optional..
+# OBSOLETE!!!
+# def infer_branch_from_args_OBSOLETE(args):
+#     '''TODO(ricc): enrich the CloudBuildRiccComponentArgs allowing also this to be specified as optional..
     
-    investigate optional prams in python, in ruby it would be SO wasy!!!
-    '''
-    return 'master'
+#     investigate optional prams in python, in ruby it would be SO wasy!!!
+#     '''
+#     return 'master'
+
+def infer_branch_from_magic_url(magic_repo_url): # eg, 'main'
+    pass
+def infer_code_folder_from_magic_url(magic_repo_url): # eg, 'examples/my-pulumi-folder/'
+    pass
 
 #        self.repo_owner = infer_repo_owner_from_url(magic_repo_url)
 #        self.repo_name = infer_repo_name_from_url(magic_repo_url)
