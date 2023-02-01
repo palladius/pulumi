@@ -90,6 +90,21 @@ def infer_repo_name_from_url(magic_repo_url):
 #     investigate optional prams in python, in ruby it would be SO wasy!!!
 #     '''
 #     return 'master'
+##############################################################################################################
+# BB and GH smart reghexes (I wanted to make sure that an improvement with one would also work with the other)
+##############################################################################################################
+# These two regexes have the following fields:
+# m[0]: user
+# m[1]: repo
+# m[2]: branch
+# m[3]: folder
+##############################################################################################################
+UberRegex = "^https://{service}/([a-z_-]+)/([a-z_-]+)/{src_or_tree}/([^/]*)/(.*)[/]?$"
+BitbucketRegex = UberRegex.format(service='bitbucket.org', src_or_tree='src') 
+#"^https://bitbucket.org/([a-z_-]+)/([a-z_-]+)/src/([^/]*)/(.*)[/]?$"
+GithubRegex    =   UberRegex.format(service='github.com', src_or_tree='tree') 
+#GithubRegex    =    "^https://github.com/(.*)/(.*)/tree/(.*)/(.*)$"
+
 
 def infer_branch_from_magic_url(magic_repo_url): # eg, 'main'
     '''Will auto infer, if not, will use magic defaults.
@@ -98,16 +113,6 @@ def infer_branch_from_magic_url(magic_repo_url): # eg, 'main'
     https://bitbucket.org/palladius/foo/src/master/path/to/folder        => "master"
     
     '''
-    # These two regexes have the following fields:
-    # m[0]: user
-    # m[1]: repo
-    # m[2]: branch
-    # m[3]: folder
-    UberRegex = "^https://{service}/([a-z_-]+)/([a-z_-]+)/{src_or_tree}/([^/]*)/(.*)[/]?$"
-    BitbucketRegex = UberRegex.format(service='bitbucket.org', src_or_tree='src') 
-    #"^https://bitbucket.org/([a-z_-]+)/([a-z_-]+)/src/([^/]*)/(.*)[/]?$"
-    GithubRegex    =   UberRegex.format(service='github.com', src_or_tree='tree') 
-    #GithubRegex    =    "^https://github.com/(.*)/(.*)/tree/(.*)/(.*)$"
 
     bbm = re.match(BitbucketRegex, magic_repo_url)
     if bbm:
@@ -117,8 +122,18 @@ def infer_branch_from_magic_url(magic_repo_url): # eg, 'main'
         return ghm.group(3)
     raise Exception(f"Illogical Regex for infer_branch_from_magic_url('{magic_repo_url}'): this doesnt smell either BB or GH!")
     return 'ERROR-branch' # :)
+    return None 
+
+def get_cloud_build_compatible_branch(branch):
+    '''You say master/main  but you really want ^main$.
+        Or, if None, you want ANYTHING (".*")
+    '''
+    if branch == None:
+        return '.*'
+    return f"^{branch}$"
 
 def infer_code_folder_from_magic_url(magic_repo_url): # eg, 'examples/my-pulumi-folder/'
+    ''' TODO '''
     return 'TODO/path/to/folder'
 
 #        self.repo_owner = infer_repo_owner_from_url(magic_repo_url)
@@ -280,7 +295,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                     #pull_request=gcp.cloudbuild.TriggerGithubPullRequest(),
                     push=gcp.cloudbuild.TriggerGithubPushArgs(
                         #branch="^main$",
-                        branch=f"^{gcb_branch_name}$",
+                        branch=get_cloud_build_compatible_branch(gcb_branch_name) # f"^{gcb_branch_name}$", master
                     ),
 
                     #pull_request=gcp.cloudbuild.TriggerGithubPullRequest(
@@ -309,8 +324,10 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         elif trigger_type == 'bitbucket':
             # This code is for BitBucket mirror:
             RepoConfig["gcb_branch_name"] = gcb_branch_name # pulumi.Config().get('gcb_branch_name') or 'master'
-            RepoConfig["gcb_bb_name"] = repo_name 
+            # Google uses sth like this 'bitbucket_palladius_gprojects' so you need to use same nomenclature
+#            RepoConfig["gcb_bb_name"] = repo_name 
             RepoConfig["gcb_bb_owner"] = repo_owner 
+            RepoConfig["gcb_bb_name"] = f"bitbucket_{repo_owner}_{repo_name}" 
 
             trigger_template_bitbucket = gcp.cloudbuild.TriggerTriggerTemplateArgs(
                     branch_name=RepoConfig["gcb_branch_name"] , # "master", # not MAIN :/

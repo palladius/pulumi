@@ -26,6 +26,10 @@ whoami:
 
 up:
 	pulumi up --yes --message 'Issued from Makefile (💄 make up)'
+	echo 'OK 👍'
+
+# refresh the state and reconcile with reality if you are suicidal enough to delete sth on UI :) 
+
 
 debug:
 	echo 'Showing up without showing the verbose outputs'
@@ -45,3 +49,6 @@ install-python-and-virtualenv:
 	python3 -m venv venv
 	# run this every time you add a new dependency..
 	venv/bin/pip install -r requirements.txt
+
+show-triggers:
+	bin/gcloud-show-triggers.sh

@@ -41,9 +41,10 @@ Pulumi config:
 
 # UberConfig (CB module) NEW 2023!
 
-cbrc_uber_config:
+**cbrc_uber_config** with an array of configs from my magic module:
 
-**`${outputs.cbrc_uber_config}`**
+<pre>${outputs.cbrc_uber_config}
+</pre>
 
 # Cloud Build Latest stats
 
