@@ -27,6 +27,10 @@ whoami:
 up:
 	pulumi up --yes --message 'Issued from Makefile (💄 make up)'
 
+debug:
+	echo 'Showing up without showing the verbose outputs'
+	pulumi up --suppress-outputs 
+
 # thanks SO :)
 tag-example:
 	git tag 1.0 -a

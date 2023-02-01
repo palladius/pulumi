@@ -1,8 +1,29 @@
-'''My first python component!
+'''My first python component! This wraps around a Cloud Build trigger and looks for a specific folder 
+on BB or GH.
 
 Some docs:
 * https://github.com/pulumi/examples/tree/master/classic-azure-py-webserver-component
 * https://github.com/pulumi/examples/blob/master/classic-azure-py-webserver-component/webserver.py
+
+Supported CLoud Build repos (of 6 available):
+
+1. GitHub (Cloud Build GitHub App)
+   Build source code in response to pull requests and pushes.
+   Riccardo calls it 'github'
+
+2. GHE - nope
+
+3. GHEE - nope
+
+4. BB S - nope
+
+5. BB DC - nope
+
+6. Bitbucket Cloud (mirrored) BETA
+   Build source code in response to pushes, mirrored through Cloud Source Repositories.
+   Riccardo calls it 'bitbucket'
+
+File a PR to add new functionality!
 '''
 
 import pulumi
@@ -21,7 +42,7 @@ def infer_repo_service_from_url(url):
     if re.match("^https://bitbucket.org", url):
         return 'bitbucket'
     raise Exception(
-        f"Exception: unknown GIT provider (I only know GH and BB): {url}"
+        f"Exception: unknown GIT provider (I only know GH and BB): '{url}'"
     )
 
 def infer_shortened_repo_service_from_url(url):
@@ -99,17 +120,24 @@ class CloudBuildRiccComponentArgs:
         #useless_bucket: Input[str],
         magic_repo_url: Input[str],
         code_folder: Input[str],
-        cdb_access_token: Input[str],
+        cdb_access_token: Input[str], # TODO make this mandatory.
+        code_branch: Input[str],
     ):
         #self.useless_bucket = useless_bucket
         self.magic_repo_url = magic_repo_url
-        self.code_folder = code_folder
         self.cdb_access_token = cdb_access_token or pulumi.Config().require('cloud-build-access-token')
-        self.gcb_repo_type = infer_repo_service_from_url(magic_repo_url)
-        self.gcb_repo_type_short = infer_shortened_repo_service_from_url(magic_repo_url)
-        self.repo_owner = infer_repo_owner_from_url(magic_repo_url)
-        self.repo_name = infer_repo_name_from_url(magic_repo_url)
-
+        self.gcb_repo_type = infer_repo_service_from_url(magic_repo_url) # github or bitbucket
+        self.gcb_repo_type_short = infer_shortened_repo_service_from_url(magic_repo_url) # BB or GH
+        self.repo_owner = infer_repo_owner_from_url(magic_repo_url) # eg, 'palladius'
+        self.repo_name = infer_repo_name_from_url(magic_repo_url) # eg, 'kubernetes'
+        if code_folder == None and code_branch == None:
+            # In this case, I'll use AUTO parsign from URL
+            self.branch = infer_branch_from_magic_url(magic_repo_url) # eg, 'main'
+            self.code_folder = infer_code_folder_from_magic_url(magic_repo_url) # eg, 'examples/my-pulumi-folder/'
+        else:
+            self.branch = code_branch # main, master, ..
+            self.code_folder = code_folder
+    
 
 class CloudBuildRiccComponent(pulumi.ComponentResource):
     '''Riccardo vision of CBv1 Component in python.
@@ -180,7 +208,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         # raise exception unless ...
         repo_owner = infer_repo_owner_from_url(args.magic_repo_url)
         repo_name  = infer_repo_name_from_url(args.magic_repo_url)
-        gcb_branch_name =  infer_branch_from_args(args)
+        gcb_branch_name = args.branch # infer_branch_from_args(args)
 
         RepoConfig["miniUrl"] = f"{args.gcb_repo_type_short}://{repo_owner}:{repo_name}/^{gcb_branch_name}"
 
