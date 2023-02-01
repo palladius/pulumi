@@ -98,12 +98,26 @@ def infer_branch_from_magic_url(magic_repo_url): # eg, 'main'
     https://bitbucket.org/palladius/foo/src/master/path/to/folder        => "master"
     
     '''
-    bbm = re.match("^https://bitbucket.org/(.*)/(.*)/src/(.*)/(.*)", url):
+    # These two regexes have the following fields:
+    # m[0]: user
+    # m[1]: repo
+    # m[2]: branch
+    # m[3]: folder
+    UberRegex = "^https://{service}/([a-z_-]+)/([a-z_-]+)/{src_or_tree}/([^/]*)/(.*)[/]?$"
+    BitbucketRegex = UberRegex.format(service='bitbucket.org', src_or_tree='src') 
+    #"^https://bitbucket.org/([a-z_-]+)/([a-z_-]+)/src/([^/]*)/(.*)[/]?$"
+    GithubRegex    =   UberRegex.format(service='github.com', src_or_tree='tree') 
+    #GithubRegex    =    "^https://github.com/(.*)/(.*)/tree/(.*)/(.*)$"
+
+    bbm = re.match(BitbucketRegex, magic_repo_url)
     if bbm:
-        return bbm.group(2)
-    #if m = re.match("^https://github.com/(.*)/(.*)/tree/(.*)/(.*)", url):
-    #    return m.group(2)
+        return bbm.group(3)
+    ghm= re.match(GithubRegex, magic_repo_url)
+    if ghm:
+        return ghm.group(3)
+    raise Exception(f"Illogical Regex for infer_branch_from_magic_url('{magic_repo_url}'): this doesnt smell either BB or GH!")
     return 'ERROR-branch' # :)
+
 def infer_code_folder_from_magic_url(magic_repo_url): # eg, 'examples/my-pulumi-folder/'
     return 'TODO/path/to/folder'
 
@@ -132,8 +146,6 @@ class CloudBuildRiccComponentArgs:
         pulumi-user: PULUMI_USER  (possibly useless, eg ' palladius')
 
     '''
-
-
     def __init__(
         self, 
         #resource_group: core.ResourceGroup,
@@ -196,16 +208,8 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
             f"cbrc_{name}_bucket_url": bucket.url,                  # also id, selfLink
             #"cbrc_gcb_repo_type": args.gcb_repo_type,
         })
-        # https://github.com/pulumi/pulumi/issues/2394 
-        # Calling 'registerOutputs' twice leads to a crash. #2394
+        # Calling 'registerOutputs' twice leads to a crash. See https://github.com/pulumi/pulumi/issues/2394 
 
-
-        # the caller can pass an explicit GCP provider:
-#         component = MyComponent('...', ResourceOptions(providers={
-#            'aws': useast1,
-#            'gcp': myproject,
-#            'kubernetes': myk8s,
-#           }))
 
         
     def create_cloud_build_trigger(self, args, child_opts):
@@ -229,9 +233,9 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         
         
         # raise exception unless ...
-        repo_owner = infer_repo_owner_from_url(args.magic_repo_url)
-        repo_name  = infer_repo_name_from_url(args.magic_repo_url)
-        gcb_branch_name = args.branch # infer_branch_from_args(args)
+        repo_owner = args.repo_owner # infer_repo_owner_from_url(args.magic_repo_url)
+        repo_name  = args.repo_name # infer_repo_name_from_url(args.magic_repo_url)
+        gcb_branch_name = args.branch
 
         RepoConfig["miniUrl"] = f"{args.gcb_repo_type_short}://{repo_owner}:{repo_name}/^{gcb_branch_name}"
 
@@ -259,7 +263,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
             # GH documented here: https://www.pulumi.com/registry/packages/gcp/api-docs/cloudbuild/trigger/#triggergithub
             RepoConfig["gcb_gh_name"] = repo_name  # pulumi.Config().get('gcb_gh_name') or 'pulumi'
             RepoConfig["gcb_gh_owner"] = repo_owner  # pulumi.Config().get('gcb_gh_owner') or DefaultGithubOwner
-            RepoConfig["gcb_gh_branch"] = "^main$" # TODO(add to parameters) # pulumi.Config().get('gcb_gh_branch') or "^main$"
+            RepoConfig["gcb_gh_branch"] = gcb_branch_name #"^main$" # TODO(add to parameters) # pulumi.Config().get('gcb_gh_branch') or "^main$"
             # trigger_template_github = gcp.cloudbuild.TriggerTriggerTemplateArgs(
             #     #branch_name=RepoConfig["branch_name"] , # "master", # not MAIN :/
             #     github=gcp.cloudbuild.TriggerGithubArgs(
@@ -275,7 +279,8 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                     #pull_request=
                     #pull_request=gcp.cloudbuild.TriggerGithubPullRequest(),
                     push=gcp.cloudbuild.TriggerGithubPushArgs(
-                        branch="^main$",
+                        #branch="^main$",
+                        branch=f"^{gcb_branch_name}$",
                     ),
 
                     #pull_request=gcp.cloudbuild.TriggerGithubPullRequest(
@@ -302,15 +307,14 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
 
         # Case 2. BitBucket
         elif trigger_type == 'bitbucket':
-            # todo when GH works, create a config which gicves everything.
             # This code is for BitBucket mirror:
             RepoConfig["gcb_branch_name"] = gcb_branch_name # pulumi.Config().get('gcb_branch_name') or 'master'
-            RepoConfig["gcb_repo_name"] = repo_name # pulumi.Config().get('gcb_repo_name') or 'pulumi'
-
+            RepoConfig["gcb_bb_name"] = repo_name 
+            RepoConfig["gcb_bb_owner"] = repo_owner 
 
             trigger_template_bitbucket = gcp.cloudbuild.TriggerTriggerTemplateArgs(
                     branch_name=RepoConfig["gcb_branch_name"] , # "master", # not MAIN :/
-                    repo_name=RepoConfig["gcb_repo_name"], # eg, "bitbucket_palladius_gprojects", # scoperto con $ gcloud beta builds triggers describe 9667bf06-41a8-4a04-b9cf-d908ba868c4a
+                    repo_name=RepoConfig["gcb_bb_name"], # eg, "bitbucket_palladius_gprojects", # scoperto con $ gcloud beta builds triggers describe 9667bf06-41a8-4a04-b9cf-d908ba868c4a
                     #opts=child_opts, 
             )
             pulumi_autobuild_trigger = gcp.cloudbuild.Trigger(
