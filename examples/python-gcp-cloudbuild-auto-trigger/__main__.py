@@ -75,52 +75,50 @@ def main():
     # Component stuff
     
     UberReposConfig = []
-    myCloudBuildRepos = [
-        CloudBuildRiccComponent("public-examples",CloudBuildRiccComponentArgs(
-            'https://github.com/palladius/examples', # Fork of https://github.com/pulumi/examples/ .. cant connect to repo i dont own :/
-            'gcp-py-cloudrun-cloudsql/', # https://github.com/pulumi/examples/tree/master/gcp-py-cloudrun-cloudsql
-            pulumi.Config().require('cloud-build-access-token'),
-            'masterZZZ',
-            # => https://github.com/palladius/examples/tree/master/gcp-py-cloudrun-cloudsql
-        )),
-        # CloudBuildRiccComponent("ricc-bitbucky-fails",CloudBuildRiccComponentArgs(
-        #     'https://bitbucket.org/palladius/gic/',
-        #     '',
-        #     None,
-        # )),
-        CloudBuildRiccComponent("ricc-bitbucky-should-work",CloudBuildRiccComponentArgs(
-            'https://bitbucket.org/palladius/gprojects/',
-            'pulumi/20220910-kuberic/',
-            pulumi.Config().require('cloud-build-access-token'),
-            'masterZZZ',
-        )),
-        CloudBuildRiccComponent("riccardo-pulumi",CloudBuildRiccComponentArgs(
-            'https://github.com/palladius/pulumi/',
-            'examples/python-gcp-cloudbuild-auto-trigger/',
-            pulumi.Config().require('cloud-build-access-token'),
-            'main',
-        )),
-        CloudBuildRiccComponent("folder-validator-todo",CloudBuildRiccComponentArgs(
-            'https://github.com/palladius/pulumi-folders-validator/',
-            'examples/example1/', # still doesnt exist... for tomorrow
-            pulumi.Config().require('cloud-build-access-token'),
-            'main',
-        )),
-        CloudBuildRiccComponent("challenge-in-a-box",CloudBuildRiccComponentArgs(
-            'https://github.com/palladius/gcp-pulumi-challenge-in-a-box/',
-            'gcp-pulumi-challenge/', # still doesnt exist... for tomorrow
-            pulumi.Config().require('cloud-build-access-token'),
-            'main',
-        )),
+    myCloudBuildRepos = []
+    # myCloudBuildRepos = [
+    #     CloudBuildRiccComponent("public-examples",CloudBuildRiccComponentArgs(
+    #         'https://github.com/palladius/examples', # Fork of https://github.com/pulumi/examples/ .. cant connect to repo i dont own :/
+    #         pulumi.Config().require('cloud-build-access-token'),
+    #         'gcp-py-cloudrun-cloudsql/', # https://github.com/pulumi/examples/tree/master/gcp-py-cloudrun-cloudsql
+    #         'masterZZZ',
+    #         # => https://github.com/palladius/examples/tree/master/gcp-py-cloudrun-cloudsql
+    #     )),
+    #     CloudBuildRiccComponent("ricc-bitbucky-should-work",CloudBuildRiccComponentArgs(
+    #         'https://bitbucket.org/palladius/gprojects/',
+    #         pulumi.Config().require('cloud-build-access-token'),
+    #         'pulumi/20220910-kuberic/',
+    #         'masterZZZ',
+    #     )),
+    #     CloudBuildRiccComponent("riccardo-pulumi",CloudBuildRiccComponentArgs(
+    #         'https://github.com/palladius/pulumi/',
+    #         pulumi.Config().require('cloud-build-access-token'),
+    #         'examples/python-gcp-cloudbuild-auto-trigger/',
+    #         'main',
+    #     )),
+    #     CloudBuildRiccComponent("folder-validator-todo",CloudBuildRiccComponentArgs(
+    #         'https://github.com/palladius/pulumi-folders-validator/',
+    #         pulumi.Config().require('cloud-build-access-token'),
+    #         'examples/example1/', # still doesnt exist... for tomorrow
+    #         'mainZZZ',
+    #     )),
+    #     CloudBuildRiccComponent("challenge-in-a-box",CloudBuildRiccComponentArgs(
+    #         'https://github.com/palladius/gcp-pulumi-challenge-in-a-box/',
+    #         pulumi.Config().require('cloud-build-access-token'),
+    #         'gcp-pulumi-challenge/', # still doesnt exist... for tomorrow
+    #         'main',
+    #     )),
         
-    ]
+    # ]
     # Second generation, 2B implemented:
-    myNextGenerationCloudReposFromStackConfig = pulumi.Config().require('cbrc_magic_repos')
-    for ix, cbrc_repo in enumerate(myNextGenerationCloudReposFromStackConfig):
+    myNextGenerationCloudReposFromStackConfig = pulumi.Config().require_object('cbrc_magic_repos')
+    #print("DEB: myNextGenerationCloudReposFromStackConfig: ", myNextGenerationCloudReposFromStackConfig)
+    for ix, magic_repo in enumerate(myNextGenerationCloudReposFromStackConfig):
+        print(f"DEB[cbrc_repo #{ix}] => '''{magic_repo}'''")
         myComponent = CloudBuildRiccComponent(f"cbrc_magic_repo{ix}", CloudBuildRiccComponentArgs(
-            cbrc_repo,
-            None,
+            magic_repo,
             pulumi.Config().require('cloud-build-access-token'),
+            None,
             None,
         ))
         UberReposConfig.append(myComponent.repo_config)

@@ -34,6 +34,12 @@ from pulumi import asset, Input, Output, ComponentResource, ResourceOptions
 from lib.ric_config import MyProject, MyRegion, AppName, AppNameLower, PulumiStack, PulumiProject, PulumiUser, ShortPulumiProject, print_red
 import re
 
+AcceptedRepos = ['bitbucket', 'github' ]
+DefaultBranchByRepo = {
+    # TODO remove default when it works :)
+    "bitbucket": "master-default", 
+    "github": "main-default",
+}
 
 ## Utilities
 def infer_repo_service_from_url(url):
@@ -68,8 +74,8 @@ def infer_repo_owner_from_url(magic_repo_url):
 
 def infer_repo_name_from_url(magic_repo_url):
     '''
-    https://github.com/palladius/clouddeploy-platinum-path => "clouddeploy-platinum-path"
-    https://bitbucket.org/palladius/foo/src/master/        => "foo"
+    https://github.com/palladius/clouddeploy-platinum-path/ => "clouddeploy-platinum-path"
+    https://bitbucket.org/palladius/foo/src/master/path/to/folder        => "foo"
     '''
     # Should be the FIRTH OF FIFTH part:
     # ['https:', '', 'bitbucket.org', 'palladius', 'foo', 'src', 'master', '']
@@ -86,9 +92,20 @@ def infer_repo_name_from_url(magic_repo_url):
 #     return 'master'
 
 def infer_branch_from_magic_url(magic_repo_url): # eg, 'main'
-    pass
+    '''Will auto infer, if not, will use magic defaults.
+    
+    https://github.com/pulumi/pulumi/tree/master/tests/examples/formattable => "master"
+    https://bitbucket.org/palladius/foo/src/master/path/to/folder        => "master"
+    
+    '''
+    bbm = re.match("^https://bitbucket.org/(.*)/(.*)/src/(.*)/(.*)", url):
+    if bbm:
+        return bbm.group(2)
+    #if m = re.match("^https://github.com/(.*)/(.*)/tree/(.*)/(.*)", url):
+    #    return m.group(2)
+    return 'ERROR-branch' # :)
 def infer_code_folder_from_magic_url(magic_repo_url): # eg, 'examples/my-pulumi-folder/'
-    pass
+    return 'TODO/path/to/folder'
 
 #        self.repo_owner = infer_repo_owner_from_url(magic_repo_url)
 #        self.repo_name = infer_repo_name_from_url(magic_repo_url)
@@ -125,13 +142,13 @@ class CloudBuildRiccComponentArgs:
         #password: Input[str],
         #useless_bucket: Input[str],
         magic_repo_url: Input[str],
-        code_folder: Input[str],
         cdb_access_token: Input[str], # TODO make this mandatory.
+        code_folder: Input[str],
         code_branch: Input[str],
     ):
         #self.useless_bucket = useless_bucket
         self.magic_repo_url = magic_repo_url
-        self.cdb_access_token = cdb_access_token or pulumi.Config().require('cloud-build-access-token')
+        self.cdb_access_token = cdb_access_token # or pulumi.Config().require('cloud-build-access-token')
         self.gcb_repo_type = infer_repo_service_from_url(magic_repo_url) # github or bitbucket
         self.gcb_repo_type_short = infer_shortened_repo_service_from_url(magic_repo_url) # BB or GH
         self.repo_owner = infer_repo_owner_from_url(magic_repo_url) # eg, 'palladius'
