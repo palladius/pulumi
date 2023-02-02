@@ -68,7 +68,55 @@ def create_cloud_build_triggers_with_new_module():
     #myCloudBuildRepos = []
     myCloudBuildRepos = []
     CloudBuildAccessToken = pulumi.Config().require('cloud-build-access-token')
-        # I get an error like this was NOT connected. When i validate it on GH, it has a different icons, since this is NOT my repo,
+    # Second generation, 2B implemented:
+    myNextGenerationCloudReposFromStackConfig = pulumi.Config().require_object('cbr2c_magic_repos')
+    #print("DEB: myNextGenerationCloudReposFromStackConfig: ", myNextGenerationCloudReposFromStackConfig)
+    for ix, magic_repo_hash in enumerate(myNextGenerationCloudReposFromStackConfig):
+        print(f"DEB[cbr2c_repo #{ix}] => '''{magic_repo_hash}'''")
+        myComponent = CloudBuildRiccComponent(f"configrepo{ix}", CloudBuildRiccComponentArgs(
+            magic_repo_hash['repo'],
+            CloudBuildAccessToken,
+            None,
+            None,
+            magic_repo_hash['cloudbuild_subpath'],
+            ix,
+            magic_repo_hash['description'],            
+        ))
+        UberReposConfig.append(myComponent.repo_config)
+
+    for cbr2c_repo in myCloudBuildRepos:
+        UberReposConfig.append(cbr2c_repo.repo_config)
+    # OUTPUTS:
+    pulumi.export("cbr2c_uber_config", UberReposConfig)
+
+def main():
+    init()
+    setup_apis()
+    setup_gcs()
+    #setup_gke()
+    setup_palladius_apps()
+    # Old way (lib/meta_cloud_build.py)
+    if  pulumi.Config().get('activate-old-v1-build-too') == 'yes-i-am-sure':
+        create_cloud_build_trigger()
+    # New way (Component, currently terraforming but not auto-building, YET)
+    create_cloud_build_triggers_with_new_module()
+    
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+      # I get an error like this was NOT connected. When i validate it on GH, it has a different icons, since this is NOT my repo,
         # its a branch of another repo
         # CloudBuildRiccComponent("pally-examples",CloudBuildRiccComponentArgs(
         #     # https://github.com/palladius/examples/tree/master/gcp-py-cloudrun-cloudsql
@@ -110,37 +158,3 @@ def create_cloud_build_triggers_with_new_module():
     #     )),
     #)
     #]
-    # Second generation, 2B implemented:
-    myNextGenerationCloudReposFromStackConfig = pulumi.Config().require_object('cbr2c_magic_repos')
-    #print("DEB: myNextGenerationCloudReposFromStackConfig: ", myNextGenerationCloudReposFromStackConfig)
-    for ix, magic_repo_hash in enumerate(myNextGenerationCloudReposFromStackConfig):
-        print(f"DEB[cbr2c_repo #{ix}] => '''{magic_repo_hash}'''")
-        myComponent = CloudBuildRiccComponent(f"configrepo{ix}", CloudBuildRiccComponentArgs(
-            magic_repo_hash['repo'],
-            CloudBuildAccessToken,
-            None,
-            None,
-            magic_repo_hash['cloudbuild_subpath'],
-            ix,
-            magic_repo_hash['description'],            
-        ))
-        UberReposConfig.append(myComponent.repo_config)
-
-    for cbr2c_repo in myCloudBuildRepos:
-        UberReposConfig.append(cbr2c_repo.repo_config)
-    # OUTPUTS:
-    pulumi.export("cbr2c_uber_config", UberReposConfig)
-
-def main():
-    init()
-    setup_apis()
-    setup_gcs()
-    #setup_gke()
-    setup_palladius_apps()
-    # Old way (lib/meta_cloud_build.py)
-    create_cloud_build_trigger()
-    # New way (Component, currently terraforming but not auto-building, YET)
-    create_cloud_build_triggers_with_new_module()
-    
-if __name__ == "__main__":
-    main()

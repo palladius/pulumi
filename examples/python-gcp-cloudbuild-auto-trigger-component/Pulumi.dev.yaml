@@ -16,4 +16,4 @@ config:
   python-gcp-cloudbuild-auto-trigger-component:where-am-i: 'Locally on my computer (change to equally humorous comment)'
   python-gcp-cloudbuild-auto-trigger-component:cbr2c_magic_repos: []
   # MAGIC repos should be the permalink on GH or BB to your folder. Note that it includes the branch (under /tree/ for GH, or /src/ for BB)
-  python-gcp-cloudbuild-auto-trigger-component:activate-old-v1-build-too: false
+  python-gcp-cloudbuild-auto-trigger-component:activate-old-v1-build-too: nope # only works with 'yes-i-am-sure'
