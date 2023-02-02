@@ -73,7 +73,7 @@ def create_cloud_build_triggers_with_new_module():
             None,
             magic_repo_hash['cloudbuild_subpath'],
             ix,
-            magic_repo_hash['description'],            
+            magic_repo_hash.get('description', "🏛️Descriptio non datur"),
         ))
         UberReposConfig.append(myComponent.repo_config)
 

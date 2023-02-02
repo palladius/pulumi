@@ -67,6 +67,7 @@ pulumi config
   echo 'Note theres something intrinsically broken with this use case. I have N triggers defined locally but when I trigger one to the cloud'
   pulumi config set --path 'cbr2c_magic_repos[0].repo'               'https://github.com/palladius/pulumi/tree/main/examples/python-gcp-cloudbuild-auto-trigger'
   pulumi config set --path 'cbr2c_magic_repos[0].cloudbuild_subpath' 'cloudbuild/cloudbuild.yaml'
+  pulumi config set --path 'cbr2c_magic_repos[0].description'        "Created by $0 v $VER programmatically."
   #pulumi config set --path 'cbr2c_magic_repos[1].repo'               'https://github.com/palladius/pulumi/tree/main/examples/python-gcp-cloudbuild-auto-trigger-component'
   #pulumi config set --path 'cbr2c_magic_repos[1].cloudbuild_subpath' 'cloudbuild-v2/cloudbuild.yaml'
   
