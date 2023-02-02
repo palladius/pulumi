@@ -15,6 +15,12 @@ config:
     - cloudbuild_subpath: ../python-gcp-cloudbuild-auto-trigger-component/cloudbuild-v2/cloudbuild.yaml
       description: My First Repo with my second CB script
       repo: https://github.com/palladius/pulumi/tree/main/examples/python-gcp-cloudbuild-auto-trigger
+    - cloudbuild_subpath: ../python-gcp-cloudbuild-auto-trigger-component/cloudbuild-v2/cloudbuild.yaml
+      description: My First Repo with my second CB script
+      repo: https://github.com/palladius/pulumi/tree/main/examples/python-gcp-cloudbuild-auto-trigger
+    - description: this BB should work.. but so far BB escaped auto-building.
+      repo: https://bitbucket.org/palladius/gprojects/src/master/pulumi/20220910-kuberic/
+      cloudbuild_subpath: cloudbuild/cloudbuild.yaml
   python-gcp-cloudbuild-auto-trigger-component:cloud-build-access-token: pul-5baeb083ce36685688e4db2a21e22a498a09dd30
   python-gcp-cloudbuild-auto-trigger-component:cloudbuild-repository-name: palladius/pulumi
   python-gcp-cloudbuild-auto-trigger-component:favourite_color: red-yellow-black
