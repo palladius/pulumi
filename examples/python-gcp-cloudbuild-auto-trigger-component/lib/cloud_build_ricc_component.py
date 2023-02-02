@@ -70,7 +70,7 @@ def infer_repo_owner_from_url(magic_repo_url):
     '''
     # Should be the FOURTH part:
     # ['https:', '', 'bitbucket.org', 'palladius', 'foo', 'src', 'master', '']
-    print(f"DEBUG: infer_repo_owner_from_url({magic_repo_url}) => { magic_repo_url.split('/')[3]}")
+    #print(f"DEBUG: infer_repo_owner_from_url({magic_repo_url}) => { magic_repo_url.split('/')[3]}")
     return magic_repo_url.split('/')[3]
 
 def infer_repo_name_from_url(magic_repo_url):
@@ -80,7 +80,7 @@ def infer_repo_name_from_url(magic_repo_url):
     '''
     # Should be the FIRTH OF FIFTH part:
     # ['https:', '', 'bitbucket.org', 'palladius', 'foo', 'src', 'master', '']
-    print(f"DEBUG: infer_repo_name_from_url({magic_repo_url}) => { magic_repo_url.split('/')[4]}")
+    #print(f"DEBUG: infer_repo_name_from_url({magic_repo_url}) => { magic_repo_url.split('/')[4]}")
     return magic_repo_url.split('/')[4]
 
 
@@ -351,7 +351,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                 sanitized_trigger_name,
                 filename=filename_local_path,
                 substitutions=common_substitutions,
-                description=f"""[GH] {args.description} -- See https://github.com/palladius/pulumi This meta-trigger tries to build itself from a GitHUb repo"""[0:99], # max 100 chars
+                description=f"""[GH][{PulumiStack}] {args.description} -- See https://github.com/palladius/pulumi This meta-trigger tries to build itself from a GitHUb repo"""[0:99], # max 100 chars
                 included_files=[
                     f"{code_local_path}/**", # should be JUST the app part...
                 ],
@@ -378,7 +378,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                 trigger_name,
                 filename=filename_local_path,
                 substitutions=common_substitutions,
-                description=f"""[BB] {args.description} -- See https://github.com/palladius/pulumi This meta-trigger tries to build itself from a BitBucket repo"""[0:99], # max 100 chars
+                description=f"""[BB][{PulumiStack}] {args.description} -- See https://github.com/palladius/pulumi This meta-trigger tries to build itself from a BitBucket repo"""[0:99], # max 100 chars
                 included_files=[
                     f"{code_local_path}/**", # should be JUST the app part...
                 ],

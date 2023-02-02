@@ -31,6 +31,7 @@ up:
 # refresh the state and reconcile with reality if you are suicidal enough to delete sth on UI :) 
 
 
+preview: debug
 debug:
 	echo 'Showing up without showing the verbose outputs'
 	pulumi up --suppress-outputs 
