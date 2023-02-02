@@ -55,7 +55,14 @@ pulumi config
   pulumi config set pulumi-user `pulumi whoami`
   # Volcano is the Greek God of building -> and I see Volcano lava as orange.
   pulumi config set favourite_color 'its all Orange here in the Cloud'
-
+  #pulumi config set cbr2c_magic_repos[2].repo bar
+  #pulumi config set cbr2c_magic_repos[2].foo baz
+  #pulumi config set --path 'tests[2].repo' 'cloudbuild/cloudbuild.yaml'
+  #pulumi config set --path 'tests[2].path' 'https://github.com/palladius/pulumi/tree/main/examples/python-gcp-cloudbuild-auto-trigger'
+  pulumi config set --path 'cbr2c_magic_repos[0].repo'               'https://github.com/palladius/pulumi/tree/main/examples/python-gcp-cloudbuild-auto-trigger'
+  pulumi config set --path 'cbr2c_magic_repos[0].cloudbuild_subpath' 'cloudbuild/cloudbuild.yaml'
+  pulumi config set where-am-i 'In the Cloud, most likely.'
+  
 # NERD part - this is my verbose will to see debug info in the target system. Could probably get them from verbose logs but - hey! I'm enjoying this, ok? :)
 pulumi config set cloud-build-executing-script-at "$(date)"
 pulumi config set cloud-build-executing-script-on "$(hostname)"

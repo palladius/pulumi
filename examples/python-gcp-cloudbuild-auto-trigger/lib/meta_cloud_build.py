@@ -25,13 +25,11 @@ def create_cloud_build_trigger():
     # raise exception unless ...
 
     # Common Config
-    #trigger_name = f"pu-{ShortPulumiProject}-meta-trigger-{trigger_type}"
     trigger_name = f"pumtv1-{trigger_type_shorter}-{ShortPulumiProject}"
     common_substitutions = {
                 "_PULUMI_PROJECT": PulumiProject,
                 "_PULUMI_USER": PulumiUser,
                 "_PULUMI_STACK": PulumiStack,
-                #"_NOTULE_DE_LI_SOLLAZZI": "Carlessian notes to self in - ENVironmental friendly", # put stuff here if you need to talk to yourself in the UI
                 "_INSECURE_SUBSTITUTION_PULUMI_ACCESS_TOKEN": pulumi.Config().require('cloud-build-access-token'),
                 "_CODE_SUBFOLDER":  pulumi.Config().require('rmp-code-folder'),
                 "_GCP_REGION": MyRegion,
