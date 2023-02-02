@@ -9,7 +9,7 @@ RepoConfig = {}
 DefaultGithubOwner = 'palladius'
 
 def get_cloudbuild_subpath(code_local_path):
-    return f"{code_local_path}/cloudbuild/cloudbuild_v2.yaml"
+    return f"{code_local_path}/cloudbuild_v2/cloudbuild.yaml" #  (obsolete)
 
 
 def create_cloud_build_trigger():
@@ -27,7 +27,7 @@ def create_cloud_build_trigger():
     # raise exception unless ...
 
     # Common Config
-    trigger_name = f"pumtv2-{trigger_type_shorter}-{ShortPulumiProject}" # obsolete
+    trigger_name = f"pumtv2-obsolete-{trigger_type_shorter}-{ShortPulumiProject}" # obsolete
     common_substitutions = {
                 "_PULUMI_PROJECT": PulumiProject,
                 "_PULUMI_USER": PulumiUser,

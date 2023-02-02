@@ -186,6 +186,7 @@ class CloudBuildRiccComponentArgs:
         cdb_access_token: Input[str], # TODO make this mandatory.
         code_folder: Input[str],
         code_branch: Input[str],
+        cloudbuild_subpath: Input[str],
     ):
         #self.useless_bucket = useless_bucket
         self.magic_repo_url = magic_repo_url
@@ -194,6 +195,11 @@ class CloudBuildRiccComponentArgs:
         self.gcb_repo_type_short = infer_shortened_repo_service_from_url(magic_repo_url) # BB or GH
         self.repo_owner = infer_repo_owner_from_url(magic_repo_url) # eg, 'palladius'
         self.repo_name = infer_repo_name_from_url(magic_repo_url) # eg, 'kubernetes'
+
+        # This is reccommended but the secopnd also works: https://stackoverflow.com/questions/7338501/python-assign-value-if-none-exists
+        #self.path_to_cloudbuild = "cloudbuild-v2/cloudbuild.yaml" if cloudbuild_subpath is None else cloudbuild_subpath
+        self.path_to_cloudbuild = cloudbuild_subpath or "cloudbuild-v2/cloudbuild.yaml" # if cloudbuild_subpath is None else cloudbuild_subpath
+
         if code_folder == None and code_branch == None:
             # In this case, I'll use AUTO parsign from URL
             self.branch = infer_branch_from_magic_url(magic_repo_url) # eg, 'main'
@@ -251,7 +257,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         RepoConfig = {}
 
         code_local_path = args.code_folder.strip("/") # pulumi.Config().require('rmp-code-folder').strip("/")
-        filename_local_path = f'{code_local_path}/cloudbuild/cloudbuild.yaml' # This is an assumptiojn I gotta change
+        filename_local_path = f'{code_local_path}/{args.path_to_cloudbuild}' # cloudbuild/cloudbuild.yaml-ish
         trigger_type = args.gcb_repo_type # pulumi.Config().require('gcb_repo_type') # must be 'github' or 'bitbucket'
         RepoConfig["cbr2c_magic_repo_url"] = args.magic_repo_url
         RepoConfig["gcb_repo_type"] = trigger_type
@@ -352,7 +358,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                 filename=filename_local_path,
                 substitutions=common_substitutions,
                 description="""[pulumi] This meta-trigger tries to build itself from a BitBucket repo. wOOt!
-                See https://github.com/palladius/pulumi for more info
+                
                 """[0:99], # max 100 chars
                 included_files=[
                     f"{code_local_path}/**", # should be JUST the app part...

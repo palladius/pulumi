@@ -113,13 +113,14 @@ def create_cloud_build_triggers_with_new_module():
     # Second generation, 2B implemented:
     myNextGenerationCloudReposFromStackConfig = pulumi.Config().require_object('cbr2c_magic_repos')
     #print("DEB: myNextGenerationCloudReposFromStackConfig: ", myNextGenerationCloudReposFromStackConfig)
-    for ix, magic_repo in enumerate(myNextGenerationCloudReposFromStackConfig):
-        print(f"DEB[cbr2c_repo #{ix}] => '''{magic_repo}'''")
+    for ix, magic_repo_hash in enumerate(myNextGenerationCloudReposFromStackConfig):
+        print(f"DEB[cbr2c_repo #{ix}] => '''{magic_repo_hash}'''")
         myComponent = CloudBuildRiccComponent(f"config_repo{ix}", CloudBuildRiccComponentArgs(
-            magic_repo,
+            magic_repo_hash['repo'],
             CloudBuildAccessToken,
             None,
             None,
+            magic_repo_hash['cloudbuild_subpath'],
         ))
         UberReposConfig.append(myComponent.repo_config)
 
