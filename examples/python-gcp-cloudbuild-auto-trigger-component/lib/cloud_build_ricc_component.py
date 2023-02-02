@@ -270,11 +270,22 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         RepoConfig["cbr2c_multibuild_id"] = args.id
         RepoConfig["cbr2c_description"] = args.description
 
-        minirandomness_ix = local.Command(f"parametric_randomness_{args.id}",
-            create="openssl rand -hex 2"
-        )
-        RepoConfig["cbr2c_multibuild_id_with_minirandom"] = f"{args.id}_{minirandomness_ix}"
-        
+        minirandomness_ix = f"{PulumiStack}_{args.id}"
+        # minirandomness_ix = local.Command(
+        #     #args.id, # 
+        #     f"parametric_randomness_{args.id}",
+        #     create="openssl rand -hex 2"
+        # )
+        #pulumi.export(f"ricc_command_minirandomness_ix_{args.id}", minirandomness_ix.stdout)
+
+#        DEBUG = 
+        #fun = lambda x: x.apply(f"{args.id}_{x}")
+        #cbr2c_multibuild_id_with_minirandom = fun(minirandomness_ix.stdout) 
+        #RepoConfig["cbr2c_multibuild_id_with_minirandom"] = cbr2c_multibuild_id_with_minirandom
+        # url = virtual_machine.dns_name.apply(
+        #     lambda dns_name: "https://" + dns_name
+        # )
+ #       RepoConfig["cbr2c_multibuild_id_with_minirandom"] = f"{args.id}_{minirandomness_ix.output}"
         
         # raise exception unless ...
         repo_owner = args.repo_owner # infer_repo_owner_from_url(args.magic_repo_url)

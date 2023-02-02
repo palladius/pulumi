@@ -23,4 +23,11 @@ def add_some_random_commands():
     pulumi.export("ricc_command_uname", uname.stdout)
     pulumi.export("ricc_command_hostname", hostname.stdout)
     
+    for i in 1,2,3:
+        #print i 
+        randomness_i = local.Command(f"randomness_{i}",
+            create="openssl rand -hex 2"
+        )
+        pulumi.export(f"ricc_command_test_{i}", randomness_i.stdout)
+
 
