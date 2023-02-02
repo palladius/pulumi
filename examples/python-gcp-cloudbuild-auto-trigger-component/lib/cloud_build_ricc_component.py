@@ -124,6 +124,24 @@ def infer_branch_from_magic_url(magic_repo_url): # eg, 'main'
     return 'ERROR-branch' # :)
     return None 
 
+
+# def get_cloudbuild_subpath(code_local_path):
+#     return f"{code_local_path}/cloudbuild/cloudbuild_v2.yaml"
+
+def infer_code_folder_from_magic_url(magic_repo_url): # eg, 'examples/my-pulumi-folder/'
+    ''' TODO '''
+    #return "todo/cloudbuild_v2/cloudbuild.yaml"
+    bbm = re.match(BitbucketRegex, magic_repo_url)
+    if bbm:
+        return bbm.group(4)
+    ghm= re.match(GithubRegex, magic_repo_url)
+    if ghm:
+        return ghm.group(4)
+    raise Exception(f"Illogical Regex for infer_branch_from_magic_url('{magic_repo_url}'): this doesnt smell either BB or GH!")
+    return 'ERROR-branch' # :)
+    return None 
+
+
 def get_cloud_build_compatible_branch(branch):
     '''You say master/main  but you really want ^main$.
         Or, if None, you want ANYTHING (".*")
@@ -131,10 +149,6 @@ def get_cloud_build_compatible_branch(branch):
     if branch == None:
         return '.*'
     return f"^{branch}$"
-
-def infer_code_folder_from_magic_url(magic_repo_url): # eg, 'examples/my-pulumi-folder/'
-    ''' TODO '''
-    return 'TODO/path/to/folder'
 
 #        self.repo_owner = infer_repo_owner_from_url(magic_repo_url)
 #        self.repo_name = infer_repo_name_from_url(magic_repo_url)
@@ -309,6 +323,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                 filename=filename_local_path,
                 substitutions=common_substitutions,
                 description="""[pulumi] This meta-trigger tries to build itself from a GitHUb repo. wOOt!
+                See https://github.com/palladius/pulumi for more info
                 """[0:99], # max 100 chars
                 included_files=[
                     f"{code_local_path}/**", # should be JUST the app part...
@@ -337,6 +352,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                 filename=filename_local_path,
                 substitutions=common_substitutions,
                 description="""[pulumi] This meta-trigger tries to build itself from a BitBucket repo. wOOt!
+                See https://github.com/palladius/pulumi for more info
                 """[0:99], # max 100 chars
                 included_files=[
                     f"{code_local_path}/**", # should be JUST the app part...

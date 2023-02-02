@@ -8,6 +8,9 @@ from lib.ric_config import MyProject, MyRegion, AppName, AppNameLower, PulumiSta
 RepoConfig = {}
 DefaultGithubOwner = 'palladius'
 
+def get_cloudbuild_subpath(code_local_path):
+    return f"{code_local_path}/cloudbuild/cloudbuild_v2.yaml"
+
 
 def create_cloud_build_trigger():
     """This was SO EASY to do with BitBucket but hard on GH. Damn.
@@ -16,7 +19,7 @@ def create_cloud_build_trigger():
     """
 
     code_local_path = pulumi.Config().require('rmp-code-folder').strip("/")
-    filename_local_path = f'{code_local_path}/cloudbuild/cloudbuild.yaml'
+    filename_local_path = get_cloudbuild_subpath(code_local_path) 
     trigger_type = pulumi.Config().require('gcb_repo_type') # must be 'github' or 'bitbucket'
     trigger_type_shorter = 'gh' if (trigger_type == 'github') else 'bb' # simplified
     
