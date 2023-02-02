@@ -196,7 +196,6 @@ class CloudBuildRiccComponentArgs:
         self.gcb_repo_type_short = infer_shortened_repo_service_from_url(magic_repo_url) # BB or GH
         self.repo_owner = infer_repo_owner_from_url(magic_repo_url) # eg, 'palladius'
         self.repo_name = infer_repo_name_from_url(magic_repo_url) # eg, 'kubernetes'
-        #self.id = f"tmp-multibuild-{id}" # str(id)
         self.id = f"id{id}" # str(id)
         self.description = description or "No description provided 😭"
 
@@ -312,9 +311,8 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                     "_CODE_SUBFOLDER": args.code_folder, #  pulumi.Config().require('rmp-code-folder'),
                     "_GCP_REGION": MyRegion,
                     "_GCP_PROJECT": MyProject,
-                    #"_MULTIBUILD_STACK_ID": f"tmp-multibuild-{args.id}", # two different STACKS would have the same...
-                    "_MULTIBUILD_STACK_ID": f"tmp-multibuild-{minirandomness_ix}", # two different STACKS would have the same...
-                    
+                    #"_MULTIBUILD_STACK_ID": f"tmp-multibuild-{minirandomness_ix}", # two different STACKS would have the same...
+                    "_MULTIBUILD_STACK_ID": f"tmpmb-{minirandomness_ix}", # two different STACKS would have the same...
                 }
 
         # Case 1. GITHUB
