@@ -14,7 +14,7 @@ steps:
   - '-c'
   # TODO(ricc): adapt this to current example: examples/python-gcp-cloudbuild-auto-trigger/
   # even better, make it parametric.
-  - 'cd examples/python-gcp-cloudbuild-auto-trigger/ && chmod +x cloudbuild/*.sh && ./cloudbuild/pulumi-for-python.sh'
+  - 'cd examples/python-gcp-cloudbuild-auto-trigger/ && chmod +x cloudbuild/*.sh && ./cloudbuild/pulumi-for-python-v2.sh'
   env:
   - 'PULUMI_ACCESS_TOKEN=$_INSECURE_SUBSTITUTION_PULUMI_ACCESS_TOKEN'
   - 'BUILD_TYPE=$_BUILD_TYPE'
