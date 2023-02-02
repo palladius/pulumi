@@ -28,7 +28,8 @@ File a PR to add new functionality!
 
 import pulumi
 import pulumi_gcp as gcp
-#from pulumi_gcp import storage
+from pulumi_command import local
+
 from pulumi import asset, Input, Output, ComponentResource, ResourceOptions
 
 from lib.ric_config import MyProject, MyRegion, AppName, AppNameLower, PulumiStack, PulumiProject, PulumiUser, ShortPulumiProject, print_red
@@ -268,6 +269,11 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         RepoConfig["gcb_repo_type_short"] = args.gcb_repo_type_short # infer_shortened_repo_service_from_url(args.code_url)
         RepoConfig["cbr2c_multibuild_id"] = args.id
         RepoConfig["cbr2c_description"] = args.description
+
+        minirandomness_ix = local.Command(f"parametric_randomness_{args.id}",
+            create="openssl rand -hex 2"
+        )
+        RepoConfig["cbr2c_multibuild_id_with_minirandom"] = f"{args.id}_{minirandomness_ix}"
         
         
         # raise exception unless ...

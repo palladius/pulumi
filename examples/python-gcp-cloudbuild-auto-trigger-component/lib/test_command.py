@@ -17,6 +17,7 @@ def add_some_random_commands():
         create="hostname"
     )
 
+    # just me playing around for when I need this :)
     pulumi.export("ricc_command_random", random.stdout)
     pulumi.export("ricc_command_randomness", randomness.stdout)
     pulumi.export("ricc_command_uname", uname.stdout)
