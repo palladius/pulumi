@@ -1,2 +1,4 @@
 .DS_Store
 .echodo_history
+Pulumi.*.yaml
+.git-privatize
