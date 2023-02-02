@@ -15,6 +15,8 @@ from lib.meta_cloud_build import create_cloud_build_trigger
 from lib.cloud_build_ricc_component import *
 
 
+GCPServicesToBeEnabled = ['container', "cloudbuild", "iam"]
+
 
 # exporting lots of stuff for my awesome README :)
 def init():
@@ -42,19 +44,10 @@ def setup_gcs():
     bucket3 = storage.Bucket("hello-ghent-from-{}".format(PulumiStack), location="EU")
     pulumi.export('bucket_name', bucket.url) # the APpName one :)
 
-# def setup_gke():
-#     import lib.setup_gke
-
-
-
-def setup_palladius_apps():
-    """Reads AppConfig amd oterates through it creating nice k8s stuff"""
-    import lib.setup_palladius_apps
 
 
 def setup_apis():
     """Apparently Cloud Build API is not set up automatically. Damn. """
-    GCPServicesToBeEnabled = ['container', "cloudbuild", "iam"]
     for service in GCPServicesToBeEnabled:
         project = gcp.projects.Service(
             f"enable-srv-{service}",
@@ -93,8 +86,6 @@ def main():
     init()
     setup_apis()
     setup_gcs()
-    #setup_gke()
-    setup_palladius_apps()
     # Old way (lib/meta_cloud_build.py)
     if  pulumi.Config().get('activate-old-v1-build-too') == 'yes-i-am-sure':
         create_cloud_build_trigger()
