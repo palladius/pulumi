@@ -177,16 +177,15 @@ class CloudBuildRiccComponentArgs:
     '''
     def __init__(
         self, 
-        #resource_group: core.ResourceGroup,
         #subnet: network.Subnet,
         #username: Input[str],
         #password: Input[str],
-        #useless_bucket: Input[str],
         magic_repo_url: Input[str],
         cdb_access_token: Input[str], # TODO make this mandatory.
         code_folder: Input[str],
         code_branch: Input[str],
         cloudbuild_subpath: Input[str],
+        id: Input[str],
     ):
         #self.useless_bucket = useless_bucket
         self.magic_repo_url = magic_repo_url
@@ -195,6 +194,7 @@ class CloudBuildRiccComponentArgs:
         self.gcb_repo_type_short = infer_shortened_repo_service_from_url(magic_repo_url) # BB or GH
         self.repo_owner = infer_repo_owner_from_url(magic_repo_url) # eg, 'palladius'
         self.repo_name = infer_repo_name_from_url(magic_repo_url) # eg, 'kubernetes'
+        self.id = f"tmp-multibuild-{id}" # str(id)
 
         # This is reccommended but the secopnd also works: https://stackoverflow.com/questions/7338501/python-assign-value-if-none-exists
         #self.path_to_cloudbuild = "cloudbuild-v2/cloudbuild.yaml" if cloudbuild_subpath is None else cloudbuild_subpath
@@ -263,6 +263,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         RepoConfig["gcb_repo_type"] = trigger_type
         RepoConfig["cbr2c_name"] = self.name
         RepoConfig["gcb_repo_type_short"] = args.gcb_repo_type_short # infer_shortened_repo_service_from_url(args.code_url)
+        RepoConfig["cbr2c_multibuild_id"] = args.id
         
         
         # raise exception unless ...
@@ -290,6 +291,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                     "_CODE_SUBFOLDER": args.code_folder, #  pulumi.Config().require('rmp-code-folder'),
                     "_GCP_REGION": MyRegion,
                     "_GCP_PROJECT": MyProject,
+                    "_MULTIBUILD_STACK_ID": args.id,
                 }
 
         # Case 1. GITHUB

@@ -121,6 +121,7 @@ def create_cloud_build_triggers_with_new_module():
             None,
             None,
             magic_repo_hash['cloudbuild_subpath'],
+            ix,
         ))
         UberReposConfig.append(myComponent.repo_config)
 
