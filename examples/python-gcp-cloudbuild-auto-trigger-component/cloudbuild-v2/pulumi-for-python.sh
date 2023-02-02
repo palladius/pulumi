@@ -10,7 +10,7 @@
 export PULUMI_USER="${1:-palladius}"
 #export PULUMI_USER=`pulumi whoami`
 
-export SCRIPT_VER="1.5_230202ghent"
+export SCRIPT_VER="1.5.1_230202ghent"
 # exit if a command returns a non-zero exit code and also print the commands and their args as they are executed.
 set -e -x
 
@@ -67,7 +67,7 @@ pulumi config
   echo 'Note theres something intrinsically broken with this use case. I have N triggers defined locally but when I trigger one to the cloud'
   pulumi config set --path 'cbr2c_magic_repos[0].repo'               'https://github.com/palladius/pulumi/tree/main/examples/python-gcp-cloudbuild-auto-trigger'
   pulumi config set --path 'cbr2c_magic_repos[0].cloudbuild_subpath' 'cloudbuild/cloudbuild.yaml'
-  pulumi config set --path 'cbr2c_magic_repos[0].description'        "Created by $0 v $VER programmatically."
+  pulumi config set --path 'cbr2c_magic_repos[0].description'        "Created by $(basename $0) v $VER programmatically on stack $MULTIBUILD_STACK_ID (wOOt)"
   #pulumi config set --path 'cbr2c_magic_repos[1].repo'               'https://github.com/palladius/pulumi/tree/main/examples/python-gcp-cloudbuild-auto-trigger-component'
   #pulumi config set --path 'cbr2c_magic_repos[1].cloudbuild_subpath' 'cloudbuild-v2/cloudbuild.yaml'
   
