@@ -18,11 +18,14 @@ def create_cloud_build_trigger():
     code_local_path = pulumi.Config().require('rmp-code-folder').strip("/")
     filename_local_path = f'{code_local_path}/cloudbuild/cloudbuild.yaml'
     trigger_type = pulumi.Config().require('gcb_repo_type') # must be 'github' or 'bitbucket'
+    trigger_type_shorter = 'gh' if (trigger_type == 'github') else 'bb' # simplified
+    
     RepoConfig["gcb_repo_type"] = trigger_type
     # raise exception unless ...
 
     # Common Config
-    trigger_name = f"pu-{ShortPulumiProject}-meta-trigger-{trigger_type}"
+    #trigger_name = f"pu-{ShortPulumiProject}-meta-trigger-{trigger_type}"
+    trigger_name = f"pumt-{trigger_type_shorter}-{ShortPulumiProject}"
     common_substitutions = {
                 "_PULUMI_PROJECT": PulumiProject,
                 "_PULUMI_USER": PulumiUser,
