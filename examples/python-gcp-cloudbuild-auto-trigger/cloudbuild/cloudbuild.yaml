@@ -1,8 +1,8 @@
 # copied and elaborated from https://www.pulumi.com/docs/guides/continuous-delivery/google-cloud-build/
 #
 # BUILD_TYPE can be:
-# 1. "PullRequest" (preview) or
-# 2. anytihng else (apply): see shell script.
+# 1. "PullRequest"   (preview) or
+# 2. "Anything else" (apply): see shell script.
 # IT WORKS!
 #
 # ENV vars which are useful to us explained verbosely below.
@@ -12,10 +12,9 @@ steps:
   entrypoint: /bin/sh
   args:
   - '-c'
-  # TODO(ricc): adapt this 5tto current example: examples/python-gcp-cloudbuild-auto-trigger
+  # TODO(ricc): adapt this to current example: examples/python-gcp-cloudbuild-auto-trigger/
   # even better, make it parametric.
   - 'cd examples/python-gcp-cloudbuild-auto-trigger/ && chmod +x cloudbuild/*.sh && ./cloudbuild/pulumi-for-python.sh'
-  #- TODO 'cd $CODE_SUBFOLDER/ && chmod +x cloudbuild/*.sh && ./cloudbuild/pulumi.sh'
   env:
   - 'PULUMI_ACCESS_TOKEN=$_INSECURE_SUBSTITUTION_PULUMI_ACCESS_TOKEN'
   - 'BUILD_TYPE=$_BUILD_TYPE'

@@ -139,7 +139,7 @@ def main():
     # Old way (lib/meta_cloud_build.py)
     create_cloud_build_trigger()
     # New way (Component, currently terraforming but not auto-building, YET)
-    #create_cloud_build_triggers_with_new_module()
+    create_cloud_build_triggers_with_new_module()
     
 
 if __name__ == "__main__":
