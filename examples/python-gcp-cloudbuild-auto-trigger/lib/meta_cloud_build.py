@@ -8,6 +8,7 @@ from lib.ric_config import MyProject, MyRegion, AppName, AppNameLower, PulumiSta
 RepoConfig = {}
 DefaultGithubOwner = 'palladius'
 
+# PUMT: Pulumi Magic trigger library
 
 def create_cloud_build_trigger():
     """This was SO EASY to do with BitBucket but hard on GH. Damn.
@@ -25,7 +26,7 @@ def create_cloud_build_trigger():
 
     # Common Config
     #trigger_name = f"pu-{ShortPulumiProject}-meta-trigger-{trigger_type}"
-    trigger_name = f"pumt-{trigger_type_shorter}-{ShortPulumiProject}"
+    trigger_name = f"pumtv1-{trigger_type_shorter}-{ShortPulumiProject}"
     common_substitutions = {
                 "_PULUMI_PROJECT": PulumiProject,
                 "_PULUMI_USER": PulumiUser,

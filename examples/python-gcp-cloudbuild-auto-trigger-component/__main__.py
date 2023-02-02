@@ -140,6 +140,5 @@ def main():
     # New way (Component, currently terraforming but not auto-building, YET)
     create_cloud_build_triggers_with_new_module()
     
-
 if __name__ == "__main__":
     main()
