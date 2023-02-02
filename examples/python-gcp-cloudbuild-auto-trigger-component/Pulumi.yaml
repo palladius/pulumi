@@ -1,0 +1,8 @@
+# This is a variation of the other folder :)
+# Feature branchf or the lazy :)
+name: python-gcp-cloudbuild-auto-trigger-component
+description: My second public pulumi 🧹 module in Python 🐍 with a COMPONENT
+runtime:
+  name: python
+  options:
+    virtualenv: venv
