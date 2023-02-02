@@ -27,7 +27,7 @@ def create_cloud_build_trigger():
     # raise exception unless ...
 
     # Common Config
-    trigger_name = f"pumtv2-obsolete-{trigger_type_shorter}-{ShortPulumiProject}" # obsolete
+    trigger_name = f"pumtv2-disabled-{trigger_type_shorter}-{ShortPulumiProject}" # obsolete
     common_substitutions = {
                 "_PULUMI_PROJECT": PulumiProject,
                 "_PULUMI_USER": PulumiUser,
@@ -81,6 +81,7 @@ def create_cloud_build_trigger():
             tags=["pulumi","meta"],
             #trigger_template=trigger_template_bitbucket
             github=trigger_github_args,
+            disabled=True, # this is NOW disabled since in the component i dont wanna use it :)
             )
 
     # Case 2. BitBucket
