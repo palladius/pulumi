@@ -24,8 +24,7 @@ def create_cloud_build_trigger():
     # raise exception unless ...
 
     # Common Config
-    #trigger_name = f"pu-{ShortPulumiProject}-meta-trigger-{trigger_type}"
-    trigger_name = f"pumt-{trigger_type_shorter}-{ShortPulumiProject}"
+    trigger_name = f"pumtv2-{trigger_type_shorter}-{ShortPulumiProject}" # obsolete
     common_substitutions = {
                 "_PULUMI_PROJECT": PulumiProject,
                 "_PULUMI_USER": PulumiUser,

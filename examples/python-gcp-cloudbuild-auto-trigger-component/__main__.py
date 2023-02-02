@@ -40,12 +40,11 @@ def init():
 
 def setup_gcs():
     bucket = storage.Bucket(AppNameLower, location="EU")
-    bucket2 = storage.Bucket("test123", location="EU")
     bucket3 = storage.Bucket("hello-ghent-from-{}".format(PulumiStack), location="EU")
     pulumi.export('bucket_name', bucket.url) # the APpName one :)
 
-def setup_gke():
-    import lib.setup_gke
+# def setup_gke():
+#     import lib.setup_gke
 
 
 
@@ -134,12 +133,12 @@ def main():
     init()
     setup_apis()
     setup_gcs()
-    setup_gke()
+    #setup_gke()
     setup_palladius_apps()
     # Old way (lib/meta_cloud_build.py)
-    #create_cloud_build_trigger()
+    create_cloud_build_trigger()
     # New way (Component, currently terraforming but not auto-building, YET)
-    create_cloud_build_triggers_with_new_module()
+    #create_cloud_build_triggers_with_new_module()
     
 
 if __name__ == "__main__":
