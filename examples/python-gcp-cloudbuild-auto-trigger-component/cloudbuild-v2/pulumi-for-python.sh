@@ -95,8 +95,15 @@ case $BUILD_TYPE in
     ;;
   *)
       # Trigger the pulumi up => change the world.
-      pulumi up --yes --message "$AUGMENTED_MESSAGE"
+      pulumi up --yes --message "$AUGMENTED_MESSAGE" ||
+        # retry-as-a-service :P 
+        pulumi up --yes --message "(1st retry) - $AUGMENTED_MESSAGE" ||
+          # retry-as-a-service :P 
+          pulumi up --yes --message "(2nd retry) - $AUGMENTED_MESSAGE" ||
+            # retry-as-a-service :P 
+            pulumi up --yes --message "(3rd and last retry) - $AUGMENTED_MESSAGE"
     ;;
 esac
 
 
+echo '👍 All good, Riccardo. You can now eat 🍕'
