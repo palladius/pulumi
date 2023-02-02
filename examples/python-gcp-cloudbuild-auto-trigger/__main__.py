@@ -64,82 +64,83 @@ def setup_apis():
             project=MyProject,
             service=f"{service}.googleapis.com")
 
-def create_cloud_build_triggers_with_new_module():
+# Moved to another folder :)
+# def create_cloud_build_triggers_with_new_module():
 
-    UberReposConfig = []
-    #myCloudBuildRepos = []
-    myCloudBuildRepos = []
-    CloudBuildAccessToken = pulumi.Config().require('cloud-build-access-token')
-        # I get an error like this was NOT connected. When i validate it on GH, it has a different icons, since this is NOT my repo,
-        # its a branch of another repo
-        # CloudBuildRiccComponent("pally-examples",CloudBuildRiccComponentArgs(
-        #     # https://github.com/palladius/examples/tree/master/gcp-py-cloudrun-cloudsql
-        #     'https://github.com/palladius/examples', # Fork of https://github.com/pulumi/examples/ .. cant connect to repo i dont own :/
-        #     pulumi.Config().require('cloud-build-access-token'),
-        #     'gcp-py-cloudrun-cloudsql/', # https://github.com/pulumi/examples/tree/master/gcp-py-cloudrun-cloudsql
-        #     'master',X
-        #     # => https://github.com/palladius/examples/tree/master/gcp-py-cloudrun-cloudsql
-        # )),
-    myCloudBuildRepos.append(CloudBuildRiccComponent("ricc-bitbucky-should-work",CloudBuildRiccComponentArgs(
-            'https://bitbucket.org/palladius/gprojects/',
-            CloudBuildAccessToken,
-            'pulumi/20220910-kuberic/',
-            'master',
-        ))
-    )
-    # myCloudBuildRepos.append(
-    #     CloudBuildRiccComponent("riccardo-pulumi",CloudBuildRiccComponentArgs(
-    #         'https://github.com/palladius/pulumi/',
-    #         pulumi.Config().require('cloud-build-access-token'),
-    #         'examples/python-gcp-cloudbuild-auto-trigger/',
-    #         'main',
-    #     ))
-    # )
-    # myCloudBuildRepos.append(
-    #     CloudBuildRiccComponent("folder-validator-todo",CloudBuildRiccComponentArgs(
-    #         'https://github.com/palladius/pulumi-folders-validator/',
-    #         pulumi.Config().require('cloud-build-access-token'),
-    #         'examples/gcp-py-cloudrun-cloudsql/', # just added :)
-    #         'main',
-    #     )),
-    # )
-    myCloudBuildRepos.append(
-        CloudBuildRiccComponent("chiabox",CloudBuildRiccComponentArgs(
-            'https://github.com/palladius/gcp-pulumi-challenge-in-a-box/',
-            CloudBuildAccessToken,
-            'gcp-pulumi-challenge/', # still doesnt exist... for tomorrow
-            'main',
-        )),
-    )
-    #]
-    # Second generation, 2B implemented:
-    myNextGenerationCloudReposFromStackConfig = pulumi.Config().require_object('cbrc_magic_repos')
-    #print("DEB: myNextGenerationCloudReposFromStackConfig: ", myNextGenerationCloudReposFromStackConfig)
-    for ix, magic_repo in enumerate(myNextGenerationCloudReposFromStackConfig):
-        print(f"DEB[cbrc_repo #{ix}] => '''{magic_repo}'''")
-        myComponent = CloudBuildRiccComponent(f"cbrc_magic_repo{ix}", CloudBuildRiccComponentArgs(
-            magic_repo,
-            CloudBuildAccessToken,
-            None,
-            None,
-        ))
-        UberReposConfig.append(myComponent.repo_config)
+#     UberReposConfig = []
+#     #myCloudBuildRepos = []
+#     myCloudBuildRepos = []
+#     CloudBuildAccessToken = pulumi.Config().require('cloud-build-access-token')
+#         # I get an error like this was NOT connected. When i validate it on GH, it has a different icons, since this is NOT my repo,
+#         # its a branch of another repo
+#         # CloudBuildRiccComponent("pally-examples",CloudBuildRiccComponentArgs(
+#         #     # https://github.com/palladius/examples/tree/master/gcp-py-cloudrun-cloudsql
+#         #     'https://github.com/palladius/examples', # Fork of https://github.com/pulumi/examples/ .. cant connect to repo i dont own :/
+#         #     pulumi.Config().require('cloud-build-access-token'),
+#         #     'gcp-py-cloudrun-cloudsql/', # https://github.com/pulumi/examples/tree/master/gcp-py-cloudrun-cloudsql
+#         #     'master',X
+#         #     # => https://github.com/palladius/examples/tree/master/gcp-py-cloudrun-cloudsql
+#         # )),
+#     myCloudBuildRepos.append(CloudBuildRiccComponent("ricc-bitbucky-should-work",CloudBuildRiccComponentArgs(
+#             'https://bitbucket.org/palladius/gprojects/',
+#             CloudBuildAccessToken,
+#             'pulumi/20220910-kuberic/',
+#             'master',
+#         ))
+#     )
+#     # myCloudBuildRepos.append(
+#     #     CloudBuildRiccComponent("riccardo-pulumi",CloudBuildRiccComponentArgs(
+#     #         'https://github.com/palladius/pulumi/',
+#     #         pulumi.Config().require('cloud-build-access-token'),
+#     #         'examples/python-gcp-cloudbuild-auto-trigger/',
+#     #         'main',
+#     #     ))
+#     # )
+#     # myCloudBuildRepos.append(
+#     #     CloudBuildRiccComponent("folder-validator-todo",CloudBuildRiccComponentArgs(
+#     #         'https://github.com/palladius/pulumi-folders-validator/',
+#     #         pulumi.Config().require('cloud-build-access-token'),
+#     #         'examples/gcp-py-cloudrun-cloudsql/', # just added :)
+#     #         'main',
+#     #     )),
+#     # )
+#     myCloudBuildRepos.append(
+#         CloudBuildRiccComponent("chiabox",CloudBuildRiccComponentArgs(
+#             'https://github.com/palladius/gcp-pulumi-challenge-in-a-box/',
+#             CloudBuildAccessToken,
+#             'gcp-pulumi-challenge/', # still doesnt exist... for tomorrow
+#             'main',
+#         )),
+#     )
+#     #]
+#     # Second generation, 2B implemented:
+#     myNextGenerationCloudReposFromStackConfig = pulumi.Config().require_object('cbrc_magic_repos')
+#     #print("DEB: myNextGenerationCloudReposFromStackConfig: ", myNextGenerationCloudReposFromStackConfig)
+#     for ix, magic_repo in enumerate(myNextGenerationCloudReposFromStackConfig):
+#         print(f"DEB[cbrc_repo #{ix}] => '''{magic_repo}'''")
+#         myComponent = CloudBuildRiccComponent(f"cbrc_magic_repo{ix}", CloudBuildRiccComponentArgs(
+#             magic_repo,
+#             CloudBuildAccessToken,
+#             None,
+#             None,
+#         ))
+#         UberReposConfig.append(myComponent.repo_config)
 
-    for cbrc_repo in myCloudBuildRepos:
-        UberReposConfig.append(cbrc_repo.repo_config)
-    # OUTPUTS:
-    pulumi.export("cbrc_uber_config", UberReposConfig)
+#     for cbrc_repo in myCloudBuildRepos:
+#         UberReposConfig.append(cbrc_repo.repo_config)
+#     # OUTPUTS:
+#     pulumi.export("cbrc_uber_config", UberReposConfig)
 
-def main():
-    init()
-    setup_apis()
-    setup_gcs()
-    setup_gke()
-    setup_palladius_apps()
-    # Old way (lib/meta_cloud_build.py)
-    create_cloud_build_trigger()
-    # New way (Component, currently terraforming but not auto-building, YET)
-    create_cloud_build_triggers_with_new_module()
+# def main():
+#     init()
+#     setup_apis()
+#     setup_gcs()
+#     setup_gke()
+#     setup_palladius_apps()
+#     # Old way (lib/meta_cloud_build.py)
+#     create_cloud_build_trigger()
+#     # New way (Component, currently terraforming but not auto-building, YET)
+#     #create_cloud_build_triggers_with_new_module()
     
 
 if __name__ == "__main__":
