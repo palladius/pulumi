@@ -186,6 +186,7 @@ class CloudBuildRiccComponentArgs:
         code_branch: Input[str],
         cloudbuild_subpath: Input[str],
         id: Input[str],
+        description: Input[str],
     ):
         #self.useless_bucket = useless_bucket
         self.magic_repo_url = magic_repo_url
@@ -196,6 +197,7 @@ class CloudBuildRiccComponentArgs:
         self.repo_name = infer_repo_name_from_url(magic_repo_url) # eg, 'kubernetes'
         #self.id = f"tmp-multibuild-{id}" # str(id)
         self.id = f"id{id}" # str(id)
+        self.description = description or "No description provided 😭"
 
         # This is reccommended but the secopnd also works: https://stackoverflow.com/questions/7338501/python-assign-value-if-none-exists
         #self.path_to_cloudbuild = "cloudbuild-v2/cloudbuild.yaml" if cloudbuild_subpath is None else cloudbuild_subpath
@@ -265,6 +267,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         RepoConfig["cbr2c_name"] = self.name
         RepoConfig["gcb_repo_type_short"] = args.gcb_repo_type_short # infer_shortened_repo_service_from_url(args.code_url)
         RepoConfig["cbr2c_multibuild_id"] = args.id
+        RepoConfig["cbr2c_description"] = args.description
         
         
         # raise exception unless ...
@@ -331,7 +334,9 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                 sanitized_trigger_name,
                 filename=filename_local_path,
                 substitutions=common_substitutions,
-                description="""[pulumi] This meta-trigger tries to build itself from a GitHUb repo. wOOt!
+                description=f"""[pulumi] {args.description}
+                --
+                This meta-trigger tries to build itself from a GitHUb repo.
                 See https://github.com/palladius/pulumi for more info
                 """[0:99], # max 100 chars
                 included_files=[

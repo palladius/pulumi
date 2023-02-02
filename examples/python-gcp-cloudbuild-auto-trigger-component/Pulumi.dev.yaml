@@ -7,14 +7,13 @@ config:
   gcp:project: my-project-id
   gcp:region: us-central1
   # Your Module config
-  create_cloud_build_triggers_with_new_module_component:app_name: My app - you can change me. This will likely WONT WORK
-  create_cloud_build_triggers_with_new_module_component:app_name_lower: my-cloud-build-demo
-  create_cloud_build_triggers_with_new_module_component:favourite_color: fuxia-dev
-  create_cloud_build_triggers_with_new_module_component:rmp-code-folder: examples/create_cloud_build_triggers_with_new_module_component/
-  create_cloud_build_triggers_with_new_module_component:cloud-build-access-token: CHANGEME_SEE_INSTRUCTIONS
-  create_cloud_build_triggers_with_new_module_component:password: GENERATE_RANDOM_ONE # doesnt really matter
-  create_cloud_build_triggers_with_new_module_component:where-am-i: 'Locally on my computer (change to equally humorous comment)'
-  create_cloud_build_triggers_with_new_module_component:cbr2c_magic_repos: []
+  python-gcp-cloudbuild-auto-trigger-component:app_name: My app - you can change me. This will likely WONT WORK
+  python-gcp-cloudbuild-auto-trigger-component:app_name_lower: my-cloud-build-demo
+  python-gcp-cloudbuild-auto-trigger-component:favourite_color: fuxia-dev
+  python-gcp-cloudbuild-auto-trigger-component:rmp-code-folder: examples/python-gcp-cloudbuild-auto-trigger-component/
+  python-gcp-cloudbuild-auto-trigger-component:cloud-build-access-token: CHANGEME_SEE_INSTRUCTIONS
+  python-gcp-cloudbuild-auto-trigger-component:password: GENERATE_RANDOM_ONE # doesnt really matter
+  python-gcp-cloudbuild-auto-trigger-component:where-am-i: 'Locally on my computer (change to equally humorous comment)'
+  python-gcp-cloudbuild-auto-trigger-component:cbr2c_magic_repos: []
   # MAGIC repos should be the permalink on GH or BB to your folder. Note that it includes the branch (under /tree/ for GH, or /src/ for BB)
-  #- https://bitbucket.org/palladius/gprojects/tree/master/path/to/dir/to/build/
-  #- https://github.com/palladius/examples/tree/master/gcp-py-cloudrun-cloudsql/
+  python-gcp-cloudbuild-auto-trigger-component:activate-old-v1-build-too: false
