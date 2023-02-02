@@ -301,7 +301,9 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                     "_CODE_SUBFOLDER": args.code_folder, #  pulumi.Config().require('rmp-code-folder'),
                     "_GCP_REGION": MyRegion,
                     "_GCP_PROJECT": MyProject,
-                    "_MULTIBUILD_STACK_ID": f"tmp-multibuild-{args.id}", # args.id,
+                    #"_MULTIBUILD_STACK_ID": f"tmp-multibuild-{args.id}", # two different STACKS would have the same...
+                    "_MULTIBUILD_STACK_ID": f"tmp-multibuild-{minirandomness_ix}", # two different STACKS would have the same...
+                    
                 }
 
         # Case 1. GITHUB
@@ -340,11 +342,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                 sanitized_trigger_name,
                 filename=filename_local_path,
                 substitutions=common_substitutions,
-                description=f"""[pulumi] {args.description}
-                --
-                This meta-trigger tries to build itself from a GitHUb repo.
-                See https://github.com/palladius/pulumi for more info
-                """[0:99], # max 100 chars
+                description=f"""{args.description} -- See https://github.com/palladius/pulumi This meta-trigger tries to build itself from a GitHUb repo"""[0:99], # max 100 chars
                 included_files=[
                     f"{code_local_path}/**", # should be JUST the app part...
                 ],
