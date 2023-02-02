@@ -115,7 +115,7 @@ def create_cloud_build_triggers_with_new_module():
     #print("DEB: myNextGenerationCloudReposFromStackConfig: ", myNextGenerationCloudReposFromStackConfig)
     for ix, magic_repo in enumerate(myNextGenerationCloudReposFromStackConfig):
         print(f"DEB[cbr2c_repo #{ix}] => '''{magic_repo}'''")
-        myComponent = CloudBuildRiccComponent(f"cbr2c_magic_repo{ix}", CloudBuildRiccComponentArgs(
+        myComponent = CloudBuildRiccComponent(f"config_repo{ix}", CloudBuildRiccComponentArgs(
             magic_repo,
             CloudBuildAccessToken,
             None,

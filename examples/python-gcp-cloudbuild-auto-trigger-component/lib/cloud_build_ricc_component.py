@@ -239,7 +239,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         code_local_path = args.code_folder.strip("/") # pulumi.Config().require('rmp-code-folder').strip("/")
         filename_local_path = f'{code_local_path}/cloudbuild/cloudbuild.yaml' # This is an assumptiojn I gotta change
         trigger_type = args.gcb_repo_type # pulumi.Config().require('gcb_repo_type') # must be 'github' or 'bitbucket'
-        RepoConfig["cbr2c2_magic_repo_url"] = args.magic_repo_url
+        RepoConfig["cbr2c_magic_repo_url"] = args.magic_repo_url
         RepoConfig["gcb_repo_type"] = trigger_type
         RepoConfig["cbr2c_name"] = self.name
         RepoConfig["gcb_repo_type_short"] = args.gcb_repo_type_short # infer_shortened_repo_service_from_url(args.code_url)
