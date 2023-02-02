@@ -194,7 +194,8 @@ class CloudBuildRiccComponentArgs:
         self.gcb_repo_type_short = infer_shortened_repo_service_from_url(magic_repo_url) # BB or GH
         self.repo_owner = infer_repo_owner_from_url(magic_repo_url) # eg, 'palladius'
         self.repo_name = infer_repo_name_from_url(magic_repo_url) # eg, 'kubernetes'
-        self.id = f"tmp-multibuild-{id}" # str(id)
+        #self.id = f"tmp-multibuild-{id}" # str(id)
+        self.id = f"id{id}" # str(id)
 
         # This is reccommended but the secopnd also works: https://stackoverflow.com/questions/7338501/python-assign-value-if-none-exists
         #self.path_to_cloudbuild = "cloudbuild-v2/cloudbuild.yaml" if cloudbuild_subpath is None else cloudbuild_subpath
@@ -280,7 +281,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
 
         # Common Config
         #trigger_name = f"cbr2c-{ShortPulumiProject}-tr-{trigger_type}"
-        trigger_name = f"cbr2c-{self.name}-{args.gcb_repo_type_short}" # -trigger
+        trigger_name = f"cbr2c-{args.id}-{self.name}-{args.gcb_repo_type_short}" # -trigger
         sanitized_trigger_name = trigger_name.replace("_", "-")
         common_substitutions = {
                     "_PULUMI_PROJECT": PulumiProject,
@@ -291,7 +292,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                     "_CODE_SUBFOLDER": args.code_folder, #  pulumi.Config().require('rmp-code-folder'),
                     "_GCP_REGION": MyRegion,
                     "_GCP_PROJECT": MyProject,
-                    "_MULTIBUILD_STACK_ID": args.id,
+                    "_MULTIBUILD_STACK_ID": f"tmp-multibuild-{args.id}", # args.id,
                 }
 
         # Case 1. GITHUB

@@ -42,7 +42,7 @@ pulumi login
 pulumi stack select $PULUMI_USER/$PULUMI_PROJECT/$PULUMI_STACK
 
 # This should hopefully fix the multi-id thing, let me now 
-pulumi stack init --copy-config-from $PULUMI_STACK "$MULTIBUILD_STACK_ID"
+pulumi stack init --copy-config-from $PULUMI_STACK "$MULTIBUILD_STACK_ID" # 🆔 
 
 # TROUBLESHOOT
 pulumi config
