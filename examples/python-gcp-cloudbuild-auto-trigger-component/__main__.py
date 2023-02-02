@@ -13,6 +13,7 @@ from lib.ric_config import MyProject, MyRegion, AppName, AppNameLower, PulumiSta
 
 from lib.meta_cloud_build import create_cloud_build_trigger
 from lib.cloud_build_ricc_component import *
+from lib.test_command import add_some_random_commands
 
 
 GCPServicesToBeEnabled = ['container', "cloudbuild", "iam"]
@@ -86,6 +87,7 @@ def main():
     init()
     setup_apis()
     setup_gcs()
+    add_some_random_commands()
     # Old way (lib/meta_cloud_build.py)
     if  pulumi.Config().get('activate-old-v1-build-too') == 'yes-i-am-sure':
         create_cloud_build_trigger()
@@ -149,4 +151,3 @@ if __name__ == "__main__":
     #     )),
     #)
     #]
-    

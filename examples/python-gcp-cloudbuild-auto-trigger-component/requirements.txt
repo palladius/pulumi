@@ -3,3 +3,4 @@ pulumi-gcp>=6.0.0,<7.0.0
 pulumi-kubernetes
 pulumi_kubernetes
 pulumi_random
+pulumi_command
