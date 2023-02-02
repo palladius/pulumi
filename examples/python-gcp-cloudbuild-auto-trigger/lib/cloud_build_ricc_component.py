@@ -35,11 +35,11 @@ from lib.ric_config import MyProject, MyRegion, AppName, AppNameLower, PulumiSta
 import re
 
 AcceptedRepos = ['bitbucket', 'github' ]
-DefaultBranchByRepo = {
-    # TODO remove default when it works :)
-    "bitbucket": "master-default", 
-    "github": "main-default",
-}
+# DefaultBranchByRepo = {
+#     # TODO remove default when it works :)
+#     "bitbucket": "master-default", 
+#     "github": "main-default",
+# }
 
 ## Utilities
 def infer_repo_service_from_url(url):
@@ -208,21 +208,19 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         #self.args = args
         self.name = name
 
-        # Creating a USELESS bucket.. remove when all works
-        bucket = gcp.storage.Bucket(
-            "cbrc-{}".format(name), 
-            location="EU",
-            opts=child_opts, # pulumi.ResourceOptions(parent=self)
-        )
+        # # Creating a USELESS bucket.. remove when all works
+        # bucket = gcp.storage.Bucket(
+        #     "cbrc-{}".format(name), 
+        #     location="EU",
+        #     opts=child_opts, # pulumi.ResourceOptions(parent=self)
+        # )
 
         self.create_cloud_build_trigger(args, child_opts)
 
-        # bucket = s3.Bucket(f"{name}-component-bucket",
-        #     opts=pulumi.ResourceOptions(parent=self))
-        self.register_outputs({
-            f"cbrc_{name}_bucket_url": bucket.url,                  # also id, selfLink
-            #"cbrc_gcb_repo_type": args.gcb_repo_type,
-        })
+        # self.register_outputs({
+        #     f"cbrc_{name}_bucket_url": bucket.url,                  # also id, selfLink
+        #     #"cbrc_gcb_repo_type": args.gcb_repo_type,
+        # })
         # Calling 'registerOutputs' twice leads to a crash. See https://github.com/pulumi/pulumi/issues/2394 
 
 
@@ -278,7 +276,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
             # GH documented here: https://www.pulumi.com/registry/packages/gcp/api-docs/cloudbuild/trigger/#triggergithub
             RepoConfig["gcb_gh_name"] = repo_name  # pulumi.Config().get('gcb_gh_name') or 'pulumi'
             RepoConfig["gcb_gh_owner"] = repo_owner  # pulumi.Config().get('gcb_gh_owner') or DefaultGithubOwner
-            RepoConfig["gcb_gh_branch"] = gcb_branch_name #"^main$" # TODO(add to parameters) # pulumi.Config().get('gcb_gh_branch') or "^main$"
+            RepoConfig["gcb_gh_branch"] = get_cloud_build_compatible_branch(gcb_branch_name)  # f"^{gcb_branch_name}$", master
             # trigger_template_github = gcp.cloudbuild.TriggerTriggerTemplateArgs(
             #     #branch_name=RepoConfig["branch_name"] , # "master", # not MAIN :/
             #     github=gcp.cloudbuild.TriggerGithubArgs(
@@ -291,13 +289,9 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                     #name= f"{ self.name }-gh-{ github_username }",
                     owner=RepoConfig["gcb_gh_owner"],
                     # documented here: https://www.pulumi.com/registry/packages/gcp/api-docs/cloudbuild/trigger/#triggergithubpullrequest
-                    #pull_request=
-                    #pull_request=gcp.cloudbuild.TriggerGithubPullRequest(),
                     push=gcp.cloudbuild.TriggerGithubPushArgs(
-                        #branch="^main$",
-                        branch=get_cloud_build_compatible_branch(gcb_branch_name) # f"^{gcb_branch_name}$", master
+                        branch=gcb_branch_name
                     ),
-
                     #pull_request=gcp.cloudbuild.TriggerGithubPullRequest(
                     #    branch='main', # RepoConfig["gcb_gh_branch"]
                     #),
@@ -314,7 +308,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                 included_files=[
                     f"{code_local_path}/**", # should be JUST the app part...
                 ],
-                tags=["pulumi","meta"],
+                tags=["pulumi","meta", "github", 'cbrc'],
                 #trigger_template=trigger_template_bitbucket
                 github=trigger_github_args,
                 opts=child_opts, 
@@ -323,11 +317,10 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         # Case 2. BitBucket
         elif trigger_type == 'bitbucket':
             # This code is for BitBucket mirror:
-            RepoConfig["gcb_branch_name"] = gcb_branch_name # pulumi.Config().get('gcb_branch_name') or 'master'
+            RepoConfig["gcb_branch_name"] = get_cloud_build_compatible_branch(gcb_branch_name) # pulumi.Config().get('gcb_branch_name') or 'master'
             # Google uses sth like this 'bitbucket_palladius_gprojects' so you need to use same nomenclature
-#            RepoConfig["gcb_bb_name"] = repo_name 
-            RepoConfig["gcb_bb_owner"] = repo_owner 
             RepoConfig["gcb_bb_name"] = f"bitbucket_{repo_owner}_{repo_name}" 
+            RepoConfig["gcb_bb_owner"] = repo_owner 
 
             trigger_template_bitbucket = gcp.cloudbuild.TriggerTriggerTemplateArgs(
                     branch_name=RepoConfig["gcb_branch_name"] , # "master", # not MAIN :/
@@ -343,7 +336,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                 included_files=[
                     f"{code_local_path}/**", # should be JUST the app part...
                 ],
-                tags=["pulumi","meta", "module"],
+                tags=["pulumi","meta", "module", "github", 'cbrc'],
                 trigger_template=trigger_template_bitbucket,
                 opts=child_opts, 
             )

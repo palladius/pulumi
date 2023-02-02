@@ -47,3 +47,10 @@ Plus the README is a real candy. I like to add all kind of treats, Cloud Develop
 to just click upon :)
 
 ![Pulumi-generated README.md works!](images/pulumi-generated-README-screenshot.png "Pulumi-generated README.md works!")
+
+## GCP under the hood (How it works)
+
+When you connect a github or bitbucket repo, two different things will happen:
+
+* **Github**: GCP will use an auth token for the Cloud Build app attached to it.
+* **BitBucket**: GCP will mirror your project through Cloud Source Repositories and call it something like "bitbucket_USER_REPO". So my `palladius/gprojects` will become `bitbucket_palladius_gprojects`.

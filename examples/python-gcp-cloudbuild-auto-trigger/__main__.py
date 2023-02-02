@@ -64,19 +64,12 @@ def setup_apis():
             project=MyProject,
             service=f"{service}.googleapis.com")
 
+def create_cloud_build_triggers_with_new_module():
 
-def main():
-    init()
-    setup_apis()
-    setup_gcs()
-    setup_gke()
-    setup_palladius_apps()
-    create_cloud_build_trigger()
-    # Component stuff
-    
     UberReposConfig = []
     #myCloudBuildRepos = []
     myCloudBuildRepos = []
+    CloudBuildAccessToken = pulumi.Config().require('cloud-build-access-token')
         # I get an error like this was NOT connected. When i validate it on GH, it has a different icons, since this is NOT my repo,
         # its a branch of another repo
         # CloudBuildRiccComponent("pally-examples",CloudBuildRiccComponentArgs(
@@ -89,7 +82,7 @@ def main():
         # )),
     myCloudBuildRepos.append(CloudBuildRiccComponent("ricc-bitbucky-should-work",CloudBuildRiccComponentArgs(
             'https://bitbucket.org/palladius/gprojects/',
-            pulumi.Config().require('cloud-build-access-token'),
+            CloudBuildAccessToken,
             'pulumi/20220910-kuberic/',
             'master',
         ))
@@ -111,9 +104,9 @@ def main():
     #     )),
     # )
     myCloudBuildRepos.append(
-        CloudBuildRiccComponent("challenge-in-a-box",CloudBuildRiccComponentArgs(
+        CloudBuildRiccComponent("chiabox",CloudBuildRiccComponentArgs(
             'https://github.com/palladius/gcp-pulumi-challenge-in-a-box/',
-            pulumi.Config().require('cloud-build-access-token'),
+            CloudBuildAccessToken,
             'gcp-pulumi-challenge/', # still doesnt exist... for tomorrow
             'main',
         )),
@@ -126,7 +119,7 @@ def main():
         print(f"DEB[cbrc_repo #{ix}] => '''{magic_repo}'''")
         myComponent = CloudBuildRiccComponent(f"cbrc_magic_repo{ix}", CloudBuildRiccComponentArgs(
             magic_repo,
-            pulumi.Config().require('cloud-build-access-token'),
+            CloudBuildAccessToken,
             None,
             None,
         ))
@@ -134,10 +127,17 @@ def main():
 
     for cbrc_repo in myCloudBuildRepos:
         UberReposConfig.append(cbrc_repo.repo_config)
-    #TODO output
+    # OUTPUTS:
     pulumi.export("cbrc_uber_config", UberReposConfig)
 
-
+def main():
+    init()
+    setup_apis()
+    setup_gcs()
+    setup_gke()
+    setup_palladius_apps()
+    create_cloud_build_trigger()
+    create_cloud_build_triggers_with_new_module()
     
 
 if __name__ == "__main__":
