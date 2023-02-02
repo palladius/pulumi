@@ -1,8 +1,8 @@
-# ${outputs.app_name} v${outputs.version} (AutoBuild)
+# ${outputs.app_name} v${outputs.version} (Component AutoBuild v2)
 
-This part 1 is a super cool project from **Riccardo**. This is a pulumization of my very first sample app. Stack READMEs are documented [here](https://www.pulumi.com/docs/intro/pulumi-service/projects-and-stacks/#stack-readme).
+This part 1 is a super cool project from **Riccardo**. 
 
-Self: Code is contained in [GH palladius/pulumi](https://github.com/palladius/pulumi/), under `python-gcp-cloudbuild-auto-trigger` (TODO make this an `outputs.code_path`) and an article is featured on [Medium](https://medium.com/google-cloud/setting-cloudbuild-with-pulumi-in-python-330e8b54b2cf).
+Self: This Code **v2** is contained in [GH palladius/pulumi](https://github.com/palladius/pulumi/), under `python-gcp-cloudbuild-auto-trigger-component` (TODO make this an `outputs.code_path`) and an article is featured on [Medium](https://medium.com/google-cloud/setting-cloudbuild-with-pulumi-in-python-330e8b54b2cf).
 
 ## 😃 What works 😃
 
@@ -34,16 +34,15 @@ Pulumi config:
 
 # What's still missing (TODO) 😞😰🙄
 
-* sample Carlessian manifests (code in)
-* make this a reusable module.
-* Use GCP for secrets management (`KMS` or `GCS`) as promised to cstanger@
-* Looks like Chris is impressed by this REAMDE. Ringo  says: look at https://www.pulumi.com/docs/intro/concepts/resources/components/ and sample [here](https://github.com/pulumi/examples/tree/master/classic-azure-py-webserver-component).
+* The module to actually DO stuff (code is compiling but builds fail)
+* Use GCP for secrets management (`KMS` or `GCS`) as promised to `cstanger`
+* Looks like Chris ? is impressed by this REAMDE. 
 
 # UberConfig (CB module) NEW 2023!
 
-**cbrc_uber_config** with an array of configs from my magic module:
+**cbr2c_uber_config** with an array of configs from my magic module:
 
-<pre>${outputs.cbrc_uber_config}
+<pre>${outputs.cbr2c_uber_config}
 </pre>
 
 # Cloud Build Latest stats
@@ -72,4 +71,6 @@ Googlers, see [go/ricc-pulumi](https://go/ricc-pulumi)
 
 This is VERY meta: ${outputs.pulumi-readme-url}
 
-[My Medium Article is **HERE**](https://medium.com/google-cloud/setting-cloudbuild-with-pulumi-in-python-330e8b54b2cf)
+* [My Medium Article is **HERE**](https://medium.com/google-cloud/setting-cloudbuild-with-pulumi-in-python-330e8b54b2cf)
+* Stack READMEs are documented [here](https://www.pulumi.com/docs/intro/pulumi-service/projects-and-stacks/#stack-readme).
+* **Component**. Ringo says: look at https://www.pulumi.com/docs/intro/concepts/resources/components/ and sample [here](https://github.com/pulumi/examples/tree/master/classic-azure-py-webserver-component).

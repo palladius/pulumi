@@ -210,7 +210,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
 
         # # Creating a USELESS bucket.. remove when all works
         # bucket = gcp.storage.Bucket(
-        #     "cbrc-{}".format(name), 
+        #     "cbr2c-{}".format(name), 
         #     location="EU",
         #     opts=child_opts, # pulumi.ResourceOptions(parent=self)
         # )
@@ -218,8 +218,8 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         self.create_cloud_build_trigger(args, child_opts)
 
         # self.register_outputs({
-        #     f"cbrc_{name}_bucket_url": bucket.url,                  # also id, selfLink
-        #     #"cbrc_gcb_repo_type": args.gcb_repo_type,
+        #     f"cbr2c_{name}_bucket_url": bucket.url,                  # also id, selfLink
+        #     #"cbr2c_gcb_repo_type": args.gcb_repo_type,
         # })
         # Calling 'registerOutputs' twice leads to a crash. See https://github.com/pulumi/pulumi/issues/2394 
 
@@ -239,9 +239,9 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
         code_local_path = args.code_folder.strip("/") # pulumi.Config().require('rmp-code-folder').strip("/")
         filename_local_path = f'{code_local_path}/cloudbuild/cloudbuild.yaml' # This is an assumptiojn I gotta change
         trigger_type = args.gcb_repo_type # pulumi.Config().require('gcb_repo_type') # must be 'github' or 'bitbucket'
-        RepoConfig["crbc_magic_repo_url"] = args.magic_repo_url
+        RepoConfig["cbr2c2_magic_repo_url"] = args.magic_repo_url
         RepoConfig["gcb_repo_type"] = trigger_type
-        RepoConfig["cbrc_name"] = self.name
+        RepoConfig["cbr2c_name"] = self.name
         RepoConfig["gcb_repo_type_short"] = args.gcb_repo_type_short # infer_shortened_repo_service_from_url(args.code_url)
         
         
@@ -258,8 +258,9 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
             raise Exception(f"[{name}] Empty repo_name - failing: {repo_name}")
 
         # Common Config
-        #trigger_name = f"cbrc-{ShortPulumiProject}-tr-{trigger_type}"
-        trigger_name = f"cbrc-{self.name}-{args.gcb_repo_type_short}" # -trigger
+        #trigger_name = f"cbr2c-{ShortPulumiProject}-tr-{trigger_type}"
+        trigger_name = f"cbr2c-{self.name}-{args.gcb_repo_type_short}" # -trigger
+        sanitized_trigger_name = trigger_name.replace("_", "-")
         common_substitutions = {
                     "_PULUMI_PROJECT": PulumiProject,
                     "_PULUMI_USER": PulumiUser,
@@ -284,9 +285,12 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
             #         owner=RepoConfig["gcb_gh_owner"],
             #     )
             # )
+            #sanitized_repo_name = repo_name.replace("_", "-")
             trigger_github_args = gcp.cloudbuild.TriggerGithubArgs(
                     # This doesnt exist on GitHub -> MaYBE i CAN REMOVE?!?
                     #name= f"{ self.name }-gh-{ github_username }",
+                    #name=sanitized_repo_name,
+                    name=repo_name,
                     owner=RepoConfig["gcb_gh_owner"],
                     # documented here: https://www.pulumi.com/registry/packages/gcp/api-docs/cloudbuild/trigger/#triggergithubpullrequest
                     push=gcp.cloudbuild.TriggerGithubPushArgs(
@@ -299,8 +303,9 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                     #    branch='main', # RepoConfig["gcb_gh_branch"]
                     #),
                 )
+            print(f"DEB pre trigger fail: trigger_name=#{trigger_name}, filename={filename_local_path}, trigger_github_args={trigger_github_args}")
             pulumi_autobuild_trigger = gcp.cloudbuild.Trigger(
-                trigger_name,
+                sanitized_trigger_name,
                 filename=filename_local_path,
                 substitutions=common_substitutions,
                 description="""[pulumi] This meta-trigger tries to build itself from a GitHUb repo. wOOt!
@@ -308,7 +313,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                 included_files=[
                     f"{code_local_path}/**", # should be JUST the app part...
                 ],
-                tags=["pulumi","meta", "github", 'cbrc'],
+                tags=["pulumi","meta", "github", 'cbr2c'],
                 #trigger_template=trigger_template_bitbucket
                 github=trigger_github_args,
                 opts=child_opts, 
@@ -336,7 +341,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                 included_files=[
                     f"{code_local_path}/**", # should be JUST the app part...
                 ],
-                tags=["pulumi","meta", "module", "github", 'cbrc'],
+                tags=["pulumi","meta", "module", "github", 'cbr2c'],
                 trigger_template=trigger_template_bitbucket,
                 opts=child_opts, 
             )
@@ -346,9 +351,9 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                 f"[FATAL] Hey! Unknown trigger_type: '{trigger_type}'. Exiting! Get your config together my friend!"
             )
             #exit(42)
-        pulumi.export('cbrc_cbt_long_id', pulumi_autobuild_trigger.id)
-        pulumi.export('cbrc_cbt_short_id', pulumi_autobuild_trigger.trigger_id) # short
-        pulumi.export(f"cbrc_config_{self.name}", RepoConfig) # todo export array
+        pulumi.export('cbr2c_cbt_long_id', pulumi_autobuild_trigger.id)
+        pulumi.export('cbr2c_cbt_short_id', pulumi_autobuild_trigger.trigger_id) # short
+        pulumi.export(f"cbr2c_config_{self.name}", RepoConfig) # todo export array
         self.repo_config = RepoConfig
         return True
         

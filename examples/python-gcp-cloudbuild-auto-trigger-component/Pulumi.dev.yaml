@@ -13,7 +13,7 @@ config:
   create_cloud_build_triggers_with_new_module_component:rmp-code-folder: examples/create_cloud_build_triggers_with_new_module_component/
   create_cloud_build_triggers_with_new_module_component:cloud-build-access-token: CHANGEME_SEE_INSTRUCTIONS
   create_cloud_build_triggers_with_new_module_component:password: GENERATE_RANDOM_ONE # doesnt really matter
-  create_cloud_build_triggers_with_new_module_component:cbrc_magic_repos: []
+  create_cloud_build_triggers_with_new_module_component:cbr2c_magic_repos: []
   # MAGIC repos should be the permalink on GH or BB to your folder. Note that it includes the branch (under /tree/ for GH, or /src/ for BB)
   #- https://bitbucket.org/palladius/gprojects/tree/master/path/to/dir/to/build/
   #- https://github.com/palladius/examples/tree/master/gcp-py-cloudrun-cloudsql/
