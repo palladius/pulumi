@@ -5,6 +5,7 @@
 ## INSTALL
 
 * Install 🧹 Pulumi
+* `cp Pulumi.dev-copyme.yaml Pulumi.dev.yaml`
 * branch this code in a repo you own (you need to be able to commit to that repo).
 * [Connect with Cloud Build](https://cloud.google.com/build/docs/automating-builds/github/build-repos-from-github) - unfortunately we can't automate it just yet.
 * Finally configure and run this code.

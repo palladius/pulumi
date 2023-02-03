@@ -4,10 +4,10 @@
 ################################################################################################
 config:
   # Your GCP config
-  gcp:project: my-project-id
-  gcp:region: us-central1
+  gcp:project: my-project-id # changeme!
+  gcp:region: us-central1    # you can leave it if unsure
   # Your Module config
-  python-gcp-cloudbuild-auto-trigger-component:app_name: My app - you can change me. This will likely WONT WORK
+  python-gcp-cloudbuild-auto-trigger-component:app_name: My app 🀄 you can change me. This will likely WONT WORK
   python-gcp-cloudbuild-auto-trigger-component:app_name_lower: my-cloud-build-demo
   python-gcp-cloudbuild-auto-trigger-component:favourite_color: fuxia-dev
   python-gcp-cloudbuild-auto-trigger-component:rmp-code-folder: examples/python-gcp-cloudbuild-auto-trigger-component/
