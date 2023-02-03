@@ -12,10 +12,8 @@ import lib # .ric_config
 from lib.ric_config import MyProject, MyRegion, AppName, AppNameLower, PulumiStack, PulumiProject, PulumiUser, ShortPulumiProject, print_red
 
 from lib.meta_cloud_build import create_cloud_build_trigger
-from lib.cloud_build_ricc_component import *
 
 
-#RepoConfig = {}
 
 # exporting lots of stuff for my awesome README :)
 def init():
@@ -64,10 +62,6 @@ def setup_apis():
             project=MyProject,
             service=f"{service}.googleapis.com")
 
-# def create_cloud_build_triggers_with_new_module():
-#    NOPE
-#
-# Moved to another folder :) See `../python-gcp-cloudbuild-auto-trigger` instead.
 
 def main():
     '''This is the OLD yet working code (v1) with baked in CLoudBuild library'''
@@ -79,7 +73,7 @@ def main():
     # Old way (lib/meta_cloud_build.py)
     create_cloud_build_trigger()
     # New way (Component, currently terraforming but not auto-building, YET)
-    #create_cloud_build_triggers_with_new_module()
+    #create_cloud_build_triggers_with_new_module() Moved to another folder :) See `../python-gcp-cloudbuild-auto-trigger` instead.
     
 
 if __name__ == "__main__":

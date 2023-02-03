@@ -70,7 +70,7 @@ def create_cloud_build_trigger():
             trigger_name,
             filename=filename_local_path,
             substitutions=common_substitutions,
-            description="""[pulumi] This meta-trigger tries to build itself from a GitHUb repo. wOOt!
+            description="""[pulumi] This meta-trigger v1 builds itself from a GitHUb repo. 😮 wOOt!
             """[0:99], # max 100 chars
             included_files=[
                 f"{code_local_path}/**", # should be JUST the app part...

@@ -4,8 +4,8 @@
 ################################################################################################
 config:
   # Your GCP config
-  gcp:project: my-project-id
-  gcp:region: us-central1
+  gcp:project: my-project-id-CHANGEME # changeme
+  gcp:region: us-central1             # You can actually leave it as is
   # Your Module config
   python-gcp-cloudbuild-auto-trigger:app_name: My app - you can change me. This will likely WONT WORK
   python-gcp-cloudbuild-auto-trigger:app_name_lower: my-cloud-build-demo
@@ -13,7 +13,7 @@ config:
   python-gcp-cloudbuild-auto-trigger:rmp-code-folder: examples/python-gcp-cloudbuild-auto-trigger/
   python-gcp-cloudbuild-auto-trigger:cloud-build-access-token: CHANGEME_SEE_INSTRUCTIONS
   python-gcp-cloudbuild-auto-trigger:password: GENERATE_RANDOM_ONE # doesnt really matter
-  python-gcp-cloudbuild-auto-trigger:cbrc_magic_repos: []
+  #python-gcp-cloudbuild-auto-trigger:cbrc_magic_repos: []
   # MAGIC repos should be the permalink on GH or BB to your folder. Note that it includes the branch (under /tree/ for GH, or /src/ for BB)
   #- https://bitbucket.org/palladius/gprojects/tree/master/path/to/dir/to/build/
   #- https://github.com/palladius/examples/tree/master/gcp-py-cloudrun-cloudsql/
