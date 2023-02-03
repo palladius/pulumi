@@ -351,7 +351,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                 sanitized_trigger_name,
                 filename=filename_local_path,
                 substitutions=common_substitutions,
-                description=f"""[GH][{PulumiStack}] {args.description} -- See https://github.com/palladius/pulumi This meta-trigger tries to build itself from a GitHUb repo"""[0:99], # max 100 chars
+                description=f"""[GH][{PulumiStack}]2️⃣ {args.description} -- See https://github.com/palladius/pulumi This meta-trigger tries to build itself from a GitHUb repo"""[0:99], # max 100 chars
                 included_files=[
                     f"{code_local_path}/**", # should be JUST the app part...
                 ],
@@ -378,7 +378,7 @@ class CloudBuildRiccComponent(pulumi.ComponentResource):
                 trigger_name,
                 filename=filename_local_path,
                 substitutions=common_substitutions,
-                description=f"""[BB][{PulumiStack}] {args.description} -- See https://github.com/palladius/pulumi This meta-trigger tries to build itself from a BitBucket repo"""[0:99], # max 100 chars
+                description=f"""[BB][{PulumiStack}]2️⃣ {args.description} -- See https://github.com/palladius/pulumi This meta-trigger tries to build itself from a BitBucket repo"""[0:99], # max 100 chars
                 included_files=[
                     f"{code_local_path}/**", # should be JUST the app part...
                 ],
