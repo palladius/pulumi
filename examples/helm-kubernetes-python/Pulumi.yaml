@@ -1,0 +1,6 @@
+name: helm-kubernetes-python
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: A Python program to deploy a Helm chart onto a Kubernetes cluster
