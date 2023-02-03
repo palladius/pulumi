@@ -11,3 +11,4 @@ from pulumi import Config, export, get_project, get_stack, Output, ResourceOptio
 def main():
     puts("This is WIP to push carlessian apps..")
     export('riccardo_notes', "Riccardo was here")
+    export('riccardo_notes2', "Riccardo was here 2️⃣")
