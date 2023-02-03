@@ -12,3 +12,22 @@ def main():
     puts("This is WIP to push carlessian apps..")
     export('riccardo_notes', "Riccardo was here")
     export('riccardo_notes2', "Riccardo was here 2️⃣")
+    test_cloud_run()
+
+
+def test_cloud_run():
+        
+    cloudrun_service = gcp.cloudrun.Service("default",
+        location="us-central1",
+        template=gcp.cloudrun.ServiceTemplateArgs(
+            spec=gcp.cloudrun.ServiceTemplateSpecArgs(
+                containers=[gcp.cloudrun.ServiceTemplateSpecContainerArgs(
+                    image="us-docker.pkg.dev/cloudrun/container/hello",
+                )],
+            ),
+        ),
+        traffics=[gcp.cloudrun.ServiceTrafficArgs(
+            latest_revision=True,
+            percent=100,
+        )])
+    export('riccardo_cloudrun_url', cloudrun_service.url)
