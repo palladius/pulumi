@@ -49,7 +49,9 @@ def setup_gke():
 
 def setup_palladius_apps():
     """Reads AppConfig amd oterates through it creating nice k8s stuff"""
-    import lib.setup_palladius_apps
+    from  lib.setup_palladius_apps import main as pall_main
+    #lib.setup_palladius_apps.main
+    pall_main()
 
 
 def setup_apis():
