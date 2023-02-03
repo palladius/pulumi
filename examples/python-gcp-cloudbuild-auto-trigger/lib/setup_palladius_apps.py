@@ -16,20 +16,20 @@ import pulumi_gcp as gcp
 def test_cloud_run():
     '''Boilerplate from https://www.pulumi.com/registry/packages/gcp/api-docs/cloudrun/service/.
     '''
-    cloudrun_service = gcp.cloudrun.Service("default1",
-        location="us-central1",
-        template=gcp.cloudrun.ServiceTemplateArgs(
-            spec=gcp.cloudrun.ServiceTemplateSpecArgs(
-                containers=[gcp.cloudrun.ServiceTemplateSpecContainerArgs(
-                    image="us-docker.pkg.dev/cloudrun/container/hello",
-                )],
-            ),
-        ),
-        traffics=[gcp.cloudrun.ServiceTrafficArgs(
-            latest_revision=True,
-            percent=100,
-        )])
-    cloudrun_service_noauth = gcp.cloudrun.Service("cloudrun_service_noauth2",
+    # cloudrun_service = gcp.cloudrun.Service("default1",
+    #     location="us-central1",
+    #     template=gcp.cloudrun.ServiceTemplateArgs(
+    #         spec=gcp.cloudrun.ServiceTemplateSpecArgs(
+    #             containers=[gcp.cloudrun.ServiceTemplateSpecContainerArgs(
+    #                 image="us-docker.pkg.dev/cloudrun/container/hello",
+    #             )],
+    #         ),
+    #     ),
+    #     traffics=[gcp.cloudrun.ServiceTrafficArgs(
+    #         latest_revision=True,
+    #         percent=100,
+    #     )])
+    cloudrun_service_noauth = gcp.cloudrun.Service("cloudrun-noauth2",
             location="us-central1",
             template=gcp.cloudrun.ServiceTemplateArgs(
                 spec=gcp.cloudrun.ServiceTemplateSpecArgs(
@@ -47,8 +47,8 @@ def test_cloud_run():
         project=cloudrun_service_noauth.project,
         service=cloudrun_service_noauth.name,
         policy_data=noauth_iam_policy.policy_data)
-    export('riccardo_cloudrun_url', cloudrun_service.id)
-    export('riccardo_cloudrun_statuses', cloudrun_service.statuses)
+    export('riccardo_cloudrun_url', cloudrun_service_noauth.id)
+    export('riccardo_cloudrun_statuses', cloudrun_service_noauth.statuses)
 
 def main():
     #puts("This is WIP to push carlessian apps..")
