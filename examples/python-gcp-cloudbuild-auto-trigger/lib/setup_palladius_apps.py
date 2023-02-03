@@ -16,7 +16,7 @@ import pulumi_gcp as gcp
 def test_cloud_run():
     '''Boilerplate from https://www.pulumi.com/registry/packages/gcp/api-docs/cloudrun/service/.
     '''
-    cloudrun_service = gcp.cloudrun.Service("default",
+    cloudrun_service = gcp.cloudrun.Service("default1",
         location="us-central1",
         template=gcp.cloudrun.ServiceTemplateArgs(
             spec=gcp.cloudrun.ServiceTemplateSpecArgs(
@@ -29,7 +29,7 @@ def test_cloud_run():
             latest_revision=True,
             percent=100,
         )])
-    default = gcp.cloudrun.Service("default",
+    default = gcp.cloudrun.Service("default2-noauth",
             location="us-central1",
             template=gcp.cloudrun.ServiceTemplateArgs(
                 spec=gcp.cloudrun.ServiceTemplateSpecArgs(
