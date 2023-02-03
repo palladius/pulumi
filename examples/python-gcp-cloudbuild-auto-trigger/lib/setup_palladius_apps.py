@@ -58,9 +58,9 @@ def test_cloud_run():
     # gcloud --project cloud-build-ghent-tests  run services describe cloudrun-noauth2-d1d722d --region us-central1 --format json | jq .status.address.url
     # export UTL
     ###############################################################################################################
-    # export('riccardo_cloudrun_url', cloudrun_service_noauth.statuses.apply(
-    #     lambda status: status[0].address.url
-    # ))
+    export('riccardo_cloudrun_url', cloudrun_service_noauth.statuses.apply(
+        lambda status: status[0].url
+    ))
 
 def main():
     #puts("This is WIP to push carlessian apps..")

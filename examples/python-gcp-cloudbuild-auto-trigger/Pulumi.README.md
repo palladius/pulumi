@@ -18,7 +18,7 @@ What I've created here:
 * ⬢ GCS Bucket: **`${outputs.bucket_name}`** (useless but why not)
 * ⬢ GKE Cluster  **`${outputs.k8s_cluster_name}`** (all clusters: https://console.cloud.google.com/kubernetes/list/overview?project=${outputs.myProject})
   * ⬢ Nginx service with public Ip: http://${outputs.ingress_ip}/
-* Cloud Run: URL: **`${outputs.riccardo_cloudrun_url}`** (TODO(ricc): build a lambda to get the real URL)
+* Cloud Run: URL: **`${outputs.riccardo_cloudrun_id}`** (TODO(ricc): build a lambda to get the real URL)
     * Statuses: `${outputs.riccardo_cloudrun_statuses}`
 
 * 🧹 pulumi_stack:  **`${outputs.pulumi_stack}`**
