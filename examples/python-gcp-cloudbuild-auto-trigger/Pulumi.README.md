@@ -18,8 +18,8 @@ What I've created here:
 * ⬢ GCS Bucket: **`${outputs.bucket_name}`** (useless but why not)
 * ⬢ GKE Cluster  **`${outputs.k8s_cluster_name}`** (all clusters: https://console.cloud.google.com/kubernetes/list/overview?project=${outputs.myProject})
   * ⬢ Nginx service with public Ip: http://${outputs.ingress_ip}/
-
-Pulumi config:
+* Cloud Run: URL: **`${outputs.riccardo_cloudrun_url}`** (TODO(ricc): build a lambda to get the real URL)
+    * Statuses: `${outputs.riccardo_cloudrun_statuses}`
 
 * 🧹 pulumi_stack:  **`${outputs.pulumi_stack}`**
 * 🧹 pulumi_project:  **`${outputs.pulumi_project}`**
@@ -39,12 +39,6 @@ Pulumi config:
 * Use GCP for secrets management (`KMS` or `GCS`) as promised to cstanger@
 * Looks like Chris is impressed by this REAMDE. Ringo  says: look at https://www.pulumi.com/docs/intro/concepts/resources/components/ and sample [here](https://github.com/pulumi/examples/tree/master/classic-azure-py-webserver-component).
 
-# UberConfig (CB module) NEW 2023!
-
-**cbrc_uber_config** with an array of configs from my magic module:
-
-<pre>${outputs.cbrc_uber_config}
-</pre>
 
 # Cloud Build Latest stats
 

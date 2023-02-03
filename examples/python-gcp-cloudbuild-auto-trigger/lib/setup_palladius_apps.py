@@ -47,8 +47,20 @@ def test_cloud_run():
         project=cloudrun_service_noauth.project,
         service=cloudrun_service_noauth.name,
         policy_data=noauth_iam_policy.policy_data)
-    export('riccardo_cloudrun_url', cloudrun_service_noauth.id)
+    export('riccardo_cloudrun_id', cloudrun_service_noauth.id)
     export('riccardo_cloudrun_statuses', cloudrun_service_noauth.statuses)
+    ###############################################################################################################
+    # ID => locations/us-central1/namespaces/cloud-build-ghent-tests/services/cloudrun-noauth2-d1d722d
+    # URL => https://cloudrun-noauth2-d1d722d-om7xcvjybq-uc.a.run.app/
+    ###############################################################################################################
+    # Note that I cant infer that UC so I need to call gcloud.
+    # URL: gcloud --project cloud-build-ghent-tests  run services describe cloudrun-noauth2-d1d722d --region us-central1 --format json
+    # gcloud --project cloud-build-ghent-tests  run services describe cloudrun-noauth2-d1d722d --region us-central1 --format json | jq .status.address.url
+    # export UTL
+    ###############################################################################################################
+    # export('riccardo_cloudrun_url', cloudrun_service_noauth.statuses.apply(
+    #     lambda status: status[0].address.url
+    # ))
 
 def main():
     #puts("This is WIP to push carlessian apps..")
