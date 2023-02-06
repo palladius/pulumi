@@ -47,21 +47,25 @@ pulumi config
 # Oh myabe because i havent checked in the code on git :) even better then :)
 # Note that 'this_is_useless_if_you_checkin_the_pulumi_dev_yaml':
   echo 'IMPORTANT. These indented commands are useless if you are committing the Pulumi.STACK.yaml which in my case is .gitignored...'
+
+  # PArt 1: retrieve existing variables- nothing changes
   pulumi config set gcp:region  "$GCP_REGION"
   pulumi config set gcp:project "$GCP_PROJECT"
   pulumi config set rmp-code-folder "$CODE_SUBFOLDER"
   pulumi config set gcb_repo_type 'github'
   pulumi config set cloud-build-access-token "$PULUMI_ACCESS_TOKEN" --secret
   pulumi config set pulumi-user `pulumi whoami`
-  # Volcano is the Greek God of building -> and I see Volcano lava as orange.
-  pulumi config set favourite_color 'its all Orange here in the Cloud'
 
-# NERD part - this is my verbose will to see debug info in the target system. Could probably get them from verbose logs but - hey! I'm enjoying this, ok? :)
-pulumi config set cloud-build-executing-script-at "$(date)"
-pulumi config set cloud-build-executing-script-on "$(hostname)"
-pulumi config set cloud-build-executing-script-version "$SCRIPT_VER"
-# https://stackoverflow.com/questions/3357280/print-commit-message-of-a-given-commit-in-git
-pulumi config set cloud-build-executing-script-gitlast "$(git log --format=%B -n 1)" # just message of last commit
+  # Part 2: I mischieviously change things in the cloud buahahahahah
+
+  # Volcano is the Greek God of building -> and I see Volcano lava as orange.
+  # NERD part - this is my verbose will to see debug info in the target system. Could probably get them from verbose logs but - hey! I'm enjoying this, ok? :)
+  pulumi config set favourite_color 'its all Orange here in the Cloud'
+  pulumi config set cloud-build-executing-script-at "$(date)"
+  pulumi config set cloud-build-executing-script-on "$(hostname)"
+  pulumi config set cloud-build-executing-script-version "$SCRIPT_VER"
+  # https://stackoverflow.com/questions/3357280/print-commit-message-of-a-given-commit-in-git
+  pulumi config set cloud-build-executing-script-gitlast "$(git log --format=%B -n 1)" # just message of last commit
 
 # prefixing automated part on Cloud Build with the proper git log :)
 export AUGMENTED_MESSAGE="[Triggered by GCP 🏗️ Cloud Build in the 🌎‍🌫️☁️🌍☀️ 😶‍🌫️ ⛅ Cloud]
