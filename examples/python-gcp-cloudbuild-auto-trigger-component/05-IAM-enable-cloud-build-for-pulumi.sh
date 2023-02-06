@@ -1,0 +1,1 @@
+../python-gcp-cloudbuild-auto-trigger/05-IAM-enable-cloud-build-for-pulumi.sh
