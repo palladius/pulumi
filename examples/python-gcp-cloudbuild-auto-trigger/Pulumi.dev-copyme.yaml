@@ -11,6 +11,7 @@ config:
   python-gcp-cloudbuild-auto-trigger:app_name_lower: my-cloud-build-demo
   python-gcp-cloudbuild-auto-trigger:favourite_color: fuxia-dev
   python-gcp-cloudbuild-auto-trigger:rmp-code-folder: examples/python-gcp-cloudbuild-auto-trigger/
+  # do NOT store this in cleartext. Pls store it at least in encrypted form. See instructions!
   python-gcp-cloudbuild-auto-trigger:cloud-build-access-token: CHANGEME_SEE_INSTRUCTIONS
   python-gcp-cloudbuild-auto-trigger:password: GENERATE_RANDOM_ONE # doesnt really matter
   #python-gcp-cloudbuild-auto-trigger:cbrc_magic_repos: []
