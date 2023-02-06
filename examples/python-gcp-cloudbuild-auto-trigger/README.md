@@ -1,6 +1,7 @@
 # Setting a ⬣ Cloud Build trigger with 🧹Pulumi in 🐍 Python
 
 * [Article on 🖕](https://medium.com/@palladiusbonton/setting-cloudbuild-with-pulumi-in-python-330e8b54b2cf)
+* [Slides on Drive](https://docs.google.com/presentation/d/1LgQLOznGLnmUrJg24X47dZsSAqmtEgrzSpfeaaqygGM/edit) (ask me for access if you care). I'm going to put them on my website soon.
 
 ## INSTALL
 

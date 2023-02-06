@@ -38,7 +38,7 @@ def init():
 
 def setup_gcs():
     bucket = storage.Bucket(AppNameLower, location="EU")
-    bucket2 = storage.Bucket("test123", location="EU")
+    bucket2 = storage.Bucket("test-build-ghent", location="EU")
     bucket3 = storage.Bucket("hello-ghent-from-{}".format(PulumiStack), location="EU")
     pulumi.export('bucket_name', bucket.url) # the APpName one :)
 
