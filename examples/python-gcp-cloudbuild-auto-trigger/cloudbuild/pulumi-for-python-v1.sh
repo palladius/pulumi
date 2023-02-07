@@ -38,7 +38,7 @@ pulumi login
 #echo pulumi stack select $PULUMI_USER/$PULUMI_PROJECT/$PULUMI_STACK
 #echo
 
-pulumi stack select $PULUMI_USER/$PULUMI_PROJECT/$PULUMI_STACK
+pulumi stack select "$PULUMI_USER/$PULUMI_PROJECT/$PULUMI_STACK"
 
 # TROUBLESHOOT
 pulumi config
