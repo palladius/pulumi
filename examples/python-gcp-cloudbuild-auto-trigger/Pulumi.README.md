@@ -1,8 +1,10 @@
-# ${outputs.app_name} v${outputs.version} (AutoBuild)
+# ${outputs.app_name} v${outputs.version} (AutoBuild **v1** ohne component)
 
 This part 1 is a super cool project from **Riccardo**. This is a pulumization of my very first sample app. Stack READMEs are documented [here](https://www.pulumi.com/docs/intro/pulumi-service/projects-and-stacks/#stack-readme).
 
 Self: Code is contained in [GH palladius/pulumi](https://github.com/palladius/pulumi/), under `python-gcp-cloudbuild-auto-trigger` (TODO make this an `outputs.code_path`) and an article is featured on [Medium](https://medium.com/google-cloud/setting-cloudbuild-with-pulumi-in-python-330e8b54b2cf).
+
+Note. More code is being developed for v2 under the `python-gcp-cloudbuild-auto-trigger-component` folder, but its not working yet 😢
 
 ## 😃 What works 😃
 
@@ -10,25 +12,24 @@ Testing how to get the ⬢GCP⬡ config:
 
 * ⬢ ProjectId (as output): **${outputs.myProject}**
 * ⬢ Region (as output): **${outputs.myRegion}**
-* 🏗️ Cloud build: https://console.cloud.google.com/cloud-build/builds?project=${outputs.myProject}
+* 🧹 pulumi_stack:  **`${outputs.pulumi_stack}`**
+* 🧹 pulumi_project:  **`${outputs.pulumi_project}`**
+* 🥑 My fav color is **'${outputs.favourite_color}'**, because color is important. If you see asterisks instead of the color, it means Pulumi thinks this is a secret 😃
 
 What I've created here:
 
 * 🧹AppName: **${outputs.appNameLower}** (Native)
 * ⬢ GCS Bucket: **`${outputs.bucket_name}`** (useless but why not)
 * ⬢ GKE Cluster  **`${outputs.k8s_cluster_name}`** (all clusters: https://console.cloud.google.com/kubernetes/list/overview?project=${outputs.myProject})
-  * ⬢ Nginx service with public Ip: http://${outputs.ingress_ip}/
-* Cloud Run: URL: **`${outputs.riccardo_cloudrun_id}`** (TODO(ricc): build a lambda to get the real URL)
-<---  * Statuses: (sorry: `outputs.riccardo_cloudrun_statuses` is too verbose) --->
+  * ⬢ Simple **Nginx** service with public IP: http://${outputs.ingress_ip}/
+* **Cloud Run**: 
+    * Id: **`${outputs.riccardo_cloudrun_id}`** 
     * URL: ${outputs.riccardo_cloudrun_url}
-
-* 🧹 pulumi_stack:  **`${outputs.pulumi_stack}`**
-* 🧹 pulumi_project:  **`${outputs.pulumi_project}`**
-* 🥑 My fav color is **'${outputs.favourite_color}'**, because color is important. If you see asterisks instead of the color, it means Pulumi thinks this is a secret 😃
-
-* CloudBuild 🏗️ trigger 🔫: ${outputs.cloudbuild_trigger_long_id}
-  * ALL Cloud Build Triggers: https://console.cloud.google.com/cloud-build/triggers?project=${outputs.project}
-
+* 🏗️ Cloud build: 
+  * Builds: https://console.cloud.google.com/cloud-build/builds?project=${outputs.myProject}
+  * ALLTriggers: https://console.cloud.google.com/cloud-build/triggers?project=${outputs.project}
+  * CloudBuild 🏗️ trigger 🔫: ${outputs.cloudbuild_trigger_long_id}
+  
 # What's amazing
 
 * **Cloud Build 🏗️ Automation WORKS**!!!
