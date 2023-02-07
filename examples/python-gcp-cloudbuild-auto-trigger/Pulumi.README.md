@@ -19,7 +19,7 @@ What I've created here:
 * ⬢ GKE Cluster  **`${outputs.k8s_cluster_name}`** (all clusters: https://console.cloud.google.com/kubernetes/list/overview?project=${outputs.myProject})
   * ⬢ Nginx service with public Ip: http://${outputs.ingress_ip}/
 * Cloud Run: URL: **`${outputs.riccardo_cloudrun_id}`** (TODO(ricc): build a lambda to get the real URL)
-    * Statuses: `${outputs.riccardo_cloudrun_statuses}`
+<---  * Statuses: (sorry: `outputs.riccardo_cloudrun_statuses` is too verbose) --->
     * URL: ${outputs.riccardo_cloudrun_url}
 
 * 🧹 pulumi_stack:  **`${outputs.pulumi_stack}`**
