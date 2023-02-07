@@ -68,10 +68,8 @@ pulumi config
   pulumi config set cloud-build-executing-script-gitlast "$(git log --format=%B -n 1)" # just message of last commit
 
 # prefixing automated part on Cloud Build with the proper git log :)
-export AUGMENTED_MESSAGE="[Triggered by GCP 🏗️ Cloud Build in the 🌎‍🌫️☁️🌍☀️ 😶‍🌫️ ⛅ Cloud]
+export AUGMENTED_MESSAGE="[Triggered by GCP 🏗️ Cloud Build in the 🌎‍🌫️☁️🌍☀️😶‍🌫️⛅ Cloud]
 💬💬💬
-
-
 $(git log --format=%B -n 1)
 💬💬💬"
 
