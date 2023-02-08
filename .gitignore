@@ -2,3 +2,5 @@
 .echodo_history
 Pulumi.*.yaml
 .git-privatize
+pulumi-examples-copy/
+.vscode
