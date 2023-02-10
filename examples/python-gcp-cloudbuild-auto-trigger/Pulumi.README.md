@@ -10,24 +10,27 @@ Testing how to get the ⬢GCP⬡ config:
 
 * ⬢ ProjectId (as output): **${outputs.myProject}**
 * ⬢ Region (as output): **${outputs.myRegion}**
-* 🏗️ Cloud build: https://console.cloud.google.com/cloud-build/builds?project=${outputs.myProject}
 
-What I've created here:
+🧹 Pulumi stuff:
+
+* 🧹 pulumi_stack:  **`${outputs.pulumi_stack}`**
+* 🧹 pulumi_project:  **`${outputs.pulumi_project}`**
+* 🥑 My fav color is **'${outputs.favourite_color}'**, because color is important. If you see asterisks instead of the color, it means Pulumi thinks this is a secret 😃
+
+⬢ GCP resources:
 
 * 🧹AppName: **${outputs.appNameLower}** (Native)
 * ⬢ GCS Bucket: **`${outputs.bucket_name}`** (useless but why not)
 * ⬢ GKE Cluster  **`${outputs.k8s_cluster_name}`** (all clusters: https://console.cloud.google.com/kubernetes/list/overview?project=${outputs.myProject})
   * ⬢ Nginx service with public Ip: http://${outputs.ingress_ip}/
 * Cloud Run: URL: **`${outputs.riccardo_cloudrun_id}`** (TODO(ricc): build a lambda to get the real URL)
-    * Statuses: `${outputs.riccardo_cloudrun_statuses}`
+    <!-- * Statuses: `${outputs.riccardo_cloudrun_statuses}` -->
     * URL: ${outputs.riccardo_cloudrun_url}
-
-* 🧹 pulumi_stack:  **`${outputs.pulumi_stack}`**
-* 🧹 pulumi_project:  **`${outputs.pulumi_project}`**
-* 🥑 My fav color is **'${outputs.favourite_color}'**, because color is important. If you see asterisks instead of the color, it means Pulumi thinks this is a secret 😃
-
-* CloudBuild 🏗️ trigger 🔫: ${outputs.cloudbuild_trigger_long_id}
+* 🏗️ Cloud build: https://console.cloud.google.com/cloud-build/builds?project=${outputs.myProject}
+  * 🏗️ CloudBuild 🏗️ trigger 🔫: ${outputs.cloudbuild_trigger_long_id}
   * ALL Cloud Build Triggers: https://console.cloud.google.com/cloud-build/triggers?project=${outputs.project}
+
+
 
 # What's amazing
 
@@ -36,10 +39,9 @@ What I've created here:
 # What's still missing (TODO) 😞😰🙄
 
 * sample Carlessian manifests (code in)
-* make this a reusable module.
+* make this a reusable module. Actually I've started implementing this in [this fork](https://github.com/palladius/pulumi/tree/main/examples/python-gcp-cloudbuild-auto-trigger-component).
 * Use GCP for secrets management (`KMS` or `GCS`) as promised to cstanger@
 * Looks like Chris is impressed by this REAMDE. Ringo  says: look at https://www.pulumi.com/docs/intro/concepts/resources/components/ and sample [here](https://github.com/pulumi/examples/tree/master/classic-azure-py-webserver-component).
-
 
 # Cloud Build Latest stats
 
