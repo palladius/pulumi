@@ -4,7 +4,8 @@
 
 This is a demo application for using Pulumi on Google Cloud.
 
-![image](Tiamat_dragon_in_sci-fi_context.png)
+
+
 
 ## V1 
 
@@ -28,7 +29,13 @@ Cloud DEploy coyuld have 3 steps:
 * PROD: triggered manually (or maybe with skaffold + skaffold verification to simulate integration test)
 
 
+## Logo
 
+Tiamat on Pulumi deserves a nice logo. Lets see what MidJourney says about this
+
+![image](doc/Tiamat_dragon_in_sci-fi_context.png)
+
+![image](doc/five-headed_dragon_sweeiping_the_floor_with_a_broom.png)
 
 # Resources
 
