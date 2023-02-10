@@ -1,6 +1,7 @@
 # Setting a ⬣ Cloud Build trigger with 🧹Pulumi in 🐍 Python
 
 * [Article on 🖕](https://medium.com/@palladiusbonton/setting-cloudbuild-with-pulumi-in-python-330e8b54b2cf)
+* [Slides on Drive](https://docs.google.com/presentation/d/1LgQLOznGLnmUrJg24X47dZsSAqmtEgrzSpfeaaqygGM/edit) (ask me for access if you care). I'm going to put them on my website soon.
 
 ## INSTALL
 
@@ -9,6 +10,10 @@
 * branch this code in a repo you own (you need to be able to commit to that repo).
 * [Connect with Cloud Build](https://cloud.google.com/build/docs/automating-builds/github/build-repos-from-github) - unfortunately we can't automate it just yet.
 * Finally configure and run this code.
+* Give the Cloud Build svc acct a number of powers. 
+  * 1. From UI: go to /cloud-build/settings/service-account and enable `GKE`, `Cloud Build`, `Cloud Run`.
+  * 2. From IAM UI, add `Cloud Storage Admin` to your ID: `YOUR_PROJECT_BUMBER@cloudbuild.gserviceaccount.com` 
+  * TODO(ricc): do this with a script. Meanwhile, be inspired by this awesome script: https://github.com/palladius/clouddeploy-platinum-path/blob/main/05-IAM-enable-cloud-build.sh 
 
 ## Pulumi setup
 

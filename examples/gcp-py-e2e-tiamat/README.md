@@ -4,6 +4,7 @@
 
 This is a demo application for using Pulumi on Google Cloud.
 
+![image](Tiamat_dragon_in_sci-fi_context.png)
 
 ## V1 
 

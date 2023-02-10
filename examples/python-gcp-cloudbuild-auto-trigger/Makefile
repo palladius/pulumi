@@ -28,6 +28,9 @@ up:
 	pulumi up --yes --message 'Issued from Makefile (💄 make up)'
 	echo 'OK 👍'
 
+up-ghent:
+	pulumi stack select dev2023
+	make up 
 # refresh the state and reconcile with reality if you are suicidal enough to delete sth on UI :) 
 
 
